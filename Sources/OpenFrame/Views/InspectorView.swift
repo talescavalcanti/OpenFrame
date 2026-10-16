@@ -188,7 +188,7 @@ private struct BasicTab: View {
                     format: { String(format: "%.2fx", $0) })
 
         if model.project.material(segment.materialId)?.hasAudio == true {
-            AudioControls(id: id)
+            AudioControls(segment: segment)
         }
     }
 }
@@ -207,10 +207,24 @@ private struct SpeedPresets: View {
 
 private struct AudioControls: View {
     @Environment(EditorModel.self) private var model
-    let id: UUID
+    let segment: Segment
 
     var body: some View {
+        let id = segment.id
         SectionHeader(title: "Som")
+        if segment.audioDetached {
+            Label("O áudio deste clipe foi extraído para a faixa de áudio.", systemImage: "speaker.slash")
+                .font(Theme.font(11))
+                .foregroundStyle(Theme.textTertiary)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            sliders(id)
+        }
+    }
+
+    @ViewBuilder
+    private func sliders(_ id: UUID) -> some View {
         ParamSlider(title: "Volume", value: model.binding(id, \.volume), range: 0...1, defaultValue: 1, format: percent)
         ParamSlider(title: "Fade de entrada", value: seconds(model.binding(id, \.fadeIn)), range: 0...5, format: secondsFormat)
         ParamSlider(title: "Fade de saída", value: seconds(model.binding(id, \.fadeOut)), range: 0...5, format: secondsFormat)
@@ -222,7 +236,7 @@ private struct AudioTab: View {
     let segment: Segment
 
     var body: some View {
-        AudioControls(id: segment.id)
+        AudioControls(segment: segment)
         SectionHeader(title: "Velocidade")
         SpeedPresets(id: segment.id, speed: segment.speed)
         ParamSlider(title: "Velocidade", value: model.binding(segment.id, \.speed), range: 0.25...4, defaultValue: 1,

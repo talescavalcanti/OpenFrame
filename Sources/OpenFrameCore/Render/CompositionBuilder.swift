@@ -31,6 +31,7 @@ public enum CompositionBuilder {
             var volume: Double
             var fadeIn: Micros
             var fadeOut: Micros
+            var audioDetached: Bool
         }
 
         var items: [Item]
@@ -42,7 +43,8 @@ public enum CompositionBuilder {
             track.segments.map {
                 StructureKey.Item(track: track.id, kind: track.kind, muted: track.muted, segment: $0.id,
                                   material: $0.materialId, source: $0.source, start: $0.targetStart,
-                                  speed: $0.speed, volume: $0.volume, fadeIn: $0.fadeIn, fadeOut: $0.fadeOut)
+                                  speed: $0.speed, volume: $0.volume, fadeIn: $0.fadeIn, fadeOut: $0.fadeOut,
+                                  audioDetached: $0.audioDetached)
             }
         }
         return StructureKey(items: items, paths: p.materials.map(\.path))
@@ -96,7 +98,8 @@ public enum CompositionBuilder {
             var lanes: [(track: AVMutableCompositionTrack, end: Micros)] = []
             for seg in track.segments.sorted(by: { $0.targetStart < $1.targetStart }) {
                 guard let m = project.material(seg.materialId) else { continue }
-                if includeAudio, m.kind == .video, m.hasAudio, !track.muted, seg.volume > 0 {
+                // Com o som extraído para uma faixa de áudio, o clipe não soa (como volume 0).
+                if includeAudio, m.kind == .video, m.hasAudio, !track.muted, seg.volume > 0, !seg.audioDetached {
                     audioItems.append(AudioItem(segment: seg, material: m, lanesKey: track.id))
                 }
                 guard m.kind == .video,
@@ -110,11 +113,12 @@ public enum CompositionBuilder {
             }
         }
 
-        // Áudio das faixas de áudio.
+        // Áudio das faixas de áudio. O áudio extraído é um material de áudio que aponta para o vídeo: a trilha de
+        // áudio do vídeo toca. Um vídeo com som numa faixa de áudio também toca.
         if includeAudio {
             for track in project.tracks where track.kind == .audio && !track.muted {
                 for seg in track.segments where seg.volume > 0 {
-                    if let m = project.material(seg.materialId), m.kind == .audio {
+                    if let m = project.material(seg.materialId), m.kind == .audio || (m.kind == .video && m.hasAudio) {
                         audioItems.append(AudioItem(segment: seg, material: m, lanesKey: track.id))
                     }
                 }

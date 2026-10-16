@@ -6,6 +6,7 @@ import QtQuick.Layouts
 // (recolhível) → preview → inspetor; timeline embaixo, com altura ajustável.
 Item {
     id: editor
+    objectName: "editor"
     readonly property real barHeight: 52
 
     Settings {

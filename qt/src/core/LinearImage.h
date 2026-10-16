@@ -32,6 +32,11 @@ public:
     static LinearImage fromImage(const QImage &image);
     /// Para sRGB 8 bits, `Format_ARGB32_Premultiplied`.
     QImage toImage() const;
+    /// De uma imagem sRGB 8 bits sem converter para luz linear: os valores sRGB ficam como estão (pré-multiplicados),
+    /// como os sprites sem gerência de cor do texto no Swift. Volta para linear com `encodedToLinear()`.
+    static LinearImage fromImageEncoded(const QImage &image);
+    /// Converte valores sRGB pré-multiplicados (de `fromImageEncoded`) para luz linear pré-multiplicada.
+    void encodedToLinear();
 
     int width() const { return m_width; }
     int height() const { return m_height; }
@@ -50,9 +55,10 @@ public:
 
     /// Desenha `src` por cima (source-over), com `transform` levando as
     /// coordenadas de `src` para as desta imagem, bilinear e com `opacity`.
-    void draw(const LinearImage &src, const QTransform &transform, float opacity = 1);
+    /// `clip` (se não vazio) limita o desenho a esse retângulo destas coordenadas.
+    void draw(const LinearImage &src, const QTransform &transform, float opacity = 1, const QRect &clip = {});
     /// Desenho sem transformação na posição (x, y).
-    void drawAt(const LinearImage &src, int x, int y, float opacity = 1);
+    void drawAt(const LinearImage &src, int x, int y, float opacity = 1, const QRect &clip = {});
 
     /// Desfoque gaussiano (três passadas de caixa), bordas repetidas como o
     /// `clampedToExtent` do Core Image.

@@ -1,0 +1,70 @@
+{
+  "sentence" : "Olá, pessoal. Hoje vamos testar as legendas automáticas do editor, direto no computador.",
+  "words" : [
+    {
+      "end" : 0.86906249999999996,
+      "start" : 0.5,
+      "text" : "Olá,"
+    },
+    {
+      "end" : 1.823,
+      "start" : 1.2190624999999999,
+      "text" : "pessoal."
+    },
+    {
+      "end" : 2.8184374999999999,
+      "start" : 2.423,
+      "text" : "Hoje"
+    },
+    {
+      "end" : 3.5990000000000002,
+      "start" : 2.9384375,
+      "text" : "vamos"
+    },
+    {
+      "end" : 4.1739375000000001,
+      "start" : 3.7189999999999999,
+      "text" : "testar"
+    },
+    {
+      "end" : 4.4989999999999997,
+      "start" : 4.2939375000000002,
+      "text" : "as"
+    },
+    {
+      "end" : 5.43675,
+      "start" : 4.6189999999999998,
+      "text" : "legendas"
+    },
+    {
+      "end" : 6.70425,
+      "start" : 5.5567500000000001,
+      "text" : "automáticas"
+    },
+    {
+      "end" : 7.0836874999999999,
+      "start" : 6.8242500000000001,
+      "text" : "do"
+    },
+    {
+      "end" : 7.7415000000000003,
+      "start" : 7.2036875,
+      "text" : "editor,"
+    },
+    {
+      "end" : 8.6614374999999999,
+      "start" : 8.0914999999999999,
+      "text" : "direto"
+    },
+    {
+      "end" : 9.0275625000000002,
+      "start" : 8.7814374999999991,
+      "text" : "no"
+    },
+    {
+      "end" : 9.8733749999999993,
+      "start" : 9.1475624999999994,
+      "text" : "computador."
+    }
+  ]
+}

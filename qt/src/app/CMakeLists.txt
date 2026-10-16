@@ -13,6 +13,8 @@ set_target_properties(OpenFrame PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER app.openframe.qt
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+    # O modelo do Qt com o NSMicrophoneUsageDescription: sem ele, o QMicrophonePermission nega no Mac.
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in
 )
 
 file(GLOB OPENFRAME_QML CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" qml/*.qml qml/*.js)
@@ -38,12 +40,25 @@ qt_add_qml_module(OpenFrame
     OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/qml/OpenFrame"
     QML_FILES ${OPENFRAME_QML}
     SOURCES
+        AnimationThumbs.h AnimationThumbs.cpp
+        CanvasCore.h CanvasCore.cpp
+        CaptionGeneration.h CaptionGeneration.cpp
+        CaptionsCore.h CaptionsCore.cpp
+        CanvasGeometry.h CanvasGeometry.cpp
+        CanvasOverlay.h CanvasOverlay.cpp
         CoreBridge.h CoreBridge.cpp
+        EditorCanvas.cpp
+        EditorCaptions.cpp
         EditorModel.h EditorModel.cpp
+        EditorMotion.cpp
+        EditorRecording.cpp
+        EditorRows.cpp
         FilterPreviews.h FilterPreviews.cpp
         KeyedListModel.h KeyedListModel.cpp
         MediaCache.h MediaCache.cpp
+        MotionCore.h MotionCore.cpp
         PaintedItems.h PaintedItems.cpp
+        RecordingSession.h
         Snapshot.h Snapshot.cpp
         TextPresets.h TextPresets.cpp
     RESOURCES
@@ -57,7 +72,12 @@ target_link_libraries(OpenFrame PRIVATE
     Qt6::Quick
     Qt6::QuickControls2
     Qt6::Concurrent
+    Qt6::Network
 )
+
+# DLLs do whisper/ggml (com as variantes de CPU) ao lado do executável no Windows:
+# sem elas, o OpenFrame.exe do build nem abre.
+openframe_deploy_whisper(OpenFrame)
 
 # Ícone e versão do executável no Windows.
 if(WIN32)

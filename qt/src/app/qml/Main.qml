@@ -15,7 +15,7 @@ Window {
     title: Editor.screen === "editor" ? Editor.projectName + " — OpenFrame" : "OpenFrame"
 
     readonly property bool inEditor: Editor.screen === "editor"
-    readonly property bool idle: Editor.modalCount === 0 && !Editor.showExport
+    readonly property bool idle: Editor.modalCount === 0 && !Editor.showExport && !Editor.showAutoCaptions
 
     Loader {
         anchors.fill: parent
@@ -25,6 +25,7 @@ Window {
     Component { id: editorComponent; EditorView {} }
 
     ExportSheet {}
+    AutoCaptionsSheet {}
 
     OfDialog {
         id: errorDialog

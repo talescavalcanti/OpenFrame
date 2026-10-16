@@ -61,11 +61,65 @@ public struct Segment: Codable, Hashable, Sendable, Identifiable {
     public var animationLoop: LoopAnimation?
     public var transition: Transition?
     public var text: TextContent?
+    /// O som deste clipe foi extraído para uma faixa de áudio: o clipe continua com a imagem, mas não soa mais.
+    /// Só é gravado quando ligado; ausente na leitura = desligado.
+    public var audioDetached = false
 
     public init(materialId: UUID?, source: TimeRange, targetStart: Micros) {
         self.materialId = materialId
         self.source = source
         self.targetStart = targetStart
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, materialId, source, targetStart, speed, volume, fadeIn, fadeOut, transform, opacity, adjust, filter,
+             effects, animationIn, animationOut, animationLoop, transition, text, audioDetached
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        materialId = try c.decodeIfPresent(UUID.self, forKey: .materialId)
+        source = try c.decode(TimeRange.self, forKey: .source)
+        targetStart = try c.decode(Micros.self, forKey: .targetStart)
+        speed = try c.decode(Double.self, forKey: .speed)
+        volume = try c.decode(Double.self, forKey: .volume)
+        fadeIn = try c.decode(Micros.self, forKey: .fadeIn)
+        fadeOut = try c.decode(Micros.self, forKey: .fadeOut)
+        transform = try c.decode(Transform.self, forKey: .transform)
+        opacity = try c.decode(Double.self, forKey: .opacity)
+        adjust = try c.decode(Adjust.self, forKey: .adjust)
+        filter = try c.decodeIfPresent(FilterSetting.self, forKey: .filter)
+        effects = try c.decode([VideoEffect].self, forKey: .effects)
+        animationIn = try c.decodeIfPresent(SegmentAnimation.self, forKey: .animationIn)
+        animationOut = try c.decodeIfPresent(SegmentAnimation.self, forKey: .animationOut)
+        animationLoop = try c.decodeIfPresent(LoopAnimation.self, forKey: .animationLoop)
+        transition = try c.decodeIfPresent(Transition.self, forKey: .transition)
+        text = try c.decodeIfPresent(TextContent.self, forKey: .text)
+        audioDetached = try c.decodeIfPresent(Bool.self, forKey: .audioDetached) ?? false
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(id, forKey: .id)
+        try c.encodeIfPresent(materialId, forKey: .materialId)
+        try c.encode(source, forKey: .source)
+        try c.encode(targetStart, forKey: .targetStart)
+        try c.encode(speed, forKey: .speed)
+        try c.encode(volume, forKey: .volume)
+        try c.encode(fadeIn, forKey: .fadeIn)
+        try c.encode(fadeOut, forKey: .fadeOut)
+        try c.encode(transform, forKey: .transform)
+        try c.encode(opacity, forKey: .opacity)
+        try c.encode(adjust, forKey: .adjust)
+        try c.encodeIfPresent(filter, forKey: .filter)
+        try c.encode(effects, forKey: .effects)
+        try c.encodeIfPresent(animationIn, forKey: .animationIn)
+        try c.encodeIfPresent(animationOut, forKey: .animationOut)
+        try c.encodeIfPresent(animationLoop, forKey: .animationLoop)
+        try c.encodeIfPresent(transition, forKey: .transition)
+        try c.encodeIfPresent(text, forKey: .text)
+        if audioDetached { try c.encode(true, forKey: .audioDetached) }
     }
 
     public static func text(_ content: TextContent, at start: Micros, duration: Micros) -> Segment {
@@ -92,15 +146,28 @@ public struct Track: Codable, Hashable, Sendable, Identifiable {
     /// Faixa das legendas automáticas ("substituir anteriores" e o painel Legendas).
     /// Só é gravada quando ligada; ausente na leitura = desligada.
     public var isAutoCaptions = false
+    /// Altura da faixa na timeline, em pontos (nil = a padrão do app, `defaultHeight`). Preferência de
+    /// visualização gravada no projeto, para a faixa voltar com a mesma altura. Só é gravada quando não é nil;
+    /// na leitura, limitada a `heightRange`.
+    public var height: Double?
     public var segments: [Segment] = []
+
+    public static let heightRange: ClosedRange<Double> = 32...200
+    public static let defaultHeight: Double = 50
 
     public init(kind: TrackKind, isMain: Bool = false) {
         self.kind = kind
         self.isMain = isMain
     }
 
+    /// Altura limitada a `heightRange` (nil e valores não finitos voltam à padrão).
+    public static func clampedHeight(_ height: Double?) -> Double? {
+        guard let height, height.isFinite else { return nil }
+        return min(max(height, heightRange.lowerBound), heightRange.upperBound)
+    }
+
     private enum CodingKeys: String, CodingKey {
-        case id, kind, isMain, muted, hidden, isAutoCaptions, segments
+        case id, kind, isMain, muted, hidden, isAutoCaptions, height, segments
     }
 
     public init(from decoder: Decoder) throws {
@@ -111,6 +178,7 @@ public struct Track: Codable, Hashable, Sendable, Identifiable {
         muted = try c.decode(Bool.self, forKey: .muted)
         hidden = try c.decode(Bool.self, forKey: .hidden)
         isAutoCaptions = try c.decodeIfPresent(Bool.self, forKey: .isAutoCaptions) ?? false
+        height = Self.clampedHeight(try c.decodeIfPresent(Double.self, forKey: .height))
         segments = try c.decode([Segment].self, forKey: .segments)
     }
 
@@ -122,6 +190,7 @@ public struct Track: Codable, Hashable, Sendable, Identifiable {
         try c.encode(muted, forKey: .muted)
         try c.encode(hidden, forKey: .hidden)
         if isAutoCaptions { try c.encode(true, forKey: .isAutoCaptions) }
+        try c.encodeIfPresent(height, forKey: .height)
         try c.encode(segments, forKey: .segments)
     }
 }

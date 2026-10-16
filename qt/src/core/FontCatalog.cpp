@@ -1,13 +1,53 @@
 #include "FontCatalog.h"
 
+#include <QDir>
 #include <QFontDatabase>
 #include <QSet>
 #include <algorithm>
+#include <mutex>
 
 namespace of::FontCatalog {
 
+void registerBundled()
+{
+    static std::once_flag once;
+    std::call_once(once, [] {
+        const QDir dir(QStringLiteral(":/openframe/fonts"));
+        for (const QString &file : dir.entryList({QStringLiteral("*.ttf")}, QDir::Files, QDir::Name))
+            QFontDatabase::addApplicationFont(dir.filePath(file));
+    });
+}
+
+ResolvedFont resolve(const QString &family, const QString &face)
+{
+    registerBundled();
+    // Testes: o Mac age como o Windows e o Linux, onde as fontes do Mac não existem.
+    static const bool bundledOnly = qEnvironmentVariableIntValue("OPENFRAME_BUNDLED_FONTS_ONLY") == 1;
+    static const QSet<QString> bundled{"inter", "jetbrains mono", "playfair display", "barlow condensed"};
+    if (QFontDatabase::hasFamily(family) && (!bundledOnly || bundled.contains(family.toLower())))
+        return {family, face};
+    const QString inter = QStringLiteral("Inter");
+    const QString name = family.toLower();
+    const QString style = face.toLower();
+    static const QSet<QString> sans{"helvetica neue", "helvetica", "avenir next", "avenir", "futura", "gill sans",
+                                    "sf pro", "sf pro display", "sf pro text", "arial rounded mt bold"};
+    static const QSet<QString> mono{"menlo", "monaco", "sf mono", "courier", "courier new", "american typewriter"};
+    static const QSet<QString> serif{"didot", "bodoni 72", "bodoni 72 oldstyle", "baskerville"};
+    if (sans.contains(name) && style.startsWith(QStringLiteral("condensed")))
+        return {QStringLiteral("Barlow Condensed"), style.contains(QStringLiteral("black")) ? QStringLiteral("Black")
+                                                                                              : QStringLiteral("Bold")};
+    if (mono.contains(name) && QFontDatabase::hasFamily(QStringLiteral("JetBrains Mono")))
+        return {QStringLiteral("JetBrains Mono"), face};
+    if (serif.contains(name) && QFontDatabase::hasFamily(QStringLiteral("Playfair Display")))
+        return {QStringLiteral("Playfair Display"), face};
+    if (QFontDatabase::hasFamily(inter))
+        return {inter, face};
+    return {QFontDatabase::systemFont(QFontDatabase::GeneralFont).family(), face};
+}
+
 QStringList families()
 {
+    registerBundled();
     QStringList names;
     for (const QString &family : QFontDatabase::families())
         if (!family.startsWith(u'.') && !QFontDatabase::isPrivateFamily(family))

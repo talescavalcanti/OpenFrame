@@ -16,24 +16,46 @@ libswscale, libswresample e outras)
   Código-fonte: https://ffmpeg.org/download.html e
   https://github.com/BtbN/FFmpeg-Builds (receitas e versões das dependências).
 
-Qt 6 (Qt Core, Gui, Quick, Quick Controls, Quick Dialogs, Multimedia e
-dependências)
+Qt 6 (Qt Core, Gui, Quick, Quick Controls, Quick Dialogs, Multimedia, Network e
+dependências, com o plugin de TLS)
   Licença: GNU LGPL versão 3 (licencas/LGPL-3.0.txt), usado como bibliotecas
   dinâmicas, que podem ser trocadas por outra build compatível do Qt.
   Código-fonte: https://download.qt.io/official_releases/qt/
 
-Inter (fonte da interface), de Rasmus Andersson
+Inter 4.001 (fonte da interface e dos textos: Regular, Light, Medium, Bold)
+  Copyright 2016 The Inter Project Authors.
   Licença: SIL Open Font License 1.1 (licencas/OFL-Inter.txt).
   https://github.com/rsms/inter
+
+JetBrains Mono 2.304 (textos e legendas em fonte mono: Regular, Bold)
+  Copyright 2020 The JetBrains Mono Project Authors.
+  Licença: SIL Open Font License 1.1 (licencas/OFL-JetBrainsMono.txt).
+  https://github.com/JetBrains/JetBrainsMono
+
+Playfair Display Italic (serifa itálica da palavra-chave das legendas)
+  Copyright 2017 The Playfair Display Project Authors; nome reservado
+  "Playfair Display".
+  Licença: SIL Open Font License 1.1 (licencas/OFL-PlayfairDisplay.txt).
+  https://github.com/clauseggers/Playfair-Display
+
+Barlow Condensed (Bold, Black; legendas em caixa alta)
+  Copyright 2017 The Barlow Project Authors.
+  Licença: SIL Open Font License 1.1 (licencas/OFL-BarlowCondensed.txt).
+  https://github.com/jpt/barlow
+
+  Estas fontes substituem, num projeto vindo do Mac, as do sistema que não
+  existem no Windows/Linux (Helvetica Neue, Menlo, Didot, Avenir Next e outras).
 
 Lucide (ícones da interface)
   Licença: ISC (licencas/LICENSE-Lucide.txt). https://lucide.dev
 
-whisper.cpp 1.9.5 e ggml (transcrição das legendas automáticas)
-  Licença: MIT. Texto: Sources/CWhisper/LICENSE no código-fonte (no app do Mac,
-  Contents/Resources/licencas/whisper.cpp-LICENSE.txt).
-  Por enquanto só no app do Mac; entra neste pacote com o porte das legendas.
-  Código-fonte: https://github.com/ggml-org/whisper.cpp (tag v1.9.5).
+whisper.cpp 1.9.5 e ggml (transcrição das legendas automáticas, na CPU)
+  Copyright 2023-2026 The ggml authors.
+  Licença: MIT (licencas/whisper.cpp-LICENSE.txt). Bibliotecas whisper, ggml,
+  ggml-base e as variantes ggml-cpu-* (uma por geração de processador,
+  escolhida ao transcrever).
+  Código-fonte: https://github.com/ggml-org/whisper.cpp (tag v1.9.5, commit
+  d1be6fde11ac6e0407606b4e42fe72d34add8037).
   Os modelos do Whisper (OpenAI, licença MIT) não vêm no pacote: são baixados
   só quando o usuário pede, de https://huggingface.co/ggerganov/whisper.cpp.
 

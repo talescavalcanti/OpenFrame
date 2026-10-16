@@ -45,6 +45,17 @@ inline Material photo(int width = 800, int height = 600, const QString &name = Q
 
 inline TextContent text(const QString &s) { return TextContent{s, {}}; }
 
+/// Limite da mediana por quadro nos testes de desempenho, em ms. Com otimização, 150 (o Swift usa 100; a folga é
+/// para os runners da CI e os testes em paralelo); sem otimização, a medida não diz nada e só pega o patológico.
+constexpr double frameBudgetMs()
+{
+#ifdef NDEBUG
+    return 150;
+#else
+    return 2000;
+#endif
+}
+
 inline const QList<Segment> &mainSegments(const Project &p) { return p.tracks[*p.mainTrackIndex()].segments; }
 
 inline QList<QUuid> ids(const QList<Segment> &segments)

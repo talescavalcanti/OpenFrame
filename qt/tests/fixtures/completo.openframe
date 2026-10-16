@@ -305,6 +305,7 @@
               "backgroundPaddingX" : 0.4,
               "backgroundPaddingY" : 0.2,
               "backgroundRadius" : 0.3,
+              "balanceLines" : false,
               "bold" : false,
               "color" : {
                 "a" : 1,
@@ -312,6 +313,7 @@
                 "g" : 0.85,
                 "r" : 1
               },
+              "fitLines" : false,
               "fontFace" : "Semibold",
               "fontName" : "Inter",
               "fontSize" : 0.05,

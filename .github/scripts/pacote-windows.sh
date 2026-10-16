@@ -25,6 +25,17 @@ cp "$build/OpenFrame.exe" "$app/"
 windeployqt --release --no-translations --skip-plugin-types multimedia \
     --qmldir "$root/qt/src/app/qml" "$app/OpenFrame.exe"
 
+# Plugin de TLS (download do modelo por HTTPS): o windeployqt o leva com o Qt
+# Network; se faltar, vai à mão.
+if [[ ! -f "$app/tls/qschannelbackend.dll" ]]; then
+    mkdir -p "$app/tls"
+    cp "$(cygpath -u "$QT_ROOT_DIR")/plugins/tls/qschannelbackend.dll" "$app/tls/"
+fi
+
+# whisper/ggml e as 9 variantes de CPU ao lado do executável (o windeployqt não
+# os conhece; o núcleo carrega as variantes com LoadLibrary).
+cp "$build"/ggml/whisper.dll "$build"/ggml/ggml.dll "$build"/ggml/ggml-base.dll "$build"/ggml/ggml-cpu-*.dll "$app/"
+
 # FFmpeg e o runtime do Visual C++ ao lado do executável.
 cp "$ffmpeg"/bin/*.dll "$app/"
 crt=$(ls -d "$(cygpath -u "$VCToolsRedistDir")"/x64/Microsoft.VC14*.CRT | head -n 1)
@@ -33,8 +44,19 @@ cp "$crt"/*.dll "$app/"
 # Licenças.
 cp "$root/LICENSE" "$app/LICENSE.txt"
 cp "$root/qt/packaging/TERCEIROS.txt" "$app/"
-cp "$root/qt/packaging/licenses/LGPL-3.0.txt" "$root/qt/src/app/fonts/OFL-Inter.txt" \
-    "$root/qt/src/app/fonts/LICENSE-Lucide.txt" "$app/licencas/"
+cp "$root/qt/packaging/licenses/LGPL-3.0.txt" "$root/qt/src/app/fonts/LICENSE-Lucide.txt" "$app/licencas/"
+# A Inter está no app e no núcleo, com a mesma OFL-Inter.txt: vai uma cópia só,
+# e o pacote falha se as duas um dia forem diferentes.
+for f in "$root/qt/src/app/fonts/OFL-Inter.txt" "$root"/qt/src/core/fonts/OFL-*.txt; do
+    dest="$app/licencas/${f##*/}"
+    if [[ -e $dest ]]; then
+        cmp -s "$f" "$dest" || { echo "licenças diferentes com o mesmo nome: $f" >&2; exit 1; }
+    else
+        cp "$f" "$dest"
+    fi
+done
+whisper_src=${FETCHCONTENT_SOURCE_DIR_WHISPER:-$build/_deps/whisper-src}
+cp "$whisper_src/LICENSE" "$app/licencas/whisper.cpp-LICENSE.txt"
 [[ -f "$ffmpeg/LICENSE.txt" ]] && cp "$ffmpeg/LICENSE.txt" "$app/licencas/FFmpeg-LICENSE.txt"
 
 # Zip portátil.

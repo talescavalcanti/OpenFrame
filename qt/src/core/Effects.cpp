@@ -53,8 +53,78 @@ QString displayName(AnimationKind k)
     case AnimationKind::SlideDown: return QStringLiteral("Deslizar ↓");
     case AnimationKind::Spin: return QStringLiteral("Girar");
     case AnimationKind::Typewriter: return QStringLiteral("Máquina de escrever");
+    case AnimationKind::Focus: return QStringLiteral("Foco");
+    case AnimationKind::Cascade: return QStringLiteral("Cascata");
+    case AnimationKind::Elastic: return QStringLiteral("Elástico");
+    case AnimationKind::Wave: return QStringLiteral("Onda");
+    case AnimationKind::WordByWord: return QStringLiteral("Palavra a palavra");
+    case AnimationKind::MaskReveal: return QStringLiteral("Revelar por máscara");
+    case AnimationKind::Tracking: return QStringLiteral("Espaçamento");
+    case AnimationKind::Decode: return QStringLiteral("Decodificar");
     }
     return {};
+}
+
+bool isTextOnly(AnimationKind k)
+{
+    switch (k) {
+    case AnimationKind::Typewriter:
+    case AnimationKind::Cascade:
+    case AnimationKind::Elastic:
+    case AnimationKind::Wave:
+    case AnimationKind::WordByWord:
+    case AnimationKind::MaskReveal:
+    case AnimationKind::Tracking:
+    case AnimationKind::Decode: return true;
+    default: return false;
+    }
+}
+
+QString displayName(LoopKind k)
+{
+    switch (k) {
+    case LoopKind::Float: return QStringLiteral("Flutuar");
+    case LoopKind::Pulse: return QStringLiteral("Pulsar");
+    case LoopKind::Glow: return QStringLiteral("Respirar brilho");
+    case LoopKind::Shine: return QStringLiteral("Reflexo de luz");
+    }
+    return {};
+}
+
+QString displayName(WordReveal r)
+{
+    switch (r) {
+    case WordReveal::None: return QStringLiteral("Nenhuma");
+    case WordReveal::Rise: return QStringLiteral("Surgir");
+    case WordReveal::Dim: return QStringLiteral("Leitura guiada");
+    case WordReveal::Fill: return QStringLiteral("Preenchimento");
+    case WordReveal::Type: return QStringLiteral("Digitação");
+    }
+    return {};
+}
+
+QStringList TextContent::wordsOf(const QString &text)
+{
+    // Espaço = o `isWhitespace` do Swift: inclui o espaço sem quebra (U+00A0) e as quebras de linha.
+    QStringList words;
+    qsizetype start = -1;
+    for (qsizetype i = 0; i <= text.size(); ++i) {
+        const bool blank = i == text.size() || text[i].isSpace();
+        if (blank && start >= 0) {
+            words.append(text.mid(start, i - start));
+            start = -1;
+        } else if (!blank && start < 0) {
+            start = i;
+        }
+    }
+    return words;
+}
+
+std::optional<TextContent::ActiveHighlight> TextContent::activeHighlight() const
+{
+    if (!words || !highlight || words->isEmpty() || wordsOf(text).size() != words->size())
+        return std::nullopt;
+    return ActiveHighlight{*words, *highlight};
 }
 
 QString displayName(TransitionKind k)

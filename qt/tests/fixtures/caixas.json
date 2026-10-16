@@ -1,0 +1,1984 @@
+{
+  "cases" : [
+    {
+      "box" : [
+        513,
+        93
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Caixa de texto"
+      },
+      "lines" : [
+        "Caixa de texto"
+      ],
+      "name" : "simples"
+    },
+    {
+      "box" : [
+        527,
+        93
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Caixa de texto"
+      },
+      "lines" : [
+        "Caixa de texto"
+      ],
+      "name" : "negrito-sintetico"
+    },
+    {
+      "box" : [
+        707,
+        317
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.059999999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.40000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "O rato roeu a roupa do rei de Roma e a rainha, com raiva, resolveu remendar tudo sozinha"
+      },
+      "lines" : [
+        "O rato roeu a roupa do",
+        "rei de Roma e a rainha,",
+        "com raiva, resolveu",
+        "remendar tudo sozinha"
+      ],
+      "name" : "quebra"
+    },
+    {
+      "box" : [
+        707,
+        317
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.059999999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.40000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "O rato roeu a roupa do rei de Roma e a rainha, com raiva, resolveu remendar tudo sozinha"
+      },
+      "lines" : [
+        "O rato roeu a roupa do",
+        "rei de Roma e a rainha,",
+        "com raiva, resolveu",
+        "remendar tudo sozinha"
+      ],
+      "name" : "equilibrada"
+    },
+    {
+      "box" : [
+        1411,
+        159
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.059999999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "O rato roeu a roupa do rei de Roma e a rainha, com raiva, resolveu remendar tudo sozinha"
+      },
+      "lines" : [
+        "O rato roeu a roupa do rei de Roma e a rainha,",
+        "com raiva, resolveu remendar tudo sozinha"
+      ],
+      "name" : "equilibrada-larga"
+    },
+    {
+      "box" : [
+        685,
+        242
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : -0.14999999999999999,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Primeira linha\nsegunda\nterceira linha maior"
+      },
+      "lines" : [
+        "Primeira linha",
+        "segunda",
+        "terceira linha maior"
+      ],
+      "name" : "quebras-manuais"
+    },
+    {
+      "box" : [
+        175,
+        245
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0.40000000000000002,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Uma\nduas"
+      },
+      "lines" : [
+        "Uma",
+        "duas"
+      ],
+      "name" : "entrelinha-maior"
+    },
+    {
+      "box" : [
+        1299,
+        93
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "Light",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0.14999999999999999,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Cinema discreto e espaçado"
+      },
+      "lines" : [
+        "Cinema discreto e espaçado"
+      ],
+      "name" : "espacamento-light"
+    },
+    {
+      "box" : [
+        467.04000000000002,
+        130.80000000000001
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : true,
+          "backgroundPaddingX" : 0.45000000000000001,
+          "backgroundPaddingY" : 0.25,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Com fundo"
+      },
+      "lines" : [
+        "Com fundo"
+      ],
+      "name" : "fundo"
+    },
+    {
+      "box" : [
+        1044,
+        93
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "upper",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "Caixa alta e acentuação"
+      },
+      "lines" : [
+        "CAIXA ALTA E ACENTUAÇÃO"
+      ],
+      "name" : "caixa-alta"
+    },
+    {
+      "box" : [
+        539,
+        366
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.29999999999999999,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "gerar legendas automáticas de manhã com o editor"
+      },
+      "lines" : [
+        "gerar legendas",
+        "automáticas",
+        "de manhã",
+        "com o editor"
+      ],
+      "name" : "espaco-sem-quebra"
+    },
+    {
+      "box" : [
+        390,
+        348
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : true,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.073116,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : -0.14999999999999999,
+          "maxWidth" : 0.20250000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "upper",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "HOJE\nEU VOU\nMOSTRAR"
+      },
+      "lines" : [
+        "HOJE",
+        "EU VOU",
+        "MOSTRAR"
+      ],
+      "name" : "fit-lines"
+    },
+    {
+      "box" : [
+        1097,
+        298
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : true,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.073099999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.20250000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "A\nPALAVRA MUITO MAIS COMPRIDA QUE A CAIXA"
+      },
+      "lines" : [
+        "A",
+        "PALAVRA MUITO MAIS COMPRIDA QUE A CAIXA"
+      ],
+      "name" : "fit-lines-limite"
+    },
+    {
+      "box" : [
+        1002,
+        120
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "emphasis" : {
+          "fontFace" : "Light",
+          "fontName" : "Inter",
+          "scale" : 1.3,
+          "words" : [
+            1
+          ]
+        },
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "uma palavra-chave aqui"
+      },
+      "lines" : [
+        "uma palavra-chave aqui"
+      ],
+      "name" : "enfase"
+    },
+    {
+      "box" : [
+        908,
+        476
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "emphasis" : {
+          "fontFace" : "Medium",
+          "fontName" : "Inter",
+          "scale" : 1.6000000000000001,
+          "words" : [
+            2,
+            9
+          ]
+        },
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.5,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "O rato roeu a roupa do rei de Roma e a rainha, com raiva, resolveu remendar tudo sozinha"
+      },
+      "lines" : [
+        "O rato roeu a roupa do",
+        "rei de Roma e a rainha,",
+        "com raiva, resolveu",
+        "remendar tudo sozinha"
+      ],
+      "name" : "enfase-quebra"
+    },
+    {
+      "box" : [
+        390,
+        348
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "emphasis" : {
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "scale" : 1,
+          "words" : [
+            2
+          ]
+        },
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : true,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.073099999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : -0.14999999999999999,
+          "maxWidth" : 0.20250000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "HOJE\nEU VOU\nMOSTRAR"
+      },
+      "lines" : [
+        "HOJE",
+        "EU VOU",
+        "MOSTRAR"
+      ],
+      "name" : "enfase-fit"
+    },
+    {
+      "box" : [
+        825,
+        366
+      ],
+      "canvas" : [
+        1080,
+        1920
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.039375000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.90000000000000002,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.69999999999999996
+        },
+        "text" : "O rato roeu a roupa do rei de Roma e a rainha, com raiva, resolveu remendar tudo sozinha"
+      },
+      "lines" : [
+        "O rato roeu a roupa do",
+        "rei de Roma e a rainha,",
+        "com raiva, resolveu",
+        "remendar tudo sozinha"
+      ],
+      "name" : "vertical-9x16"
+    },
+    {
+      "box" : [
+        929,
+        146
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.055,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.66000000000000003,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 8,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.78000000000000003
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-phrases"
+    },
+    {
+      "box" : [
+        1182,
+        184
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.64000000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.5,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 12,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.55000000000000004
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-highlight"
+    },
+    {
+      "box" : [
+        1432,
+        577
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.11,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.76000000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.55000000000000004,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.059999999999999998,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 14,
+          "textCase" : "upper",
+          "underline" : false,
+          "x" : 0,
+          "y" : 0
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "HOJE EU VOU MOSTRAR",
+        "COMO GERAR",
+        "LEGENDAS",
+        "AUTOMÁTICAS"
+      ],
+      "name" : "predefinicao-punch"
+    },
+    {
+      "box" : [
+        1182,
+        184
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.070000000000000007,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.64000000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.25,
+          "shadowColor" : {
+            "a" : 0.55000000000000004,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 0.84999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 5,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.55000000000000004
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-rise"
+    },
+    {
+      "box" : [
+        982.46000000000004,
+        175.69999999999999
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.55000000000000004,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : true,
+          "backgroundPaddingX" : 0.45000000000000001,
+          "backgroundPaddingY" : 0.25,
+          "backgroundRadius" : 0.34999999999999998,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.055,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.66000000000000003,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.71999999999999997
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-guided"
+    },
+    {
+      "box" : [
+        1266,
+        197
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.074999999999999997,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.68000000000000005,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.5,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 18,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.5
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-fill"
+    },
+    {
+      "box" : [
+        1077.8,
+        197.88
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.80000000000000004,
+            "b" : 0.070000000000000007,
+            "g" : 0.050000000000000003,
+            "r" : 0.050000000000000003
+          },
+          "backgroundEnabled" : true,
+          "backgroundPaddingX" : 0.5,
+          "backgroundPaddingY" : 0.29999999999999999,
+          "backgroundRadius" : 0.20000000000000001,
+          "balanceLines" : true,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "",
+          "fontName" : "Inter",
+          "fontSize" : 0.059999999999999998,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.66000000000000003,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : false,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.14999999999999999,
+          "shadowColor" : {
+            "a" : 0.65000000000000002,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.59999999999999998
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-typing"
+    },
+    {
+      "box" : [
+        998,
+        177
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "emphasis" : {
+          "color" : {
+            "a" : 1,
+            "b" : 0.10000000000000001,
+            "g" : 0.84999999999999998,
+            "r" : 1
+          },
+          "fontFace" : "Medium",
+          "fontName" : "Inter",
+          "scale" : 1.3,
+          "words" : [
+            5
+          ]
+        },
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "Light",
+          "fontName" : "Inter",
+          "fontSize" : 0.058000000000000003,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.64000000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.29999999999999999,
+          "shadowColor" : {
+            "a" : 0.45000000000000001,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.029999999999999999,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.68000000000000005
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-editorial"
+    },
+    {
+      "box" : [
+        889,
+        111
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : true,
+          "bold" : false,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : false,
+          "fontFace" : "Light",
+          "fontName" : "Inter",
+          "fontSize" : 0.042000000000000003,
+          "italic" : false,
+          "letterSpacing" : 0.14999999999999999,
+          "lineSpacing" : 0,
+          "maxWidth" : 0.5,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.25,
+          "shadowColor" : {
+            "a" : 0.5,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.02,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "none",
+          "underline" : false,
+          "x" : 0,
+          "y" : -0.81999999999999995
+        },
+        "text" : "Hoje eu vou mostrar como gerar legendas automáticas"
+      },
+      "lines" : [
+        "Hoje eu vou mostrar como gerar",
+        "legendas automáticas"
+      ],
+      "name" : "predefinicao-cinema"
+    },
+    {
+      "box" : [
+        390,
+        345
+      ],
+      "canvas" : [
+        1920,
+        1080
+      ],
+      "content" : {
+        "emphasis" : {
+          "color" : {
+            "a" : 1,
+            "b" : 0.10000000000000001,
+            "g" : 0.84999999999999998,
+            "r" : 1
+          },
+          "fontFace" : "Condensed Black",
+          "fontName" : "Inter",
+          "scale" : 1,
+          "words" : [
+            2
+          ]
+        },
+        "style" : {
+          "alignment" : "center",
+          "backgroundColor" : {
+            "a" : 0.59999999999999998,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "backgroundEnabled" : false,
+          "backgroundPaddingX" : 0.20999999999999999,
+          "backgroundPaddingY" : 0.20999999999999999,
+          "backgroundRadius" : 0.17999999999999999,
+          "balanceLines" : false,
+          "bold" : true,
+          "color" : {
+            "a" : 1,
+            "b" : 1,
+            "g" : 1,
+            "r" : 1
+          },
+          "fitLines" : true,
+          "fontFace" : "Condensed Black",
+          "fontName" : "Inter",
+          "fontSize" : 0.073116,
+          "italic" : false,
+          "letterSpacing" : 0,
+          "lineSpacing" : -0.14999999999999999,
+          "maxWidth" : 0.20250000000000001,
+          "opacity" : 1,
+          "rotation" : 0,
+          "scale" : 1,
+          "shadow" : true,
+          "shadowAngle" : -90,
+          "shadowBlur" : 0.20000000000000001,
+          "shadowColor" : {
+            "a" : 0.5,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "shadowDistance" : 0.040000000000000001,
+          "strokeColor" : {
+            "a" : 1,
+            "b" : 0,
+            "g" : 0,
+            "r" : 0
+          },
+          "strokeWidth" : 0,
+          "textCase" : "upper",
+          "underline" : false,
+          "x" : 0,
+          "y" : 0
+        },
+        "text" : "HOJE\nEU VOU\nMOSTRAR"
+      },
+      "lines" : [
+        "HOJE",
+        "EU VOU",
+        "MOSTRAR"
+      ],
+      "name" : "predefinicao-stacked"
+    }
+  ]
+}

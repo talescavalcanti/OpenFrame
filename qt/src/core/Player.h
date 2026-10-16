@@ -46,6 +46,8 @@ public:
     Micros time() const;
     Micros duration() const;
     bool isPlaying() const;
+    /// Há um quadro sendo desenhado ou esperando a vez (o `frameReady` dele ainda não saiu).
+    bool isRendering() const;
 
 signals:
     /// Quadro novo (sRGB, `Format_ARGB32_Premultiplied`).

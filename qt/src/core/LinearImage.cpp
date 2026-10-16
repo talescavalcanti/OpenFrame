@@ -156,6 +156,39 @@ QImage LinearImage::toImage() const
     return image;
 }
 
+LinearImage LinearImage::fromImageEncoded(const QImage &source)
+{
+    const QImage image = source.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    LinearImage out(image.width(), image.height());
+    for (int y = 0; y < image.height(); ++y) {
+        const auto *src = reinterpret_cast<const QRgb *>(image.constScanLine(y));
+        Pixel *dst = out.row(y);
+        for (int x = 0; x < image.width(); ++x) {
+            const QRgb p = src[x];
+            dst[x] = {qRed(p) / 255.0f, qGreen(p) / 255.0f, qBlue(p) / 255.0f, qAlpha(p) / 255.0f};
+        }
+    }
+    return out;
+}
+
+void LinearImage::encodedToLinear()
+{
+    parallelFor(m_height, [&](int y0, int y1) {
+        for (int y = y0; y < y1; ++y) {
+            Pixel *p = row(y);
+            for (int x = 0; x < m_width; ++x) {
+                const float a = p[x].a;
+                if (a <= 0) {
+                    p[x] = {};
+                    continue;
+                }
+                const float inv = 1 / a;
+                p[x] = {toLinear(p[x].r * inv) * a, toLinear(p[x].g * inv) * a, toLinear(p[x].b * inv) * a, a};
+            }
+        }
+    });
+}
+
 void LinearImage::fill(Pixel p) { std::fill(m_pixels.begin(), m_pixels.end(), p); }
 
 Pixel LinearImage::sample(float x, float y, bool clamp) const
@@ -179,7 +212,7 @@ Pixel LinearImage::sample(float x, float y, bool clamp) const
             a.b * wa + b.b * wb + c.b * wc + d.b * wd, a.a * wa + b.a * wb + c.a * wc + d.a * wd};
 }
 
-void LinearImage::draw(const LinearImage &src, const QTransform &transform, float opacity)
+void LinearImage::draw(const LinearImage &src, const QTransform &transform, float opacity, const QRect &clip)
 {
     if (src.isNull() || isNull() || opacity <= 0)
         return;
@@ -190,6 +223,7 @@ void LinearImage::draw(const LinearImage &src, const QTransform &transform, floa
     const QRect bounds = transform.mapRect(QRectF(0, 0, src.width(), src.height()))
                              .toAlignedRect()
                              .adjusted(-1, -1, 1, 1)
+                             .intersected(clip.isEmpty() ? QRect(0, 0, m_width, m_height) : clip)
                              .intersected(QRect(0, 0, m_width, m_height));
     if (bounds.isEmpty())
         return;
@@ -213,9 +247,11 @@ void LinearImage::draw(const LinearImage &src, const QTransform &transform, floa
     });
 }
 
-void LinearImage::drawAt(const LinearImage &src, int ox, int oy, float opacity)
+void LinearImage::drawAt(const LinearImage &src, int ox, int oy, float opacity, const QRect &clip)
 {
-    const QRect bounds = QRect(ox, oy, src.width(), src.height()).intersected(QRect(0, 0, m_width, m_height));
+    QRect bounds = QRect(ox, oy, src.width(), src.height()).intersected(QRect(0, 0, m_width, m_height));
+    if (!clip.isEmpty())
+        bounds = bounds.intersected(clip);
     if (bounds.isEmpty() || opacity <= 0)
         return;
     parallelFor(bounds.height(), [&](int r0, int r1) {

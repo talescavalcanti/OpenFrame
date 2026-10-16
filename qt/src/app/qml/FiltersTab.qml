@@ -18,7 +18,7 @@ Column {
                 text: modelData.title
                 selected: tab.current === modelData.value
                 iconName: "blend"
-                preview: tab.seg.materialId ? "image://filters/" + tab.seg.materialId + "/" + modelData.value : ""
+                preview: Editor.thumbnailRevision >= 0 ? Editor.filterPreview(tab.seg.materialId || "", modelData.value) : ""
                 onClicked: Editor.setFilter(modelData.value)
             }
         }

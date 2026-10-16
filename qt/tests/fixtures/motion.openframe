@@ -1,0 +1,1829 @@
+{
+  "canvas" : {
+    "aspect" : "original",
+    "background" : {
+      "black" : {
+
+      }
+    }
+  },
+  "formatVersion" : 1,
+  "fps" : 30,
+  "materials" : [
+    {
+      "duration" : 12345678,
+      "hasAudio" : true,
+      "height" : 1920,
+      "id" : "00000000-0000-4000-8000-000000000010",
+      "kind" : "video",
+      "name" : "clipe.mov",
+      "path" : "\/media\/clipe.mov",
+      "width" : 1080
+    }
+  ],
+  "name" : "Motion",
+  "tracks" : [
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000001",
+      "isMain" : true,
+      "kind" : "video",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "animationLoop" : {
+            "intensity" : 0.8,
+            "kind" : "shine",
+            "period" : 1500000
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000100",
+          "materialId" : "00000000-0000-4000-8000-000000000010",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 6000000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 0,
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    },
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000101",
+      "isMain" : false,
+      "kind" : "text",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "fade"
+          },
+          "animationLoop" : {
+            "intensity" : 0.25,
+            "kind" : "float",
+            "period" : 1000000
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "slideUp"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000200",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 0,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação fade"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "zoomIn"
+          },
+          "animationLoop" : {
+            "intensity" : 0.5,
+            "kind" : "pulse",
+            "period" : 1250000
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "slideDown"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000201",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 1000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação zoomIn"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "zoomOut"
+          },
+          "animationLoop" : {
+            "intensity" : 0.75,
+            "kind" : "glow",
+            "period" : 1500000
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "spin"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000202",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 2000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação zoomOut"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "slideLeft"
+          },
+          "animationLoop" : {
+            "intensity" : 1,
+            "kind" : "shine",
+            "period" : 1750000
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "typewriter"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000203",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 3000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação slideLeft"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "slideRight"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000204",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 4000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação slideRight"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "slideUp"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000205",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 5000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação slideUp"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "slideDown"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "elastic"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000206",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 6000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação slideDown"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "spin"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "wave"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000207",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 7000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação spin"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "typewriter"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "wordByWord"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000208",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 8000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação typewriter"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "focus"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "maskReveal"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000209",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 9000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação focus"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "tracking"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000210",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 10000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação cascade"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "elastic"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "decode"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000211",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 11000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação elastic"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "wave"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000212",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 12000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação wave"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "wordByWord"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "zoomIn"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000213",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 13000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação wordByWord"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "maskReveal"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "zoomOut"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000214",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 14000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação maskReveal"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "tracking"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "slideLeft"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000215",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 15000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação tracking"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "decode"
+          },
+          "animationOut" : {
+            "duration" : 250000,
+            "kind" : "slideRight"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000216",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 900000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 16000000,
+          "text" : {
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.9,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "Animação decode"
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    }
+  ]
+}

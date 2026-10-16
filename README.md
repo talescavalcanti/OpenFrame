@@ -40,7 +40,8 @@ para **Windows e Linux** (C++, Qt e FFmpeg) tem a mesma interface e abre os
 mesmos projetos `.openframe`.
 
 - **Nativo e leve.** No Mac, usa AVFoundation e Core Image, os mesmos motores do macOS.
-  O instalador do Mac tem cerca de 7 MB; o app de referência que inspirou o projeto passa de 2,6 GB.
+  O instalador do Mac tem cerca de 7 MB. No Windows (cerca de 100 MB) e no Linux (cerca de 126 MB), o
+  pacote leva junto o Qt, o FFmpeg e o whisper.cpp. O app de referência que inspirou o projeto passa de 2,6 GB.
 - **Seu material fica com você.** Não há conta, nuvem nem telemetria. A edição, a
   exportação e até a transcrição das legendas automáticas rodam no seu computador,
   inclusive sem internet. A única conexão é opcional: baixar o modelo de
@@ -73,11 +74,11 @@ Mac com Apple Silicon ou Intel.
 
 ### Windows
 
-- **Instalador:** baixe o `OpenFrame-<versão>-windows-x64-instalador.exe` e
-  execute. Sem permissão de administrador, ele instala só para o seu usuário. Os
+- **Instalador:** baixe o `OpenFrame-<versão>-windows-x64-instalador.exe` (cerca de
+  100 MB) e execute. Sem permissão de administrador, ele instala só para o seu usuário. Os
   projetos `.openframe` passam a abrir com duplo clique.
-- **Portátil:** baixe o `OpenFrame-<versão>-windows-x64-portatil.zip`, extraia
-  e abra o `OpenFrame.exe` de dentro da pasta.
+- **Portátil:** baixe o `OpenFrame-<versão>-windows-x64-portatil.zip` (cerca de
+  135 MB), extraia e abra o `OpenFrame.exe` de dentro da pasta.
 
 **Na primeira abertura**, o Windows SmartScreen pode avisar que o app não é
 reconhecido, porque ele ainda não é assinado. Clique em **Mais informações →
@@ -85,7 +86,7 @@ Executar assim mesmo**. Requer Windows 10 ou 11 de 64 bits.
 
 ### Linux
 
-Baixe o `OpenFrame-<versão>-x86_64.AppImage`, dê permissão de execução e abra:
+Baixe o `OpenFrame-<versão>-x86_64.AppImage` (cerca de 126 MB), dê permissão de execução e abra:
 
 ```bash
 chmod +x OpenFrame-*-x86_64.AppImage
@@ -113,6 +114,9 @@ Nos três sistemas, os projetos ficam na pasta de vídeos do usuário
 - Mover, reordenar, aparar pelas bordas, dividir (⌘B), duplicar (⌘D) e apagar (⌫), com ímã
 - Arrastar mídia da biblioteca direto para a timeline, e clipes entre faixas
 - Zoom da timeline com pinça, ⌘ + roda e "Ajustar à janela" (⇧Z); rolagem que acompanha a reprodução
+- Altura de cada faixa ajustável (arraste a borda de baixo do cabeçalho; duplo clique volta à padrão) ou de
+  todas de uma vez (Compacta, Normal, Alta, Muito alta); numa faixa alta, o vídeo mostra o som embaixo das
+  miniaturas e o texto aparece inteiro. A altura fica salva no projeto
 - Velocidade de 0,1× a 10×, com o tom do áudio preservado
 - Desfazer e refazer ilimitados (⌘Z / ⇧⌘Z)
 - Canvas 16:9, 9:16, 1:1, 4:3, 3:4, 21:9, 4:5 ou original, com fundo preto, colorido ou desfocado
@@ -123,8 +127,9 @@ Nos três sistemas, os projetos ficam na pasta de vídeos do usuário
 - 14 filtros com intensidade e miniaturas
 - 10 efeitos: desfoque, pixelizar, glitch RGB, espelho, tremor, flash, pulso de zoom, caleidoscópio, quadrinhos e contornos neon
 - Animações de entrada e saída: esmaecer, zooms, deslizar (4 direções), girar e máquina de escrever
-- Mover, escalar e girar qualquer elemento direto no preview, com guias de alinhamento e ímã (no Mac)
-- Animações de motion design para texto (no Mac): por letra (cascata, elástico, onda), por palavra e
+- Mover, escalar e girar qualquer elemento direto no preview, com guias de alinhamento e ímã (⌘ no Mac
+  ou Ctrl no Windows e no Linux desliga o ímã enquanto arrasta)
+- Animações de motion design para texto: por letra (cascata, elástico, onda), por palavra e
   linha (palavra a palavra, revelar por máscara), cinematográficas (foco, espaçamento, decodificar) e
   loops contínuos (flutuar, pulsar, respirar brilho, reflexo de luz), com prévia animada
 - 9 transições: dissolver, escurecer, clarear, cortinas, empurrar e zoom com desfoque
@@ -135,23 +140,37 @@ Nos três sistemas, os projetos ficam na pasta de vídeos do usuário
 - Contorno por fora da letra, sombra (cor, distância, ângulo e desfoque) e fundo com cantos arredondados
 - Estilos prontos: clássico, contorno, destaque, neon, legenda, etiqueta, sombra dura e espaçado
 - Importar e exportar legendas SRT
-- Largura da caixa de texto ajustável no preview, com quebra de linha equilibrada (no Mac)
+- Largura da caixa de texto ajustável no preview, com quebra de linha equilibrada
 
-**Legendas automáticas (no Mac)**
-- Transcrição da fala com o [whisper.cpp](https://github.com/ggml-org/whisper.cpp), feita no próprio Mac (na GPU, nos Macs com Apple Silicon)
-- Três modelos para baixar quando quiser: Rápido (148 MB), Equilibrado (488 MB) e Máxima precisão (574 MB)
+**Legendas automáticas**
+- Transcrição da fala com o [whisper.cpp](https://github.com/ggml-org/whisper.cpp), feita no próprio computador:
+  no Mac, na GPU dos Macs com Apple Silicon; no Windows e no Linux, na CPU, com a variante certa para o
+  processador escolhida na hora (funciona em qualquer PC x86-64, mais rápido nos que têm AVX2 ou AVX-512)
+- Três modelos para baixar quando quiser: Rápido (148 MB), Equilibrado (488 MB, o recomendado) e Máxima
+  precisão (574 MB, bem mais lento na CPU)
 - Tempo de cada palavra, quebra das frases por pausas e pontuação, e um desfazer para tudo
 - 10 estilos: Frases, Destaque, Impacto, Surgir, Leitura guiada, Preenchimento, Digitação, Editorial
   (palavra-chave em serifa itálica), Cinema e Empilhado
 - Edição das legendas no painel, cor do destaque, palavra-chave e "aplicar este estilo a todas"
 
-As novidades marcadas "no Mac" chegam à versão Windows e Linux numa próxima versão. Até lá, ela abre
-os projetos com esses recursos, mas os desenha sem eles.
+Os projetos vindos do Mac abrem no Windows e no Linux com as animações, as legendas e os estilos. As
+fontes do macOS que não existem lá (Helvetica Neue, Menlo, Didot, Avenir Next e outras) são trocadas por
+fontes livres parecidas, embutidas no app (Inter, JetBrains Mono, Playfair Display e Barlow Condensed).
 
 **Áudio**
 - Faixas de música, volume, fade de entrada e de saída, silenciar faixa
 - Forma de onda nos clipes e nas miniaturas da biblioteca
 - Crossfade automático nas transições da faixa principal
+- Extrair o áudio de um clipe de vídeo para uma faixa de áudio, na hora e sem perda (nada é regravado em
+  disco); o vídeo fica sem som e o áudio vira um clipe comum, para mover, aparar ou apagar
+- Gravar narração direto na timeline: escolha o microfone, veja o nível, conte 3 s e grave enquanto o vídeo
+  toca sem som a partir do cursor; a gravação entra na biblioteca de mídia e na faixa de áudio. O microfone
+  só é usado enquanto o painel de gravação está aberto, e nada sai do computador
+
+Na primeira gravação, o macOS pergunta se o OpenFrame pode usar o microfone; se a resposta foi não, ligue em
+**Ajustes do Sistema → Privacidade e Segurança → Microfone**. No Windows, o acesso fica em **Configurações →
+Privacidade e segurança → Microfone** ("Acesso ao microfone" e "Permitir que aplicativos da área de trabalho
+acessem o microfone").
 
 **Exportação**
 - Resolução: 480p, 720p, 1080p, 2K, 4K, 8K ou personalizada
@@ -188,9 +207,11 @@ Com o app instalado, arquivos `.openframe` abrem com duplo clique.
 
 ### Compilar a versão Windows e Linux
 
-Fica em `qt/`: C++20, Qt 6.8 ou superior (Quick, Quick Controls, Multimedia) e
-FFmpeg 6.1 a 9 (bibliotecas de desenvolvimento). Também compila no Mac, para
-desenvolvimento.
+Fica em `qt/`: C++20, Qt 6.8 ou superior (Quick, Quick Controls, Multimedia, Network) e
+FFmpeg 6.1 a 9 (bibliotecas de desenvolvimento). O configure baixa o whisper.cpp
+(~10 MB, versão fixa conferida por sha256); sem rede, aponte
+`FETCHCONTENT_SOURCE_DIR_WHISPER` para uma cópia do mesmo commit. Também compila
+no Mac, para desenvolvimento.
 
 ```bash
 # Linux (com o Qt e o FFmpeg instalados; ou FFMPEG_ROOT apontando para um build "shared")
@@ -262,6 +283,8 @@ Detalhes e comandos em [docs/GITFLOW.md](docs/GITFLOW.md).
 `OPENFRAME_SNAPSHOT_DIR=/tmp/snaps .build/debug/OpenFrame -open projeto.openframe`
 percorre as telas principais, salva capturas das janelas e um quadro do preview,
 e fecha o app. Serve para conferir a interface sem permissão de gravação de tela.
+Com `OPENFRAME_SNAPSHOT_SCENARIO=audio OPENFRAME_FAKE_RECORDING=1`, ele passa pelas alturas
+das faixas, por extrair o áudio e pela gravação com um microfone simulado.
 
 ### Marca
 
@@ -271,8 +294,9 @@ Logo, ícone, paleta e regras de uso em [assets/brand](assets/brand/README.md).
 
 O OpenFrame é software livre, sob a [GNU General Public License versão 3 ou
 posterior](LICENSE) (GPL-3.0-or-later). A versão Windows e Linux distribui o
-FFmpeg (com x264 e x265, GPL) e o Qt (LGPL-3.0); as licenças de terceiros estão
-em [qt/packaging/TERCEIROS.txt](qt/packaging/TERCEIROS.txt) e acompanham os pacotes.
-O app do Mac inclui o whisper.cpp e o ggml (MIT,
-[Sources/CWhisper/LICENSE](Sources/CWhisper/LICENSE)); os modelos Whisper baixados
-são da OpenAI, também sob MIT.
+FFmpeg (com x264 e x265, GPL), o Qt (LGPL-3.0) e as fontes Inter, JetBrains Mono,
+Playfair Display e Barlow Condensed (SIL Open Font License 1.1); as licenças de
+terceiros estão em [qt/packaging/TERCEIROS.txt](qt/packaging/TERCEIROS.txt) e
+acompanham os pacotes. Os apps das três plataformas incluem o whisper.cpp e o ggml
+(MIT, [Sources/CWhisper/LICENSE](Sources/CWhisper/LICENSE)); os modelos Whisper
+baixados são da OpenAI, também sob MIT.

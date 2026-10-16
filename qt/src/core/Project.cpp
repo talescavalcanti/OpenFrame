@@ -1,6 +1,7 @@
 #include "Project.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace of {
 
@@ -9,6 +10,13 @@ Segment Segment::makeText(const TextContent &content, Micros start, Micros durat
     Segment s(std::nullopt, {0, duration}, start);
     s.text = content;
     return s;
+}
+
+std::optional<double> Track::clampedHeight(std::optional<double> height)
+{
+    if (!height || !std::isfinite(*height))
+        return std::nullopt;
+    return std::clamp(*height, heightMin, heightMax);
 }
 
 QString label(AspectRatio a)

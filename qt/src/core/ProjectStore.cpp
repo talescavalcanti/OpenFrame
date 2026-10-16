@@ -42,6 +42,35 @@ QJsonObject json(const SegmentAnimation &a) { return {{"kind", enumKey(a.kind)},
 
 QJsonObject json(const Transition &t) { return {{"kind", enumKey(t.kind)}, {"duration", t.duration}}; }
 
+QJsonObject json(const LoopAnimation &l)
+{
+    return {{"kind", enumKey(l.kind)}, {"period", l.period}, {"intensity", l.intensity}};
+}
+
+QJsonObject json(const CaptionWord &w) { return {{"text", w.text}, {"start", w.start}, {"end", w.end}}; }
+
+QJsonObject json(const WordHighlight &h)
+{
+    return {{"color", json(h.color)},
+            {"scale", h.scale},
+            {"backgroundEnabled", h.backgroundEnabled},
+            {"backgroundColor", json(h.backgroundColor)},
+            {"mode", enumKey(h.mode)},
+            {"reveal", enumKey(h.reveal)},
+            {"dimOpacity", h.dimOpacity}};
+}
+
+QJsonObject json(const WordEmphasis &e)
+{
+    QJsonArray words;
+    for (const int w : e.words)
+        words.append(w);
+    QJsonObject o{{"words", words}, {"fontName", e.fontName}, {"fontFace", e.fontFace}, {"scale", e.scale}};
+    if (e.color)
+        o["color"] = json(*e.color);
+    return o;
+}
+
 QJsonObject json(const TextStyle &s)
 {
     return {{"fontName", s.fontName},
@@ -72,7 +101,25 @@ QJsonObject json(const TextStyle &s)
             {"y", s.y},
             {"scale", s.scale},
             {"rotation", s.rotation},
-            {"maxWidth", s.maxWidth}};
+            {"maxWidth", s.maxWidth},
+            {"balanceLines", s.balanceLines},
+            {"fitLines", s.fitLines}};
+}
+
+QJsonObject json(const TextContent &t)
+{
+    QJsonObject o{{"text", t.text}, {"style", json(t.style)}};
+    if (t.words) {
+        QJsonArray words;
+        for (const auto &w : *t.words)
+            words.append(json(w));
+        o["words"] = words;
+    }
+    if (t.highlight)
+        o["highlight"] = json(*t.highlight);
+    if (t.emphasis)
+        o["emphasis"] = json(*t.emphasis);
+    return o;
 }
 
 QJsonObject json(const Segment &s)
@@ -99,10 +146,15 @@ QJsonObject json(const Segment &s)
         o["animationIn"] = json(*s.animationIn);
     if (s.animationOut)
         o["animationOut"] = json(*s.animationOut);
+    if (s.animationLoop)
+        o["animationLoop"] = json(*s.animationLoop);
     if (s.transition)
         o["transition"] = json(*s.transition);
     if (s.text)
-        o["text"] = QJsonObject{{"text", s.text->text}, {"style", json(s.text->style)}};
+        o["text"] = json(*s.text);
+    // Como no Swift: só gravado quando ligado.
+    if (s.audioDetached)
+        o["audioDetached"] = true;
     return o;
 }
 
@@ -111,8 +163,14 @@ QJsonObject json(const Track &t)
     QJsonArray segments;
     for (const auto &s : t.segments)
         segments.append(json(s));
-    return {{"id", uuidString(t.id)}, {"kind", enumKey(t.kind)}, {"isMain", t.isMain},
-            {"muted", t.muted},       {"hidden", t.hidden},      {"segments", segments}};
+    QJsonObject o{{"id", uuidString(t.id)}, {"kind", enumKey(t.kind)}, {"isMain", t.isMain},
+                  {"muted", t.muted},       {"hidden", t.hidden},      {"segments", segments}};
+    // Como no Swift: só gravada quando ligada.
+    if (t.isAutoCaptions)
+        o["isAutoCaptions"] = true;
+    if (t.height)
+        o["height"] = *t.height;
+    return o;
 }
 
 QJsonObject json(const Material &m)
@@ -371,7 +429,86 @@ public:
         opt("scale", s.scale);
         opt("rotation", s.rotation);
         opt("maxWidth", s.maxWidth);
+        opt("balanceLines", s.balanceLines);
+        opt("fitLines", s.fitLines);
         return s;
+    }
+
+    /// Enum tolerante: ausente ou desconhecido fica com o padrão (como `WordHighlight.mode` no Swift);
+    /// um valor que não é texto ainda é erro.
+    template <typename E>
+    void tolerantEnum(const QJsonObject &o, const QString &path, const char *key, E &field)
+    {
+        if (!present(o, key))
+            return;
+        const QString value = string(o.value(QLatin1StringView(key)), path + u'.' + QLatin1StringView(key));
+        if (const auto e = enumFromKey<E>(value))
+            field = *e;
+    }
+
+    CaptionWord captionWord(const QJsonObject &o, const QString &path)
+    {
+        return {string(o, path, "text"), integer(o, path, "start"), integer(o, path, "end")};
+    }
+
+    /// Campos ausentes ficam com o padrão; `mode` e `reveal` desconhecidos também.
+    WordHighlight wordHighlight(const QJsonObject &o, const QString &path)
+    {
+        WordHighlight h;
+        const auto at = [&](const char *key) { return path + u'.' + QLatin1StringView(key); };
+        if (present(o, "color"))
+            h.color = rgba(object(o, path, "color"), at("color"));
+        if (present(o, "scale"))
+            h.scale = number(o, path, "scale");
+        if (present(o, "backgroundEnabled"))
+            h.backgroundEnabled = boolean(o, path, "backgroundEnabled");
+        if (present(o, "backgroundColor"))
+            h.backgroundColor = rgba(object(o, path, "backgroundColor"), at("backgroundColor"));
+        tolerantEnum(o, path, "mode", h.mode);
+        tolerantEnum(o, path, "reveal", h.reveal);
+        if (present(o, "dimOpacity"))
+            h.dimOpacity = number(o, path, "dimOpacity");
+        return h;
+    }
+
+    /// Campos ausentes ficam com o padrão.
+    WordEmphasis wordEmphasis(const QJsonObject &o, const QString &path)
+    {
+        WordEmphasis e;
+        if (present(o, "words")) {
+            e.words.clear();
+            const QJsonArray words = array(o, path, "words");
+            for (int i = 0; i < words.size(); ++i)
+                e.words.append(int(integer(words[i], path + QStringLiteral(".words[%1]").arg(i))));
+        }
+        if (present(o, "fontName"))
+            e.fontName = string(o, path, "fontName");
+        if (present(o, "fontFace"))
+            e.fontFace = string(o, path, "fontFace");
+        if (present(o, "scale"))
+            e.scale = number(o, path, "scale");
+        if (present(o, "color"))
+            e.color = rgba(object(o, path, "color"), path + u".color");
+        return e;
+    }
+
+    TextContent textContent(const QJsonObject &t, const QString &p)
+    {
+        TextContent c{string(t, p, "text"), textStyle(object(t, p, "style"), p + u".style")};
+        if (present(t, "words")) {
+            const QJsonArray words = array(t, p, "words");
+            QList<CaptionWord> list;
+            for (int i = 0; i < words.size(); ++i) {
+                const QString wp = p + QStringLiteral(".words[%1]").arg(i);
+                list.append(captionWord(object(words[i], wp), wp));
+            }
+            c.words = list;
+        }
+        if (present(t, "highlight"))
+            c.highlight = wordHighlight(object(t, p, "highlight"), p + u".highlight");
+        if (present(t, "emphasis"))
+            c.emphasis = wordEmphasis(object(t, p, "emphasis"), p + u".emphasis");
+        return c;
     }
 
     Segment segment(const QJsonObject &o, const QString &path)
@@ -405,15 +542,23 @@ public:
                 return std::nullopt;
             const QString p = path + u'.' + QLatin1StringView(key);
             const QJsonObject a = object(o, path, key);
-            // Tipos que esta versão não conhece (o app do Mac tem animações por letra, palavra
-            // e linha) viram "esmaecer" em vez de impedir a abertura. A chave `animationLoop`
-            // também é ignorada. Ao regravar, o tipo original e o loop se perdem.
+            // Tipos que esta versão não conhece (de uma versão futura) viram "esmaecer" em vez de
+            // impedir a abertura; o tipo continua obrigatório e precisa ser texto.
             const QString kindPath = p + u".kind";
             const auto kind = enumFromKey<AnimationKind>(string(required(a, p, "kind"), kindPath));
             return SegmentAnimation{kind.value_or(AnimationKind::Fade), integer(a, p, "duration")};
         };
         s.animationIn = animation("animationIn");
         s.animationOut = animation("animationOut");
+        if (present(o, "animationLoop")) {
+            const QString p = path + u".animationLoop";
+            const QJsonObject l = object(o, path, "animationLoop");
+            // Loop de um tipo desconhecido (versão futura) é descartado em vez de impedir a abertura.
+            const auto kind = enumFromKey<LoopKind>(string(required(l, p, "kind"), p + u".kind"));
+            const LoopAnimation loop{kind.value_or(LoopKind::Float), integer(l, p, "period"), number(l, p, "intensity")};
+            if (kind)
+                s.animationLoop = loop;
+        }
         if (present(o, "transition")) {
             const QString p = path + u".transition";
             const QJsonObject t = object(o, path, "transition");
@@ -422,8 +567,10 @@ public:
         if (present(o, "text")) {
             const QString p = path + u".text";
             const QJsonObject t = object(o, path, "text");
-            s.text = TextContent{string(t, p, "text"), textStyle(object(t, p, "style"), p + u".style")};
+            s.text = textContent(t, p);
         }
+        if (present(o, "audioDetached"))
+            s.audioDetached = boolean(o, path, "audioDetached");
         return s;
     }
 
@@ -435,6 +582,10 @@ public:
         t.isMain = boolean(o, path, "isMain");
         t.muted = boolean(o, path, "muted");
         t.hidden = boolean(o, path, "hidden");
+        if (present(o, "isAutoCaptions"))
+            t.isAutoCaptions = boolean(o, path, "isAutoCaptions");
+        if (present(o, "height"))
+            t.height = Track::clampedHeight(number(o, path, "height"));
         const QJsonArray segments = array(o, path, "segments");
         for (int i = 0; i < segments.size(); ++i) {
             const QString p = path + QStringLiteral(".segments[%1]").arg(i);

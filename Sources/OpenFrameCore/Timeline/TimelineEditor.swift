@@ -129,6 +129,71 @@ public enum TimelineEditor {
         return seg.id
     }
 
+    // MARK: - Áudio
+
+    /// Se o segmento é um vídeo com som que ainda não foi extraído.
+    public static func canExtractAudio(_ p: Project, segment id: UUID) -> Bool {
+        guard let seg = p.segment(id), seg.text == nil, !seg.audioDetached,
+              let m = p.material(seg.materialId) else { return false }
+        return m.kind == .video && m.hasAudio
+    }
+
+    /// Extrai o som do clipe para uma faixa de áudio, sem gravar nada em disco: um material de áudio que aponta
+    /// para o mesmo arquivo (reaproveitado se outro trecho do mesmo vídeo já foi extraído) e um segmento no mesmo
+    /// trecho, com a velocidade, o volume e os fades do clipe. O cruzamento de uma transição da faixa principal
+    /// vira fade no segmento novo, para o som não mudar. O clipe fica com `audioDetached` (não soa mais).
+    /// Devolve o id do segmento de áudio novo.
+    @discardableResult
+    public static func extractAudio(_ p: inout Project, segment id: UUID) -> UUID? {
+        guard canExtractAudio(p, segment: id), let (t, i) = p.locate(id),
+              let video = p.material(p.tracks[t].segments[i].materialId) else { return nil }
+        let seg = p.tracks[t].segments[i]
+        let name = "Áudio de \(video.name)"
+        let audio = p.materials.first { $0.kind == .audio && $0.path == video.path && $0.name == name }
+            ?? Material(kind: .audio, path: video.path, name: name, duration: video.duration,
+                        width: 0, height: 0, hasAudio: video.hasAudio)
+        if !p.materials.contains(where: { $0.id == audio.id }) { p.materials.append(audio) }
+
+        var crossIn: Micros = 0, crossOut: Micros = 0
+        if p.tracks[t].isMain {
+            let segs = p.tracks[t].segments
+            if i > 0 { crossIn = max(0, segs[i - 1].targetEnd - seg.targetStart) }
+            if i + 1 < segs.count { crossOut = max(0, seg.targetEnd - segs[i + 1].targetStart) }
+        }
+        var sound = Segment(materialId: audio.id, source: seg.source, targetStart: seg.targetStart)
+        sound.speed = seg.speed
+        sound.volume = seg.volume
+        sound.fadeIn = max(seg.fadeIn, crossIn)
+        sound.fadeOut = max(seg.fadeOut, crossOut)
+        p.tracks[t].segments[i].audioDetached = true
+        place(sound, kind: .audio, in: &p)
+        return sound.id
+    }
+
+    /// Põe uma gravação (o material entra no projeto se ainda não estiver) na timeline a partir de `time`, numa
+    /// faixa de áudio livre no trecho (ou numa nova). Devolve o id do segmento.
+    @discardableResult
+    public static func addRecording(_ m: Material, to p: inout Project, at time: Micros) -> UUID {
+        if !p.materials.contains(where: { $0.id == m.id }) { p.materials.append(m) }
+        let seg = Segment(materialId: m.id, source: sourceRange(for: m), targetStart: max(0, time))
+        place(seg, kind: .audio, in: &p)
+        return seg.id
+    }
+
+    // MARK: - Faixas
+
+    /// Muda a altura de uma faixa (limitada a `Track.heightRange`; nil volta à padrão).
+    public static func setTrackHeight(_ p: inout Project, track id: UUID, height: Double?) {
+        guard let t = p.tracks.firstIndex(where: { $0.id == id }) else { return }
+        p.tracks[t].height = Track.clampedHeight(height)
+    }
+
+    /// Muda a altura de todas as faixas de uma vez (o controle global da barra da timeline).
+    public static func setAllTrackHeights(_ p: inout Project, height: Double?) {
+        let h = Track.clampedHeight(height)
+        for t in p.tracks.indices { p.tracks[t].height = h }
+    }
+
     /// Coloca o segmento na primeira faixa não principal do tipo com espaço
     /// livre; cria uma nova faixa se nenhuma servir.
     private static func place(_ seg: Segment, kind: TrackKind, in p: inout Project) {

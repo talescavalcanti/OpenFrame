@@ -4,6 +4,7 @@
 #include "LinearImage.h"
 #include "MediaProbe.h"
 #include "Motion.h"
+#include "TextMotion.h"
 #include "TextRenderer.h"
 
 #include <QBuffer>
@@ -19,6 +20,16 @@ struct Layer {
     QTransform transform;
     float opacity = 1;
 };
+
+/// Copia a imagem no meio de uma maior, com `pad` pixels transparentes de cada lado.
+LinearImage padded(const LinearImage &image, int pad)
+{
+    if (pad <= 0)
+        return image;
+    LinearImage out(image.width() + 2 * pad, image.height() + 2 * pad);
+    out.drawAt(image, pad, pad);
+    return out;
+}
 
 /// Instante do arquivo exibido no instante `t` da timeline.
 Micros sourceTime(const Segment &seg, Micros t)
@@ -53,7 +64,8 @@ struct Renderer::Impl {
 
     /// Imagem do material no instante `t`, em luz linear, com no máximo `work`
     /// pixels (o tamanho com que vai aparecer). `native` recebe o tamanho cheio.
-    LinearImage source(const Project &p, const Segment &seg, Micros t, double drawScale, QSize &native)
+    LinearImage source(const Project &p, const Segment &seg, Micros t, double drawScale, QSize &native,
+                       const RenderOptions &options)
     {
         const Material *m = p.material(seg.materialId);
         if (!m)
@@ -73,11 +85,17 @@ struct Renderer::Impl {
             return LinearImage::fromImage(frame);
         }
         if (m->kind == MaterialKind::Photo) {
-            const QImage full = photo(*m);
+            const auto still = options.stills.constFind(m->id);
+            const bool inMemory = still != options.stills.cend();
+            const QImage full = inMemory ? *still : photo(*m);
             if (full.isNull())
                 return {};
             native = full.size();
             const QSize want = workSize(native);
+            // Fotos em memória não entram no cache (não têm caminho).
+            if (inMemory)
+                return LinearImage::fromImage(
+                    want == native ? full : full.scaled(want, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
             const QString key = QStringLiteral("%1|%2x%3").arg(m->path).arg(want.width()).arg(want.height());
             {
                 QMutexLocker locker(&photoLock);
@@ -95,7 +113,8 @@ struct Renderer::Impl {
         return {};
     }
 
-    std::optional<Layer> layer(const Project &p, const Segment &seg, Micros t, QSize canvas, double k)
+    std::optional<Layer> layer(const Project &p, const Segment &seg, Micros t, QSize canvas, double k,
+                               const RenderOptions &options)
     {
         const Micros local = t - seg.targetStart;
         const double seconds = Time::toSeconds(local);
@@ -108,7 +127,7 @@ struct Renderer::Impl {
         const double relative = seg.transform.scale * anim.scale * geo.scale;
         const double guessFit = m->width > 0 && m->height > 0 ? std::min(W / m->width, H / m->height) : 1;
         QSize native;
-        LinearImage img = source(p, seg, t, guessFit * relative, native);
+        LinearImage img = source(p, seg, t, guessFit * relative, native, options);
         if (img.isNull() || native.isEmpty())
             return std::nullopt;
         // A imagem de trabalho pode ser menor que a original: os raios dos efeitos acompanham.
@@ -122,11 +141,28 @@ struct Renderer::Impl {
         const double scale = fit * relative / pre;
         const double cx = W / 2 + (seg.transform.x + anim.dx + geo.dx) * W / 2;
         const double cy = H / 2 - (seg.transform.y + anim.dy + geo.dy) * H / 2;
+        // Reflexo (na imagem, antes de posicionar), foco e brilho (em pixels do canvas, aqui divididos pela
+        // escala): com folga transparente para o que passa da borda, sem mudar o centro.
+        const auto shine = anim.shine();
+        const double focus = scale > 0 ? anim.blur * H / scale : 0;
+        const double glow = anim.glow() > 0 && scale > 0 ? 0.012 * H / scale : 0;
+        const double spread = shine ? 0.06 * std::min(img.width(), img.height()) + 2 : 0;
+        const int pad = focus > 0.3 || glow > 0 || shine ? int(std::ceil(3 * std::max({focus, glow, spread}))) + 1 : 0;
+        const double w = img.width(), h = img.height();
+        if (pad > 0) {
+            img = padded(img, pad);
+            if (shine)
+                TextMotion::applyShine(img, shine->position, shine->strength, true, QRectF(pad, pad, w, h));
+            if (focus > 0.3)
+                img.blur(focus);
+            if (glow > 0)
+                TextMotion::applyGlow(img, anim.glow(), glow);
+        }
         Layer out;
         out.transform.translate(cx, cy);
         out.transform.rotate(seg.transform.rotation + anim.rotation);
         out.transform.scale(scale, scale);
-        out.transform.translate(-img.width() / 2.0, -img.height() / 2.0);
+        out.transform.translate(-w / 2.0 - pad, -h / 2.0 - pad);
         out.opacity = float(std::clamp(seg.opacity * anim.alpha, 0.0, 1.0));
         out.image = std::move(img);
         return out;
@@ -136,26 +172,52 @@ struct Renderer::Impl {
     {
         if (!seg.text)
             return std::nullopt;
+        const TextContent &content = *seg.text;
         const AnimationState anim = Animations::state(seg, t - seg.targetStart);
-        const QImage image = TextRenderer::shared().image(*seg.text, canvas, anim.reveal);
-        if (image.isNull())
-            return std::nullopt;
-        const TextStyle &style = seg.text->style;
+        // O texto é rasterizado já na escala efetiva (canvas × r: fonte, margens, sombra e largura máxima
+        // crescem juntas, o layout é o mesmo) e só reduzido depois: ampliar uma imagem pequena serrilha.
+        const double r = TextRenderer::shared().rasterScale(content, canvas, Animations::peakScale(seg));
+        const QSize raster(std::max(1, int(std::lround(canvas.width() * r))), std::max(1, int(std::lround(canvas.height() * r))));
+        LinearImage image;
+        if (Animations::usesUnits(seg)) {
+            // Por unidade no clipe inteiro.
+            auto out = TextMotion::image(content, raster, anim, Animations::granularityFor(seg, anim));
+            if (!out)
+                return std::nullopt;
+            image = std::move(out->image);
+        } else {
+            const QImage still = TextRenderer::shared().image(content, raster, anim.reveal);
+            if (still.isNull())
+                return std::nullopt;
+            image = LinearImage::fromImage(still);
+        }
+        const TextStyle &style = content.style;
         const double W = canvas.width(), H = canvas.height();
-        const double scale = style.scale * anim.scale;
+        const double scale = style.scale * anim.scale / r;
+        // Desfoque do foco em pixels do canvas, aqui na imagem rasterizada.
+        const double focus = scale > 0 ? anim.blur * H / scale : 0;
+        int pad = 0;
+        if (focus > 0.3) {
+            pad = int(std::ceil(3 * focus)) + 1;
+            image = padded(image, pad);
+            image.blur(focus);
+        }
         Layer out;
         out.transform.translate(W / 2 + (style.x + anim.dx) * W / 2, H / 2 - (style.y + anim.dy) * H / 2);
         out.transform.rotate(style.rotation + anim.rotation);
         out.transform.scale(scale, scale);
+        // A imagem tem o mesmo centro da nominal (margens iguais dos dois lados).
         out.transform.translate(-image.width() / 2.0, -image.height() / 2.0);
         out.opacity = float(std::clamp(seg.opacity * anim.alpha, 0.0, 1.0));
-        out.image = LinearImage::fromImage(image);
+        out.image = std::move(image);
         return out;
     }
 
-    void background(LinearImage &canvas, const Project &p, Micros t, double k)
+    void background(LinearImage &canvas, const Project &p, Micros t, double k, const RenderOptions &options)
     {
         const CanvasBackground &bg = p.canvas.background;
+        if (options.transparent)
+            return;
         if (const RGBA *c = bg.colorValue()) {
             const float a = float(std::clamp(c->a, 0.0, 1.0));
             // Cor sobre o preto, como o CIImage(color:) recortado sobre o fundo.
@@ -184,7 +246,7 @@ struct Renderer::Impl {
                                  ? std::max(double(small.width()) / m->width, double(small.height()) / m->height) * 1.1
                                  : 1;
         QSize native;
-        const LinearImage img = source(p, *seg, t, guess, native);
+        const LinearImage img = source(p, *seg, t, guess, native, options);
         if (img.isNull())
             return;
         const double s = std::max(double(small.width()) / img.width(), double(small.height()) / img.height()) * 1.1;
@@ -227,11 +289,16 @@ void Renderer::clearCaches()
 
 QImage Renderer::render(const Project &project, Micros t, QSize size)
 {
+    return render(project, t, size, RenderOptions{});
+}
+
+QImage Renderer::render(const Project &project, Micros t, QSize size, const RenderOptions &options)
+{
     if (size.isEmpty())
         return {};
     const double k = std::max(size.height(), 1) / 1080.0;
-    LinearImage canvas(size.width(), size.height(), Pixel{0, 0, 0, 1});
-    d->background(canvas, project, t, k);
+    LinearImage canvas(size.width(), size.height(), Pixel{0, 0, 0, options.transparent ? 0.0f : 1.0f});
+    d->background(canvas, project, t, k, options);
 
     for (const Track &track : project.tracks) {
         if (track.kind != TrackKind::Video || track.hidden)
@@ -246,7 +313,7 @@ QImage Renderer::render(const Project &project, Micros t, QSize size)
             // Transição: as duas camadas em imagens do tamanho do canvas, misturadas.
             const auto place = [&](const Segment &seg) {
                 LinearImage img(size.width(), size.height());
-                if (auto l = d->layer(project, seg, t, size, k))
+                if (auto l = d->layer(project, seg, t, size, k, options))
                     img.draw(l->image, l->transform, l->opacity);
                 return img;
             };
@@ -257,7 +324,7 @@ QImage Renderer::render(const Project &project, Micros t, QSize size)
             continue;
         }
         for (const Segment *seg : active)
-            if (auto l = d->layer(project, *seg, t, size, k))
+            if (auto l = d->layer(project, *seg, t, size, k, options))
                 canvas.draw(l->image, l->transform, l->opacity);
     }
 

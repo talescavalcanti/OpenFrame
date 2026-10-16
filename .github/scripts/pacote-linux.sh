@@ -36,8 +36,19 @@ doc="$appdir/usr/share/doc/openframe"
 install -Dm644 "$root/LICENSE" "$doc/LICENSE.txt"
 install -Dm644 "$root/qt/packaging/TERCEIROS.txt" "$doc/TERCEIROS.txt"
 install -Dm644 "$root/qt/packaging/licenses/LGPL-3.0.txt" "$doc/licencas/LGPL-3.0.txt"
-install -Dm644 "$root/qt/src/app/fonts/OFL-Inter.txt" "$doc/licencas/OFL-Inter.txt"
 install -Dm644 "$root/qt/src/app/fonts/LICENSE-Lucide.txt" "$doc/licencas/LICENSE-Lucide.txt"
+# A Inter está no app e no núcleo, com a mesma OFL-Inter.txt: vai uma cópia só,
+# e o pacote falha se as duas um dia forem diferentes.
+for f in "$root/qt/src/app/fonts/OFL-Inter.txt" "$root"/qt/src/core/fonts/OFL-*.txt; do
+    dest="$doc/licencas/${f##*/}"
+    if [[ -e $dest ]]; then
+        cmp -s "$f" "$dest" || { echo "licenças diferentes com o mesmo nome: $f" >&2; exit 1; }
+    else
+        install -Dm644 "$f" "$dest"
+    fi
+done
+install -Dm644 "${FETCHCONTENT_SOURCE_DIR_WHISPER:-$build/_deps/whisper-src}/LICENSE" \
+    "$doc/licencas/whisper.cpp-LICENSE.txt"
 if [[ -f "$FFMPEG_ROOT/LICENSE.txt" ]]; then
     install -Dm644 "$FFMPEG_ROOT/LICENSE.txt" "$doc/licencas/FFmpeg-LICENSE.txt"
 fi
@@ -45,13 +56,24 @@ if command -v desktop-file-validate > /dev/null; then
     desktop-file-validate "$appdir/usr/share/applications/openframe.desktop"
 fi
 
+# Variantes de CPU do ggml (o núcleo as carrega com dlopen, então o linuxdeploy
+# não as conhece) em usr/lib/openframe, e o plugin de TLS do Qt (download do
+# modelo por HTTPS, com a OpenSSL do sistema). O libwhisper/libggml/libggml-base
+# vêm como dependências do executável.
+mkdir -p "$appdir/usr/lib/openframe" "$appdir/usr/plugins/tls"
+cp "$build"/ggml/libggml-cpu-*.so "$appdir/usr/lib/openframe/"
+cp "$QT_ROOT_DIR"/plugins/tls/libqopensslbackend.so "$QT_ROOT_DIR"/plugins/tls/libqcertonlybackend.so \
+    "$appdir/usr/plugins/tls/"
+
 # Qt e dependências (o FFmpeg vem do LD_LIBRARY_PATH). Primeiro só o AppDir,
 # para tirar os plugins de mídia do Qt: o som usa só o QAudioSink, e o plugin
-# FFmpeg do Qt traria uma segunda cópia do FFmpeg.
+# FFmpeg do Qt traria uma segunda cópia do FFmpeg, que pede a libva-drm e cai
+# num Linux sem ela. O som-appimage.sh prova que o pacote toca sem o plugin.
 export QMAKE="$QT_ROOT_DIR/bin/qmake"
 export QML_SOURCES_PATHS="$root/qt/src/app/qml"
-export LD_LIBRARY_PATH="$FFMPEG_ROOT/lib:$QT_ROOT_DIR/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-linuxdeploy --appdir "$appdir" --plugin qt
+export LD_LIBRARY_PATH="$FFMPEG_ROOT/lib:$QT_ROOT_DIR/lib:$build/ggml${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+linuxdeploy --appdir "$appdir" --plugin qt \
+    --deploy-deps-only "$appdir/usr/lib/openframe" --deploy-deps-only "$appdir/usr/plugins/tls"
 rm -rf "$appdir/usr/plugins/multimedia"
 for lib in "$QT_ROOT_DIR"/lib/lib{avcodec,avformat,avutil,avfilter,swresample,swscale}.so.*; do
     [[ -e $lib ]] || continue

@@ -233,6 +233,81 @@ private slots:
         QVERIFY2(worst < 0.01, qPrintable(QString::number(worst)));
     }
 
+    void clockedMixerCatchesUpWithTheVideo()
+    {
+        // O som do preview só sai depois que o dispositivo parte (no Windows, perto de
+        // 1 s numa VM). O vídeo anda pelo relógio desde o play; o som tem que entrar no
+        // instante que o vídeo mostra, não no do play.
+        const AudioClip c = clip(tone, 0, Time::seconds(3));
+        const Micros base = Time::seconds(0.5);
+        QElapsedTimer clock;
+        clock.start();
+        ClockedMixer mixer({c}, base, clock);
+        QTest::qSleep(350); // a partida lenta do dispositivo
+        std::vector<float> out(1024 * 2);
+        const Micros before = clock.nsecsElapsed() / 1000;
+        mixer.read(out.data(), 1024);
+        const Micros after = clock.nsecsElapsed() / 1000;
+        QVERIFY2(mixer.skipped() >= before && mixer.skipped() <= after,
+                 qPrintable(QStringLiteral("pulou %1 µs, relógio entre %2 e %3").arg(mixer.skipped()).arg(before).arg(after)));
+        const qint64 start = AudioMix::sampleAt(base + mixer.skipped());
+        QCOMPARE(mixer.position(), start + 1024);
+        // O conteúdo é o do instante alcançado (igual a uma leitura comum de lá).
+        const auto reference = mix({c}, base + mixer.skipped(), Time::seconds(0.05));
+        double worst = 0;
+        for (size_t i = 0; i < 1024 * 2; ++i)
+            worst = std::max(worst, double(std::abs(out[i] - reference[i])));
+        QVERIFY2(worst < 0.01, qPrintable(QString::number(worst)));
+        // Depois da primeira leitura, segue em sequência enquanto estiver à frente do relógio (o
+        // dispositivo lê adiantado): 10 blocos de 21 ms de uma vez, sem pular.
+        for (int i = 0; i < 10; ++i)
+            mixer.read(out.data(), 1024);
+        QCOMPARE(mixer.position(), start + 11 * 1024);
+        QCOMPARE(mixer.resyncs(), 0);
+    }
+
+    void clockedMixerResyncsAfterAStall()
+    {
+        // A máquina engasga mais que o buffer: o som ficaria atrasado até o próximo play.
+        // A leitura seguinte alcança o relógio de novo.
+        const AudioClip c = clip(tone, 0, Time::seconds(3));
+        const Micros base = Time::seconds(0.25);
+        QElapsedTimer clock;
+        clock.start();
+        ClockedMixer mixer({c}, base, clock);
+        std::vector<float> out(1024 * 2);
+        mixer.read(out.data(), 1024);
+        // Um atraso pequeno (dentro de `maxLag`) não pula: é a folga normal do dispositivo.
+        QTest::qSleep(20);
+        mixer.read(out.data(), 1024);
+        QCOMPARE(mixer.resyncs(), 0);
+        QTest::qSleep(300);
+        const Micros before = clock.nsecsElapsed() / 1000;
+        mixer.read(out.data(), 1024);
+        const Micros after = clock.nsecsElapsed() / 1000;
+        QCOMPARE(mixer.resyncs(), 1);
+        const qint64 pos = mixer.position() - 1024;
+        QVERIFY2(pos >= AudioMix::sampleAt(base + before) && pos <= AudioMix::sampleAt(base + after),
+                 qPrintable(QStringLiteral("posição %1, relógio entre %2 e %3")
+                                .arg(pos).arg(AudioMix::sampleAt(base + before)).arg(AudioMix::sampleAt(base + after))));
+        // O conteúdo é o do instante alcançado.
+        const auto reference = mix({c}, Micros(pos * 1'000'000 / AudioMix::sampleRate), Time::seconds(0.05));
+        double worst = 0;
+        for (size_t i = 0; i < 1024 * 2; ++i)
+            worst = std::max(worst, double(std::abs(out[i] - reference[i])));
+        QVERIFY2(worst < 0.01, qPrintable(QString::number(worst)));
+    }
+
+    void clockedMixerWithoutClockStartsAtBase()
+    {
+        const AudioClip c = clip(tone, 0, Time::seconds(3));
+        ClockedMixer mixer({c}, Time::seconds(1), QElapsedTimer());
+        std::vector<float> out(512 * 2);
+        mixer.read(out.data(), 512);
+        QCOMPARE(mixer.skipped(), Micros(0));
+        QCOMPARE(mixer.position(), AudioMix::sampleAt(Time::seconds(1)) + 512);
+    }
+
     void speedKeepsPitch_data()
     {
         QTest::addColumn<double>("speed");

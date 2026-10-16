@@ -81,8 +81,9 @@ Result runExport(const Project &p, const ExportSettings &s, const QString &path)
     QObject::connect(&exporter, &Exporter::progress, [&](double f) { result.progress.append(f); });
     QSignalSpy finished(&exporter, &Exporter::finished);
     exporter.start(p, s, path);
-    if (!finished.wait(120'000))
-        qFatal("exportação não terminou");
+    // Pela condição: numa máquina ocupada (whisper, suítes pesadas) a exportação demora bem mais.
+    if (!finished.wait(600'000))
+        qFatal("exportação não terminou em 10 min");
     result.ok = finished.first().at(0).toBool();
     result.error = finished.first().at(1).toString();
     return result;
@@ -425,11 +426,14 @@ private slots:
         const QString path = test::tempPath(QStringLiteral("mp4"));
         Exporter exporter;
         QSignalSpy finished(&exporter, &Exporter::finished);
+        QSignalSpy progress(&exporter, &Exporter::progress);
         exporter.start(p, s, path);
         QVERIFY(exporter.isRunning());
-        QTest::qWait(300);
+        // Cancela no meio, já gravando (o primeiro progresso), qualquer que seja a velocidade da máquina.
+        QTRY_VERIFY_WITH_TIMEOUT(!progress.isEmpty() || !finished.isEmpty(), 120'000);
+        QVERIFY2(finished.isEmpty(), "terminou antes de cancelar");
         exporter.cancel();
-        QVERIFY(finished.wait(10'000));
+        QTRY_COMPARE_WITH_TIMEOUT(finished.count(), 1, 60'000);
         QCOMPARE(finished.first().at(0).toBool(), false);
         QCOMPARE(finished.first().at(1).toString(), QString());
         QVERIFY(!exporter.isRunning());
