@@ -76,6 +76,12 @@ Para o app:
 - O som sai pelo `QAudioSink` (Qt Multimedia) numa thread própria. Sem
   dispositivo de som, toca mudo. Só usa `QAudioSink`/`QMediaDevices`: o
   plugin de mídia FFmpeg do Qt não é necessário.
+- O som fica preso ao relógio do vídeo (`ClockedMixer`, em `AudioMix.h`): a
+  primeira leitura do dispositivo pula o tempo que ele levou para partir (no
+  Windows, perto de 1 s numa VM; no Mac, ~0,1 s), então o som sai no instante
+  que o vídeo mostra. O dispositivo e o formato são escolhidos uma vez (já no
+  `setProject` com som) e refeitos quando a saída padrão muda.
+  `OPENFRAME_AUDIO_LOG=1` mostra quanto foi pulado em cada play.
 
 ## Etapa 5: exportação e miniatura
 

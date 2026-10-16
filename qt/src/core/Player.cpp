@@ -17,18 +17,19 @@ namespace of {
 
 namespace {
 
-/// Entrega a mixagem ao QAudioSink (modo pull), em float ou 16 bits.
+/// Entrega a mixagem ao QAudioSink (modo pull), em float ou 16 bits, presa ao
+/// relógio do vídeo (veja o `ClockedMixer`).
 class MixDevice : public QIODevice
 {
 public:
-    MixDevice(QList<AudioClip> clips, Micros start, QAudioFormat::SampleFormat format)
-        : m_mixer(std::move(clips)), m_format(format)
+    MixDevice(QList<AudioClip> clips, Micros start, const QElapsedTimer &clock, QAudioFormat::SampleFormat format)
+        : m_mixer(std::move(clips), start, clock), m_format(format)
     {
-        m_mixer.seek(start);
     }
 
     bool isSequential() const override { return true; }
     qint64 bytesAvailable() const override { return (1 << 20) + QIODevice::bytesAvailable(); }
+    Micros skipped() const { return m_mixer.skipped(); }
 
 protected:
     qint64 readData(char *data, qint64 maxSize) override
@@ -37,6 +38,8 @@ protected:
         const int frames = int(maxSize / (bytes * AudioMix::channels));
         if (frames <= 0)
             return 0;
+        const bool first = !m_started;
+        m_started = true;
         if (m_format == QAudioFormat::Float) {
             m_mixer.read(reinterpret_cast<float *>(data), frames);
         } else {
@@ -46,46 +49,70 @@ protected:
             for (size_t i = 0; i < m_buffer.size(); ++i)
                 out[i] = qint16(std::lround(m_buffer[i] * 32767));
         }
+        if (first && qEnvironmentVariableIsSet("OPENFRAME_AUDIO_LOG"))
+            qInfo("[openframe] som: o 1º bloco saiu %.0f ms depois do play (pulados para alcançar o vídeo)",
+                  double(m_mixer.skipped()) / 1000);
         return qint64(frames) * bytes * AudioMix::channels;
     }
 
     qint64 writeData(const char *, qint64) override { return -1; }
 
 private:
-    AudioMixer m_mixer;
+    ClockedMixer m_mixer;
     QAudioFormat::SampleFormat m_format;
     std::vector<float> m_buffer;
+    bool m_started = false;
 };
 
-/// Saída de som; mora na thread de áudio (a decodificação acontece lá).
+/// Saída de som; mora na thread de áudio (a decodificação acontece lá). O
+/// dispositivo e o formato ficam guardados entre um play e outro (consultá-los
+/// é lento no Windows) e são refeitos quando a saída padrão do sistema muda.
 class AudioOutput : public QObject
 {
 public:
-    void start(const QList<AudioClip> &clips, Micros t)
+    /// Escolhe o dispositivo e o formato antes do primeiro play.
+    void prepare()
     {
-        stop();
-        if (clips.isEmpty())
+        if (!m_devices) {
+            m_devices = std::make_unique<QMediaDevices>();
+            QObject::connect(m_devices.get(), &QMediaDevices::audioOutputsChanged, this, [this] { m_resolved = false; });
+        }
+        if (m_resolved)
             return;
-        const QAudioDevice device = QMediaDevices::defaultAudioOutput();
-        if (device.isNull())
+        m_resolved = true;
+        m_device = QMediaDevices::defaultAudioOutput();
+        m_usable = false;
+        if (m_device.isNull())
             return;
-        QAudioFormat format;
-        format.setSampleRate(AudioMix::sampleRate);
-        format.setChannelCount(AudioMix::channels);
-        format.setSampleFormat(QAudioFormat::Float);
-        if (!device.isFormatSupported(format)) {
-            format.setSampleFormat(QAudioFormat::Int16);
-            if (!device.isFormatSupported(format)) {
+        m_format = QAudioFormat();
+        m_format.setSampleRate(AudioMix::sampleRate);
+        m_format.setChannelCount(AudioMix::channels);
+        m_format.setSampleFormat(QAudioFormat::Float);
+        if (!m_device.isFormatSupported(m_format)) {
+            m_format.setSampleFormat(QAudioFormat::Int16);
+            if (!m_device.isFormatSupported(m_format)) {
                 qWarning("OpenFrame: a saída de som não aceita 48 kHz estéreo; tocando mudo");
                 return;
             }
         }
-        m_device = std::make_unique<MixDevice>(clips, t, format.sampleFormat());
-        m_device->open(QIODevice::ReadOnly);
-        m_sink = std::make_unique<QAudioSink>(device, format);
+        m_usable = true;
+    }
+
+    /// Toca a partir de `t`, com o relógio do Player que começou em `t`.
+    void start(const QList<AudioClip> &clips, Micros t, const QElapsedTimer &clock)
+    {
+        stop();
+        if (clips.isEmpty())
+            return;
+        prepare();
+        if (!m_usable)
+            return;
+        m_mix = std::make_unique<MixDevice>(clips, t, clock, m_format.sampleFormat());
+        m_mix->open(QIODevice::ReadOnly);
+        m_sink = std::make_unique<QAudioSink>(m_device, m_format);
         // ~100 ms de buffer: folga para decodificar sem atrasar demais a resposta.
-        m_sink->setBufferSize(format.bytesForDuration(100'000));
-        m_sink->start(m_device.get());
+        m_sink->setBufferSize(m_format.bytesForDuration(100'000));
+        m_sink->start(m_mix.get());
     }
 
     void stop()
@@ -93,13 +120,18 @@ public:
         if (m_sink)
             m_sink->stop();
         m_sink.reset();
-        m_device.reset();
+        m_mix.reset();
     }
 
     ~AudioOutput() override { stop(); }
 
 private:
-    std::unique_ptr<MixDevice> m_device;
+    std::unique_ptr<QMediaDevices> m_devices;
+    QAudioDevice m_device;
+    QAudioFormat m_format;
+    bool m_resolved = false;
+    bool m_usable = false;
+    std::unique_ptr<MixDevice> m_mix;
     std::unique_ptr<QAudioSink> m_sink;
 };
 
@@ -227,17 +259,34 @@ struct Player::Impl {
         emit q->playingChanged(on);
     }
 
+    void ensureAudioThread()
+    {
+        if (audio)
+            return;
+        audio = new AudioOutput;
+        audio->moveToThread(&audioThread);
+        QObject::connect(&audioThread, &QThread::finished, audio, &QObject::deleteLater);
+        audioThread.start();
+    }
+
+    /// Prepara o dispositivo de som antes do primeiro play, para o som não
+    /// demorar a sair (o vídeo não espera por ele).
+    void prepareAudio()
+    {
+        if (!audioEnabled || clips.isEmpty() || audio)
+            return;
+        ensureAudioThread();
+        QMetaObject::invokeMethod(audio, [a = audio] { a->prepare(); }, Qt::QueuedConnection);
+    }
+
     void startAudio()
     {
         if (!audioEnabled || !playing)
             return;
-        if (!audio) {
-            audio = new AudioOutput;
-            audio->moveToThread(&audioThread);
-            QObject::connect(&audioThread, &QThread::finished, audio, &QObject::deleteLater);
-            audioThread.start();
-        }
-        QMetaObject::invokeMethod(audio, [a = audio, c = clips, t = time] { a->start(c, t); }, Qt::QueuedConnection);
+        ensureAudioThread();
+        // O relógio vai junto: o som alcança o vídeo quando começa a sair.
+        QMetaObject::invokeMethod(audio, [a = audio, c = clips, t = clockBase, k = clock] { a->start(c, t, k); },
+                                  Qt::QueuedConnection);
     }
 
     void stopAudio()
@@ -280,6 +329,7 @@ void Player::setProject(const Project &project)
     const QList<AudioClip> clips = AudioMix::clips(project);
     if (clips != d->clips) {
         d->clips = clips;
+        d->prepareAudio();
         if (d->playing) {
             d->time = d->now();
             d->restartClock();
