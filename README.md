@@ -114,6 +114,9 @@ Nos três sistemas, os projetos ficam na pasta de vídeos do usuário
 - Mover, reordenar, aparar pelas bordas, dividir (⌘B), duplicar (⌘D) e apagar (⌫), com ímã
 - Arrastar mídia da biblioteca direto para a timeline, e clipes entre faixas
 - Zoom da timeline com pinça, ⌘ + roda e "Ajustar à janela" (⇧Z); rolagem que acompanha a reprodução
+- Altura de cada faixa ajustável (arraste a borda de baixo do cabeçalho; duplo clique volta à padrão) ou de
+  todas de uma vez (Compacta, Normal, Alta, Muito alta); numa faixa alta, o vídeo mostra o som embaixo das
+  miniaturas e o texto aparece inteiro. A altura fica salva no projeto
 - Velocidade de 0,1× a 10×, com o tom do áudio preservado
 - Desfazer e refazer ilimitados (⌘Z / ⇧⌘Z)
 - Canvas 16:9, 9:16, 1:1, 4:3, 3:4, 21:9, 4:5 ou original, com fundo preto, colorido ou desfocado
@@ -158,6 +161,16 @@ fontes livres parecidas, embutidas no app (Inter, JetBrains Mono, Playfair Displ
 - Faixas de música, volume, fade de entrada e de saída, silenciar faixa
 - Forma de onda nos clipes e nas miniaturas da biblioteca
 - Crossfade automático nas transições da faixa principal
+- Extrair o áudio de um clipe de vídeo para uma faixa de áudio, na hora e sem perda (nada é regravado em
+  disco); o vídeo fica sem som e o áudio vira um clipe comum, para mover, aparar ou apagar
+- Gravar narração direto na timeline: escolha o microfone, veja o nível, conte 3 s e grave enquanto o vídeo
+  toca sem som a partir do cursor; a gravação entra na biblioteca de mídia e na faixa de áudio. O microfone
+  só é usado enquanto o painel de gravação está aberto, e nada sai do computador
+
+Na primeira gravação, o macOS pergunta se o OpenFrame pode usar o microfone; se a resposta foi não, ligue em
+**Ajustes do Sistema → Privacidade e Segurança → Microfone**. No Windows, o acesso fica em **Configurações →
+Privacidade e segurança → Microfone** ("Acesso ao microfone" e "Permitir que aplicativos da área de trabalho
+acessem o microfone").
 
 **Exportação**
 - Resolução: 480p, 720p, 1080p, 2K, 4K, 8K ou personalizada
@@ -270,6 +283,8 @@ Detalhes e comandos em [docs/GITFLOW.md](docs/GITFLOW.md).
 `OPENFRAME_SNAPSHOT_DIR=/tmp/snaps .build/debug/OpenFrame -open projeto.openframe`
 percorre as telas principais, salva capturas das janelas e um quadro do preview,
 e fecha o app. Serve para conferir a interface sem permissão de gravação de tela.
+Com `OPENFRAME_SNAPSHOT_SCENARIO=audio OPENFRAME_FAKE_RECORDING=1`, ele passa pelas alturas
+das faixas, por extrair o áudio e pela gravação com um microfone simulado.
 
 ### Marca
 
