@@ -7,21 +7,17 @@ import QtQuick.Templates as T
 Item {
     id: timeline
 
-    readonly property real rowHeight: 50
-    readonly property real rowSpacing: 6
+    // A geometria vertical (cada faixa com a sua altura) vem do Editor: rowTops, rowHeights, rowAt.
     readonly property real rulerHeight: 30
     readonly property real headerWidth: 58
     readonly property real clipInset: 4
-    readonly property real rowStride: rowHeight + rowSpacing
     readonly property real actionBarHeight: 30
     readonly property real reserve: actionBarHeight + 6
 
-    function rowTop(row) { return rulerHeight + rowSpacing + row * rowStride }
+    function rowTop(row) { return Editor.rowTops[row] ?? Editor.rowTop(row) }
+    function rowHeight(row) { return Editor.rowHeights[row] ?? 50 }
     /// Linha sob a posição `y` do conteúdo; -1 sobre a régua.
-    function rowAt(y) {
-        const row = Math.floor((y - rulerHeight - rowSpacing) / rowStride)
-        return row >= 0 ? row : -1
-    }
+    function rowAt(y) { return Editor.rowAt(y) }
 
     readonly property int mainRow: {
         for (let i = 0; i < Editor.tracks.count; ++i)
@@ -42,7 +38,7 @@ Item {
         height: parent.height - y
         clip: true
 
-        readonly property real contentHeight: 8 + timeline.rulerHeight + Editor.tracks.count * timeline.rowStride + timeline.reserve + 8
+        readonly property real contentHeight: 8 + Editor.rowsHeight + timeline.reserve + 8
         property real scrollY: 0
         readonly property real maxScrollY: Math.max(0, contentHeight - height)
         onMaxScrollYChanged: scrollY = Math.min(scrollY, maxScrollY)
@@ -81,6 +77,7 @@ Item {
                 TrackHeader {
                     required property int row
                     y: 8 - body.scrollY + timeline.rowTop(row)
+                    height: timeline.rowHeight(row)
                 }
             }
         }
@@ -129,7 +126,7 @@ Item {
                         readonly property bool highlighted: Editor.dragTargetRow === row || dropArea.previewRow === row
                         y: timeline.rowTop(row)
                         width: Editor.timelineContentWidth - 24
-                        height: timeline.rowHeight
+                        height: timeline.rowHeight(row)
                         radius: 12
                         color: Qt.rgba(1, 1, 1, highlighted ? 0.07 : isMain ? 0.035 : 0.018)
                         border.color: highlighted ? Theme.alpha(Theme.accent, 0.5) : "transparent"
@@ -168,15 +165,23 @@ Item {
                         required property string nextId
                         required property string help
                         readonly property real centerX: time * Editor.zoom
+                        readonly property real mainHeight: timeline.rowHeight(timeline.mainRow)
                         readonly property bool near: rowHover.hovered
-                            && Math.abs(rowHover.point.position.y - (timeline.rowTop(timeline.mainRow) + timeline.rowHeight / 2)) < timeline.rowHeight / 2
+                            && Math.abs(rowHover.point.position.y - (timeline.rowTop(timeline.mainRow) + mainHeight / 2)) < mainHeight / 2
                             && Math.abs(rowHover.point.position.x - centerX) < 40
                         readonly property bool shown: hasTransition || near || Editor.selection === uid || Editor.selection === nextId
-                        x: centerX - 10
-                        y: timeline.rowTop(timeline.mainRow) + timeline.rowHeight - timeline.clipInset - 24
+                        // Menor numa faixa baixa, para cobrir menos os nomes; abaixo do nome do clipe e,
+                        // numa faixa alta, no meio das miniaturas (acima da forma de onda do som).
+                        readonly property real size: mainHeight < 40 ? 16 : 20
+                        readonly property real wave: mainHeight >= 80 ? Math.max(20, Math.round((mainHeight - 2 * timeline.clipInset) * 0.28)) : 0
+                        x: centerX - size / 2
+                        y: timeline.rowTop(timeline.mainRow)
+                           + (mainHeight < 40 ? (mainHeight - size) / 2
+                              : mainHeight < 64 ? mainHeight - timeline.clipInset - size - 4
+                              : (mainHeight - wave - size) / 2)
                         z: 5
-                        width: 20
-                        height: 20
+                        width: size
+                        height: size
                         hoverEnabled: true
                         focusPolicy: Qt.NoFocus
                         opacity: shown ? 1 : 0
@@ -191,7 +196,7 @@ Item {
                             Icon {
                                 anchors.centerIn: parent
                                 name: junction.hasTransition ? "arrow-left-right" : "plus"
-                                size: 11
+                                size: junction.size < 20 ? 9 : 11
                                 color: junction.hasTransition ? Theme.textOnAccent : Theme.textPrimary
                             }
                         }
@@ -217,7 +222,7 @@ Item {
                     x: dropArea.previewStart * Editor.zoom
                     y: timeline.rowTop(Math.max(0, dropArea.previewRow)) + timeline.clipInset
                     width: Math.max(4, dropArea.previewDuration * Editor.zoom)
-                    height: timeline.rowHeight - timeline.clipInset * 2
+                    height: timeline.rowHeight(Math.max(0, dropArea.previewRow)) - timeline.clipInset * 2
                     radius: 9
                     lineWidth: 1.5
                     dash: 5

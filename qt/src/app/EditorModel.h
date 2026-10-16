@@ -9,6 +9,7 @@
 
 #include <QDateTime>
 #include <QElapsedTimer>
+#include <QHash>
 #include <QObject>
 #include <QTimer>
 #include <QVariantList>
@@ -129,6 +130,15 @@ class EditorModel : public QObject
     /// Os clipes deslizam até o novo lugar (reordenação e ao soltar).
     Q_PROPERTY(bool slideAnimation READ slideAnimation NOTIFY slideAnimationChanged)
     Q_PROPERTY(QString draggingMaterial READ draggingMaterial WRITE setDraggingMaterial NOTIFY dragChanged)
+    // Altura das faixas (EditorRows.cpp), na ordem de exibição. `rowTops` tem uma entrada a mais: o fim
+    // da última faixa (com o espaço depois dela). Posições do conteúdo da timeline (topo da régua = 0).
+    Q_PROPERTY(QVariantList rowTops READ rowTops NOTIFY rowLayoutChanged)
+    Q_PROPERTY(QVariantList rowHeights READ rowHeights NOTIFY rowLayoutChanged)
+    /// Altura da régua com todas as faixas.
+    Q_PROPERTY(qreal rowsHeight READ rowsHeight NOTIFY rowLayoutChanged)
+    /// Altura comum a todas as faixas (0 se forem diferentes), para marcar o menu.
+    Q_PROPERTY(qreal commonRowHeight READ commonRowHeight NOTIFY rowLayoutChanged)
+    Q_PROPERTY(QVariantList rowHeightPresets READ rowHeightPresets CONSTANT)
 
     // Exportação
     Q_PROPERTY(QVariantMap exportSettings READ exportSettings NOTIFY exportSettingsChanged)
@@ -262,6 +272,30 @@ public:
     Q_INVOKABLE QVariantMap dropPreview(const QString &materialId, qreal time, int row) const;
     /// Linha exibida sem clipes entre `from` e `to` (s). Abaixo da última há espaço livre; acima da primeira, a régua.
     Q_INVOKABLE bool isRowFree(int row, qreal from, qreal to) const;
+
+    // Altura das faixas (EditorRows.cpp)
+    static constexpr qreal rulerHeight = 30;
+    static constexpr qreal rowSpacing = 6;
+    static constexpr qreal defaultRowHeight = 50;
+    static constexpr qreal minRowHeight = 32;
+    static constexpr qreal maxRowHeight = 200;
+    qreal rowHeightOf(const Track &track) const;
+    QVariantList rowTops() const;
+    QVariantList rowHeights() const;
+    qreal rowsHeight() const;
+    qreal commonRowHeight() const;
+    QVariantList rowHeightPresets() const;
+    /// Topo da linha `row` (`row` = número de faixas dá o fim da última).
+    Q_INVOKABLE qreal rowTop(int row) const;
+    /// Linha sob a posição `y` (cada linha vai do topo dela ao da seguinte); -1 sobre a régua.
+    /// Abaixo da última faixa, devolve índices além dela.
+    Q_INVOKABLE int rowAt(qreal y) const;
+    /// Altura de uma faixa ao vivo, durante o arraste da borda (0 = a padrão).
+    Q_INVOKABLE void resizeRow(const QString &trackId, qreal height);
+    /// Fim do arraste da borda.
+    Q_INVOKABLE void endRowResize();
+    /// Mesma altura para todas as faixas (0 = a padrão).
+    Q_INVOKABLE void setAllRowHeights(qreal height);
     Q_INVOKABLE void dropMaterial(const QString &materialId, qreal time, int row);
 
     // Edição
@@ -436,6 +470,7 @@ signals:
     /// Gesto, guias e etiquetas do overlay do preview.
     void canvasOverlayChanged();
     void captionStateChanged();
+    void rowLayoutChanged();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -499,6 +534,12 @@ private:
     qreal m_scrollX = 0;
     qreal m_viewportWidth = 0;
     std::optional<DragTarget> m_dragTarget;
+    /// Altura de cada faixa (ausente = a padrão). Provisório: fica só na interface até o núcleo
+    /// gravar a altura no projeto.
+    QHash<QUuid, qreal> m_rowHeights;
+    /// Alturas na ordem de exibição, para avisar só quando a geometria muda.
+    QList<qreal> m_rowLayout;
+    void updateRowLayout();
     std::optional<DragPreview> m_dragPreview;
     bool m_slideAnimation = false;
     QTimer m_slideTimer;

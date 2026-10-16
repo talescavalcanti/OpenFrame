@@ -315,6 +315,8 @@ void Snapshot::mediaScenario(const QString &mediaDir)
         soundScenario();
     else if (scenario == "pacote")
         packageScenario();
+    else if (scenario == "audio")
+        audioScenario();
     else
         editorScenario();
 }
@@ -1237,6 +1239,145 @@ void Snapshot::captionsScenario()
                 }
         log(QStringLiteral("legendas: aplicar a todas, fontSize 0,09 em %1 de %2").arg(same).arg(total));
     });
+}
+
+/// Linhas da timeline com o topo e a altura de cada uma, no log.
+void Snapshot::describeRows(const QString &step)
+{
+    const Project &p = m_model->project();
+    const QList<int> order = m_model->displayTrackOrder();
+    QStringList items;
+    for (int row = 0; row < order.size(); ++row) {
+        const Track &t = p.tracks[order[row]];
+        items << QStringLiteral("%1%2 topo %3 altura %4")
+                     .arg(t.kind == TrackKind::Text ? "text" : t.kind == TrackKind::Audio ? "audio" : "video",
+                          t.isMain ? "*" : "")
+                     .arg(m_model->rowTop(row))
+                     .arg(m_model->rowHeightOf(t));
+    }
+    log(QStringLiteral("alturas %1: %2; conteúdo %3 pt; menu marca %4")
+            .arg(step, items.join("; "))
+            .arg(m_model->rowsHeight())
+            .arg(m_model->commonRowHeight()));
+}
+
+/// Áudio na timeline: faixas em alturas diferentes (todas compactas, normais e muito altas; misturadas),
+/// com miniaturas, forma de onda e texto acompanhando a altura; os limites da borda e o arraste de um
+/// clipe achando a linha pela geometria com alturas diferentes.
+void Snapshot::audioScenario()
+{
+    const auto trackOf = [this](auto pick) -> QString {
+        for (const auto &t : m_model->project().tracks)
+            if (pick(t))
+                return idString(t.id);
+        return {};
+    };
+    // Timeline maximizada durante o cenário (a altura de antes volta no fim).
+    const auto toggleTimeline = [this] {
+        if (QQuickItem *editor = findItem("editor"))
+            QMetaObject::invokeMethod(editor, "toggleMaximized");
+    };
+    then(0, toggleTimeline);
+    then(0, [this] {
+        // Uma sobreposição (vídeo sobre vídeo), para arrastar entre faixas.
+        const Project &p = m_model->project();
+        for (const auto &m : p.materials)
+            if (m.kind == MaterialKind::Video) {
+                m_model->seekMicros(2'000'000);
+                m_model->addAsOverlay(idString(m.id));
+                break;
+            }
+        m_model->setSelection({});
+        m_model->zoomToFit();
+        m_model->seek(1.5);
+    });
+    then(1500, [this] {
+        describeRows("padrão");
+        capture("audio-1-normal");
+        m_model->setAllRowHeights(36);
+    });
+    then(1000, [this] {
+        describeRows("compacta");
+        capture("audio-2-compacta");
+        m_model->setAllRowHeights(140);
+    });
+    then(1000, [this] {
+        describeRows("muito alta");
+        capture("audio-3-muito-alta");
+        // Misturadas: a principal muito alta (miniaturas com o som embaixo), o texto alto, o áudio
+        // compacto e a sobreposição normal; com o vídeo principal selecionado.
+        m_model->setAllRowHeights(0);
+        for (const auto &t : m_model->project().tracks) {
+            const qreal height = t.isMain ? 140 : t.kind == TrackKind::Text ? 90 : t.kind == TrackKind::Audio ? 36 : 0;
+            m_model->resizeRow(idString(t.id), height);
+        }
+        m_model->endRowResize();
+        m_model->setSelection(firstMainSegment(m_model->project()));
+    });
+    then(1200, [this] {
+        describeRows("misturadas");
+        capture("audio-4-misturadas");
+    });
+    then(0, [this, trackOf] {
+        // Áudio alto: a forma de onda ocupa o clipe abaixo do nome.
+        m_model->resizeRow(trackOf([](const Track &t) { return t.kind == TrackKind::Audio; }), 120);
+        m_model->setSelection(firstOfKind(m_model->project(), TrackKind::Audio));
+    });
+    then(1000, [this, trackOf] {
+        capture("audio-5-audio-alto");
+        // Borda da faixa: limites e duplo clique.
+        const QString text = trackOf([](const Track &t) { return t.kind == TrackKind::Text; });
+        const auto height = [this, text] {
+            for (const auto &t : m_model->project().tracks)
+                if (idString(t.id) == text)
+                    return m_model->rowHeightOf(t);
+            return qreal(-1);
+        };
+        m_model->resizeRow(text, 10);
+        log(QStringLiteral("borda: pedir 10 → %1").arg(height()));
+        m_model->resizeRow(text, 500);
+        log(QStringLiteral("borda: pedir 500 → %1").arg(height()));
+        m_model->resizeRow(text, 0);
+        log(QStringLiteral("borda: duplo clique → %1 (padrão)").arg(height()));
+        if (height() != EditorModel::defaultRowHeight)
+            return fail("a borda não voltou à altura padrão");
+        m_model->resizeRow(text, 90);
+    });
+    // Arraste da sobreposição: para o meio e para o fim da principal (muito alta), e sobre a régua.
+    const QList<std::pair<QString, int>> targets{{"meio da principal", 0}, {"fim da principal", 1}, {"sobre a régua", 2}};
+    auto tracksBefore = std::make_shared<QList<Track>>();
+    for (const auto &[name, which] : targets) {
+        then(0, [this, name, which, tracksBefore] {
+            *tracksBefore = m_model->project().tracks;
+            const Project &p = m_model->project();
+            const QList<int> order = m_model->displayTrackOrder();
+            int row = -1;
+            for (int i = 0; i < order.size(); ++i)
+                if (p.tracks[order[i]].kind == TrackKind::Video && !p.tracks[order[i]].isMain)
+                    row = i;
+            if (row < 0 || p.tracks[order[row]].segments.isEmpty())
+                return fail("sem sobreposição para arrastar");
+            const qreal y = which == 0 ? m_model->rowTop(row + 1) + 70 : which == 1 ? m_model->rowTop(row + 2) - 1 : 10;
+            const int rows = m_model->rowAt(y) - row;
+            m_model->dragMove(idString(p.tracks[order[row]].segments.first().id), 0, rows);
+            log(QStringLiteral("arraste para %1 (y %2): linhas %3, destino %4")
+                    .arg(name).arg(y).arg(rows).arg(m_model->dragTargetRow()));
+            const int expected = which == 2 ? -1 : row + 1;
+            if (m_model->dragTargetRow() != expected)
+                return fail(QStringLiteral("destino %1, esperado %2").arg(m_model->dragTargetRow()).arg(expected));
+        });
+        then(600, [this, which, tracksBefore] {
+            if (which == 0)
+                capture("audio-6-arraste-alturas");
+            const QString dragged = m_model->dragSegment();
+            if (!dragged.isEmpty())
+                m_model->endDragMove(dragged);
+            if (m_model->project().tracks != *tracksBefore)
+                m_model->undo();
+        });
+        then(300, [] {});
+    }
+    then(0, toggleTimeline);
 }
 
 } // namespace of
