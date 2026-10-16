@@ -1,6 +1,6 @@
 ; Instalador do OpenFrame para Windows (Inno Setup 6).
 ; Compilado pela CI (.github/scripts/pacote-windows.sh):
-;   iscc /DAppVersion=0.5.0 /DPayloadDir=<pasta do app> /DOutputDir=<saída> OpenFrame.iss
+;   iscc /DAppVersion=0.6.0 /DPayloadDir=<pasta do app> /DOutputDir=<saída> OpenFrame.iss
 ; <pasta do app> é a saída do windeployqt, com o FFmpeg e as licenças.
 
 #ifndef AppVersion
