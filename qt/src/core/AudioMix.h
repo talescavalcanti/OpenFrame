@@ -87,6 +87,12 @@ private:
 /// Aqui os decodificadores abrem na construção (antes de o dispositivo pedir o
 /// primeiro bloco) e a primeira leitura pula para `base + tempo decorrido no
 /// relógio`: o primeiro som que sai já é o do instante que o vídeo mostra.
+///
+/// Depois, o dispositivo lê adiantado (o buffer dele), então a posição fica à
+/// frente do relógio. Se ela ficar para trás mais que `maxLag` (faltou som: a
+/// máquina engasgou mais que o buffer, um decodificador demorou a abrir no meio
+/// da reprodução), a leitura pula de novo para o relógio, em vez de deixar o som
+/// atrasado até o próximo play.
 class ClockedMixer
 {
 public:
@@ -94,9 +100,14 @@ public:
     /// pode ser lido de outra thread); `base` é a posição da timeline na partida dele.
     ClockedMixer(QList<AudioClip> clips, Micros base, const QElapsedTimer &clock);
 
+    /// Atraso do som em relação ao relógio a partir do qual a leitura pula para alcançá-lo.
+    static constexpr Micros maxLag = 60'000;
+
     void read(float *out, int frames);
     /// Quanto a primeira leitura pulou para alcançar o relógio (0 antes dela).
     Micros skipped() const { return m_skipped; }
+    /// Quantas vezes, depois da primeira leitura, o som ficou para trás e pulou para o relógio.
+    int resyncs() const { return m_resyncs; }
     qint64 position() const { return m_mixer.position(); }
 
 private:
@@ -105,6 +116,7 @@ private:
     QElapsedTimer m_clock;
     bool m_aligned = false;
     Micros m_skipped = 0;
+    int m_resyncs = 0;
 };
 
 } // namespace of

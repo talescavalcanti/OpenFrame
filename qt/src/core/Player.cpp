@@ -49,9 +49,15 @@ protected:
             for (size_t i = 0; i < m_buffer.size(); ++i)
                 out[i] = qint16(std::lround(m_buffer[i] * 32767));
         }
-        if (first && qEnvironmentVariableIsSet("OPENFRAME_AUDIO_LOG"))
-            qInfo("[openframe] som: o 1º bloco saiu %.0f ms depois do play (pulados para alcançar o vídeo)",
-                  double(m_mixer.skipped()) / 1000);
+        if (qEnvironmentVariableIsSet("OPENFRAME_AUDIO_LOG")) {
+            if (first)
+                qInfo("[openframe] som: o 1º bloco saiu %.0f ms depois do play (pulados para alcançar o vídeo)",
+                      double(m_mixer.skipped()) / 1000);
+            if (m_mixer.resyncs() != m_resyncs) {
+                m_resyncs = m_mixer.resyncs();
+                qInfo("[openframe] som: faltou som e ele ficou para trás; pulou para o vídeo (%d vez(es))", m_resyncs);
+            }
+        }
         return qint64(frames) * bytes * AudioMix::channels;
     }
 
@@ -62,6 +68,7 @@ private:
     QAudioFormat::SampleFormat m_format;
     std::vector<float> m_buffer;
     bool m_started = false;
+    int m_resyncs = 0;
 };
 
 /// Saída de som; mora na thread de áudio (a decodificação acontece lá). O
