@@ -141,6 +141,31 @@ public struct ProjectLibrary: Sendable {
     }
 
     /// "Projeto N", com N um a mais que o maior já usado.
+    /// Pasta das gravações de áudio: a do projeto `id` da biblioteca (`<pasta do projeto>/Gravações`) ou, num
+    /// projeto aberto fora dela (nil), `Gravações` ao lado da pasta dos projetos (`Filmes/OpenFrame/Gravações`).
+    public func recordingsFolder(for id: UUID?) -> URL {
+        let base = id.map { folder(for: $0) } ?? root.deletingLastPathComponent()
+        return base.appendingPathComponent(Self.recordingsFolderName, isDirectory: true)
+    }
+
+    public static let recordingsFolderName = "Gravações"
+
+    /// Arquivo da próxima gravação na pasta: "Gravação N.m4a", com N depois do maior que já existe.
+    public static func nextRecordingURL(in folder: URL) -> URL {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? []
+        let numbers = names.compactMap { name -> Int? in
+            let base = (name as NSString).deletingPathExtension
+            guard base.hasPrefix("Gravação ") else { return nil }
+            return Int(base.dropFirst("Gravação ".count))
+        }
+        return folder.appendingPathComponent("Gravação \((numbers.max() ?? 0) + 1).m4a")
+    }
+
+    /// Onde gravar o próximo áudio do projeto `id` (nil = projeto fora da biblioteca).
+    public func recordingURL(for id: UUID?) -> URL {
+        Self.nextRecordingURL(in: recordingsFolder(for: id))
+    }
+
     public func nextName() -> String {
         let numbers = list().compactMap { entry -> Int? in
             guard entry.name.hasPrefix("Projeto ") else { return nil }

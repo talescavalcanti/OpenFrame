@@ -360,3 +360,33 @@ Contrato em `~/Desktop/opencut-wt/ESPEC-audio-timeline.md`; nomes iguais aos do 
 - **JSON:** `"audioDetached": true` só quando ligado; `"height"` só quando há altura. Ausente ou `null` = padrão. Os
   fixtures antigos não mudam; o novo `fixtures/audio.openframe` (do `scripts/make-fixture.sh`) tem um clipe extraído
   com transição e velocidade, uma gravação e as alturas 90/36/padrão.
+
+## Áudio na timeline, etapa 2: gravador
+
+| Cabeçalho | O que tem |
+|---|---|
+| `AudioRecorder.h` | `AudioRecorder` (QObject): `inputs() -> QList<AudioInput{id, name}>`, `defaultInput() -> optional<QString>`, `requestPermission(context, done(bool))`, `start(optional<QString> input, path) -> bool`, `stop()`, `cancel()`, `isRecording()`, `peaks()`, `duration()`; sinais `levelChanged(float)` (~30/s), `peaksChanged()`, `finished(bool ok, Micros duration, QString error)`. `RecordingWriter` (a parte sem microfone: `create(path, inputSampleRate)`, `append(mono, frames)`, `takeLevel`, `peaks`, `duration`, `finish`, `cancel`) |
+| `ProjectLibrary.h` | `recordingsFolder(optional<QUuid>)`, `recordingPath(optional<QUuid>)`, `nextRecordingPath(folder)`: "Gravação N.m4a" em `<pasta do projeto>/Gravações/` ou, para um projeto aberto fora da biblioteca (vazio), em `Gravações/` ao lado da pasta dos projetos (`Vídeos/OpenFrame/Gravações`) |
+
+- **Arquivo:** M4A, AAC 128 kb/s, 48 kHz, mono, pelo `MediaWriter`; o microfone em outra taxa é reamostrado
+  (swresample) e os canais viram mono pela média. Microfone pelo `QAudioSource` (formato preferido do dispositivo,
+  qualquer tipo de amostra), numa thread própria com meio segundo de folga. Não usa o `QMediaRecorder`.
+- **Picos ao vivo:** 50 por segundo, no nível real (0…1, **sem normalizar**, ao contrário do `Waveform`, que divide
+  pelo maior pico do arquivo); para a forma de onda do clipe vermelho que cresce. `peaks()`/`duration()` continuam
+  válidos depois do `stop` (até o próximo `start`).
+- **Fim:** `stop()` → `finished(true, duração, "")`; `cancel()` → `finished(false, 0, "")` e o arquivo apagado;
+  erro no `start` → `start` devolve falso e `finished(false, 0, mensagem)` chega logo depois (assíncrono). Se o
+  microfone parar sozinho durante a gravação (desconectado), `finished(true, duração, mensagem)`: o que foi gravado
+  fica no arquivo e a mensagem diz o que houve. Depois, `TimelineEditor::addRecording` com o material do
+  `MediaProbe::probe(path)`.
+- **Permissão:** `QMicrophonePermission` onde existir (no Mac, o app precisa do `NSMicrophoneUsageDescription` no
+  Info.plist; sem ele, o Qt nega). No Windows e no Linux o Qt sempre concede: o acesso desligado na privacidade do
+  Windows aparece como falha ao abrir, com a mensagem de onde ligar (Configurações → Privacidade e segurança →
+  Microfone). Não verificado aqui: se o Windows com o acesso desligado falha ao abrir ou entrega silêncio.
+- **Mensagens** (prontas para mostrar): "O OpenFrame não tem permissão para usar o microfone. …", "Nenhum microfone
+  encontrado.", "Não foi possível abrir o microfone. …", "Não foi possível gravar: …".
+- `OPENFRAME_FAKE_RECORDING` (capturas sem microfone): `1` grava uma "voz" sintética em tempo real (um microfone
+  "fake", "Microfone de teste"); `sem-permissao` e `sem-microfone` simulam os erros (inclusive no
+  `requestPermission`, `inputs` e `defaultInput`). Lido a cada chamada.
+- Testes: `RecorderTests` (seno de 1 s a 48 e 44,1 kHz → M4A de 1 s mono 48 kHz AAC que o `MediaProbe` e o `Waveform`
+  leem; cancelar apaga; nomes; gravação simulada). O microfone de verdade só com `OPENFRAME_TEST_MIC=1`.

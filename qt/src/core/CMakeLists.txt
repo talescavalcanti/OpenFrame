@@ -37,6 +37,7 @@ add_library(openframe_core STATIC
     AnimationPreview.h AnimationPreview.cpp
     Renderer.h Renderer.cpp
     AudioMix.h AudioMix.cpp
+    AudioRecorder.h AudioRecorder.cpp
     Player.h Player.cpp
     Exporter.h Exporter.cpp
 )
