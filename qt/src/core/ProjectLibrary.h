@@ -75,6 +75,15 @@ public:
     /// "Projeto N", com N um a mais que o maior já usado.
     QString nextName() const;
 
+    /// Pasta das gravações de áudio: a do projeto `id` da biblioteca (`<pasta do projeto>/Gravações`) ou, num
+    /// projeto aberto fora dela (vazio), `Gravações` ao lado da pasta dos projetos (`Vídeos/OpenFrame/Gravações`).
+    QString recordingsFolder(const std::optional<QUuid> &id) const;
+    /// Onde gravar o próximo áudio do projeto `id` (vazio = projeto fora da biblioteca).
+    QString recordingPath(const std::optional<QUuid> &id) const;
+    /// Arquivo da próxima gravação na pasta: "Gravação N.m4a", com N depois do maior que já existe.
+    static QString nextRecordingPath(const QString &folder);
+    static inline const QString recordingsFolderName = QStringLiteral("Gravações");
+
 private:
     QString copyName(const QString &name) const;
 

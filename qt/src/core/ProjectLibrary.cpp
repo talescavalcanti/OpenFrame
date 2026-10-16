@@ -231,6 +231,31 @@ QString ProjectLibrary::nextName() const
     return prefix + QString::number(highest.value_or(0) + 1);
 }
 
+QString ProjectLibrary::recordingsFolder(const std::optional<QUuid> &id) const
+{
+    const QString base = id ? folder(*id) : QFileInfo(m_root).absolutePath();
+    return QDir(base).filePath(recordingsFolderName);
+}
+
+QString ProjectLibrary::recordingPath(const std::optional<QUuid> &id) const
+{
+    return nextRecordingPath(recordingsFolder(id));
+}
+
+QString ProjectLibrary::nextRecordingPath(const QString &folder)
+{
+    const QString prefix = QStringLiteral("Gravação ");
+    std::optional<int> highest;
+    for (const QFileInfo &f : QDir(folder).entryInfoList(QDir::Files)) {
+        // Os nomes vindos do sistema de arquivos podem estar decompostos (o "ç" do macOS).
+        const QString base = f.completeBaseName().normalized(QString::NormalizationForm_C);
+        if (base.startsWith(prefix))
+            if (const auto n = strictInt(QStringView(base).mid(prefix.size())))
+                highest = std::max(highest.value_or(*n), *n);
+    }
+    return QDir(folder).filePath(prefix + QString::number(highest.value_or(0) + 1) + QStringLiteral(".m4a"));
+}
+
 QString ProjectLibrary::copyName(const QString &name) const
 {
     QSet<QString> taken;
