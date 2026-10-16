@@ -44,7 +44,8 @@ StreamInfo audioStream(const QString &path)
 {
     AVFormatContext *raw = nullptr;
     StreamInfo info;
-    if (avformat_open_input(&raw, QFile::encodeName(path).constData(), nullptr, nullptr) < 0)
+    // O FFmpeg espera UTF-8 em todos os sistemas (no Windows, o encodeName daria a página ANSI)
+    if (avformat_open_input(&raw, path.toUtf8().constData(), nullptr, nullptr) < 0)
         return info;
     if (avformat_find_stream_info(raw, nullptr) >= 0) {
         const int i = av_find_best_stream(raw, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
@@ -203,7 +204,11 @@ private slots:
         QVERIFY(!*granted);
         QVERIFY(!recorder.start(std::nullopt, other));
         QVERIFY(finished.wait(5000));
+#if defined(Q_OS_WIN)
+        QVERIFY(finished.last().at(2).toString().contains(QStringLiteral("não deixou o OpenFrame usar o microfone")));
+#else
         QVERIFY(finished.last().at(2).toString().contains(QStringLiteral("permissão")));
+#endif
         qputenv("OPENFRAME_FAKE_RECORDING", "sem-microfone");
         QVERIFY(AudioRecorder::inputs().isEmpty());
         QCOMPARE(AudioRecorder::defaultInput(), std::nullopt);
