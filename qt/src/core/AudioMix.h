@@ -35,8 +35,10 @@ constexpr int sampleRate = 48000;
 constexpr int channels = 2;
 
 /// Os trechos que soam no projeto, como no Swift:
-/// - vídeos (com áudio) das faixas de vídeo não mudas, com volume > 0;
-/// - áudios das faixas de áudio não mudas, com volume > 0;
+/// - vídeos (com áudio) das faixas de vídeo não mudas, com volume > 0 e sem o
+///   som extraído (`audioDetached`);
+/// - áudios (inclusive o áudio extraído, que aponta para o arquivo do vídeo) e
+///   vídeos com som das faixas de áudio não mudas, com volume > 0;
 /// - nas transições da faixa principal, a sobreposição vira fade extra
 ///   (o som cruza junto com a imagem).
 QList<AudioClip> clips(const Project &project);

@@ -3,7 +3,7 @@ import Foundation
 // Gera um projeto que usa todos os campos do formato .openframe. A versão
 // multiplataforma (qt/) lê este arquivo nos testes e precisa gravá-lo de volta
 // com o mesmo conteúdo: é o que garante que os dois apps abrem os mesmos projetos.
-// Uso: scripts/make-fixture.sh  (grava qt/tests/fixtures/completo.openframe)
+// Uso: scripts/make-fixture.sh  (grava qt/tests/fixtures/completo.openframe e os outros ao lado)
 
 func uuid(_ n: Int) -> UUID { UUID(uuidString: String(format: "00000000-0000-4000-8000-%012d", n))! }
 
@@ -220,6 +220,49 @@ do {
     manual.segments = [seg]
     q.tracks.append(manual)
     try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("legendas.openframe"))
+}
+
+// Áudio na timeline: um clipe com o som extraído (material de áudio no mesmo arquivo do vídeo), uma gravação e
+// faixas com altura própria (e uma na padrão, sem a chave).
+do {
+    var q = Project()
+    q.name = "Áudio"
+    q.tracks[0].id = uuid(1)
+    var take = Material(kind: .audio, path: "/media/Gravações/Gravação 1.m4a", name: "Gravação 1.m4a",
+                        duration: 2_500_000, width: 0, height: 0, hasAudio: true)
+    take.id = uuid(1001)
+    let first = TimelineEditor.addMedia(video, to: &q)
+    TimelineEditor.addMedia(video, to: &q)
+    TimelineEditor.update(&q, segment: first) {
+        $0.speed = 1.5
+        $0.volume = 0.8
+        $0.fadeIn = 200_000
+        $0.transition = Transition(kind: .dissolve, duration: 400_000)
+    }
+    TimelineEditor.extractAudio(&q, segment: first)
+    TimelineEditor.addRecording(take, to: &q, at: 1_000_000)
+    TimelineEditor.setAllTrackHeights(&q, height: 90)
+    TimelineEditor.setTrackHeight(&q, track: q.tracks[1].id, height: 36)
+    TimelineEditor.setTrackHeight(&q, track: q.tracks[2].id, height: nil)
+    // Ids fixos: o arquivo não muda a cada geração.
+    if let k = q.materials.firstIndex(where: { $0.kind == .audio && $0.path == video.path }) {
+        let old = q.materials[k].id
+        q.materials[k].id = uuid(1000)
+        for t in q.tracks.indices {
+            for s in q.tracks[t].segments.indices where q.tracks[t].segments[s].materialId == old {
+                q.tracks[t].segments[s].materialId = uuid(1000)
+            }
+        }
+    }
+    var id = 1100
+    for t in q.tracks.indices {
+        if t > 0 { q.tracks[t].id = uuid(id); id += 1 }
+        for k in q.tracks[t].segments.indices {
+            q.tracks[t].segments[k].id = uuid(id)
+            id += 1
+        }
+    }
+    try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("audio.openframe"))
 }
 
 print("ok: \(out.path)")

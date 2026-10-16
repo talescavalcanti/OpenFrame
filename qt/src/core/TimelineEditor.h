@@ -41,6 +41,29 @@ QUuid insertMedia(const Material &m, Project &p, Micros time, std::optional<int>
 
 QUuid addText(const TextContent &content, Project &p, Micros time, Micros duration = defaultTextDuration);
 
+// Áudio
+
+/// Se o segmento é um vídeo com som que ainda não foi extraído.
+bool canExtractAudio(const Project &p, const QUuid &id);
+
+/// Extrai o som do clipe para uma faixa de áudio, sem gravar nada em disco: um material de áudio que aponta
+/// para o mesmo arquivo ("Áudio de <nome>", reaproveitado se outro trecho do mesmo vídeo já foi extraído) e um
+/// segmento no mesmo trecho, com a velocidade, o volume e os fades do clipe, na primeira faixa de áudio livre no
+/// trecho (ou numa nova). O cruzamento de uma transição da faixa principal vira fade no segmento novo, para o som
+/// não mudar. O clipe fica com `audioDetached` (não soa mais). Devolve o id do segmento de áudio novo.
+std::optional<QUuid> extractAudio(Project &p, const QUuid &id);
+
+/// Põe uma gravação (o material entra no projeto se ainda não estiver) na timeline a partir de `time`, numa
+/// faixa de áudio livre no trecho (ou numa nova). Devolve o id do segmento.
+QUuid addRecording(const Material &m, Project &p, Micros time);
+
+// Faixas
+
+/// Muda a altura de uma faixa (limitada a `Track::heightMin...heightMax`; vazio volta à padrão).
+void setTrackHeight(Project &p, const QUuid &track, std::optional<double> height);
+/// Muda a altura de todas as faixas de uma vez (o controle global da barra da timeline).
+void setAllTrackHeights(Project &p, std::optional<double> height);
+
 /// Primeira faixa não principal do tipo sem nada no intervalo (ignorando `excluding`).
 std::optional<int> freeTrack(TrackKind kind, TimeRange range, const Project &p, std::optional<QUuid> excluding);
 

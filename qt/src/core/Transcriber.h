@@ -67,7 +67,7 @@ public:
     /// `CaptionBuilder::apply` ao substituir). Vazio (com `NoAudio`) se não houver o que transcrever.
     static std::optional<TimeRange> sourceRange(const Project &project, const TranscriptionSource &source);
     /// Projeto que a mistura ouve: o inteiro, ou só o segmento escolhido (na faixa dele, audível mesmo se a
-    /// faixa estiver muda ou o volume em zero).
+    /// faixa estiver muda, o volume em zero ou o som extraído).
     static Project mixProject(const Project &project, const TranscriptionSource &source);
 
     struct Language {

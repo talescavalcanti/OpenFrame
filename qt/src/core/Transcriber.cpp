@@ -59,6 +59,7 @@ Project Transcriber::mixProject(const Project &project, const TranscriptionSourc
     Segment &seg = p.tracks[loc->track].segments[0];
     if (seg.volume <= 0)
         seg.volume = 1;
+    seg.audioDetached = false;
     return p;
 }
 

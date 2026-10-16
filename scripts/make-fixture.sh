@@ -1,8 +1,8 @@
 #!/bin/bash
 # Gera os projetos de referência que a versão multiplataforma (qt/) usa nos testes
 # de compatibilidade do formato .openframe: completo, fundo-preto, fundo-desfoque,
-# motion (todas as animações e loops) e legendas (palavras, destaque, palavra-chave e
-# faixa automática).
+# motion (todas as animações e loops), legendas (palavras, destaque, palavra-chave e
+# faixa automática) e audio (som extraído, gravação e altura das faixas).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 BUILD=.build/fixture

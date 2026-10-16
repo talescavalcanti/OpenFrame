@@ -112,7 +112,7 @@ public enum Transcriber {
     }
 
     /// Projeto que a mistura ouve: o inteiro, ou só o segmento escolhido (na faixa dele, audível
-    /// mesmo se a faixa estiver muda ou o volume em zero, porque o usuário pediu esse clipe).
+    /// mesmo se a faixa estiver muda, o volume em zero ou o som extraído, porque o usuário pediu esse clipe).
     static func mixProject(_ project: Project, source: TranscriptionSource) -> Project {
         guard case .segment(let id) = source, let loc = project.locate(id) else { return project }
         var p = project
@@ -121,6 +121,7 @@ public enum Transcriber {
         }
         p.tracks[loc.track].muted = false
         if p.tracks[loc.track].segments[0].volume <= 0 { p.tracks[loc.track].segments[0].volume = 1 }
+        p.tracks[loc.track].segments[0].audioDetached = false
         return p
     }
 
