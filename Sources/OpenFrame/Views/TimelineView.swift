@@ -17,7 +17,12 @@ struct TimelineView: View {
             GeometryReader { geo in
                 let order = model.displayTrackOrder()
                 let tracks = order.map { model.project.tracks[$0] }
-                let layout = model.timelineLayout(tracks)
+                // Gravando numa faixa nova: uma linha a mais embaixo, para o clipe que cresce.
+                let recordingRow = model.recording.phase == .recording || model.recording.phase == .finishing
+                    ? model.recordingRow(tracks) : nil
+                let layout = recordingRow == tracks.count
+                    ? TimelineLayout(heights: tracks.map(model.rowHeight) + [TimelineLayout.defaultRowHeight])
+                    : model.timelineLayout(tracks)
                 let viewportWidth = geo.size.width - TimelineLayout.headerWidth
                 // 15 s depois do fim (e no mínimo 160 pt, para a barra de ações do último clipe).
                 let contentWidth = max(viewportWidth,
@@ -47,6 +52,9 @@ struct TimelineView: View {
                                 .padding(.bottom, ClipActionBar.reserve)
                                 if let drop {
                                     DropGhost(range: drop.range, row: drop.row, layout: layout)
+                                }
+                                if let recordingRow {
+                                    RecordingClip(row: recordingRow, layout: layout)
                                 }
                                 PlayheadView(height: contentHeight + 8, time: model.playhead)
                                     .offset(x: CGFloat(model.playhead.seconds * model.zoom) - PlayheadView.width / 2)
@@ -190,6 +198,41 @@ private struct DropGhost: View {
     }
 }
 
+/// Gravação em andamento: um clipe vermelho que cresce na faixa onde ela vai cair, com a
+/// forma de onda ao vivo.
+private struct RecordingClip: View {
+    @Environment(EditorModel.self) private var model
+    let row: Int
+    let layout: TimelineLayout
+
+    var body: some View {
+        let r = model.recording
+        let width = max(4, CGFloat(r.duration.seconds * model.zoom))
+        let height = layout.height(row) - TimelineLayout.clipInset * 2
+        let shape = RoundedRectangle(cornerRadius: 9, style: .continuous)
+        ZStack(alignment: .topLeading) {
+            recordingRed.opacity(0.22)
+            WaveformBars(peaks: r.peaks, from: 0, to: max(r.duration.seconds, 0.02), color: recordingRed.opacity(0.9))
+                .padding(.horizontal, 4)
+                .padding(.vertical, height >= 40 ? 6 : 3)
+            if width > 70, height >= 30 {
+                Label("Gravando", systemImage: "mic.fill")
+                    .font(Theme.font(9, .medium))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 7)
+                    .frame(height: 16)
+                    .background(recordingRed, in: Capsule())
+                    .padding(5)
+            }
+        }
+        .frame(width: width, height: height)
+        .clipShape(shape)
+        .overlay(shape.strokeBorder(recordingRed, lineWidth: 1.5))
+        .offset(x: CGFloat(r.start.seconds * model.zoom), y: layout.top(row) + TimelineLayout.clipInset)
+        .allowsHitTesting(false)
+    }
+}
+
 // MARK: - Barra de ferramentas
 
 private struct TimelineToolbar: View {
@@ -209,6 +252,16 @@ private struct TimelineToolbar: View {
             Button { model.addText() } label: { Label("Texto", systemImage: "textformat") }
                 .buttonStyle(PillButtonStyle(kind: .quiet, compact: true))
                 .help("Adicionar texto (⌘T)")
+            Button { model.presentRecorder() } label: {
+                Image(systemName: model.recording.phase == .recording ? "mic.fill" : "mic")
+                    .foregroundStyle(model.recording.phase == .recording ? recordingRed : Theme.textPrimary)
+            }
+            .help("Gravar áudio")
+            .popover(isPresented: Binding(get: { model.recording.showPanel },
+                                          set: { if !$0 { model.closeRecorder() } }),
+                     arrowEdge: .bottom) {
+                RecorderPanel().environment(model)
+            }
             Spacer()
             if let seg = model.selectedSegment {
                 Text("\(Time.format(seg.targetStart)) – \(Time.format(seg.targetEnd))")
@@ -253,11 +306,11 @@ private struct RowHeightMenu: View {
     var body: some View {
         let common = model.commonRowHeight
         Menu {
-            ForEach(TimelineLayout.rowHeightPresets, id: \.height) { preset in
+            ForEach(TimelineLayout.rowHeightPresets, id: \.name) { preset in
                 Button {
                     model.setAllRowHeights(preset.height)
                 } label: {
-                    if common == preset.height {
+                    if common == preset.height ?? TimelineLayout.defaultRowHeight {
                         Label(preset.name, systemImage: "checkmark")
                     } else {
                         Text(preset.name)
@@ -635,6 +688,12 @@ private struct SegmentView: View {
                 model.selection = segment.id
                 model.duplicateSelection()
             }
+            if TimelineEditor.canExtractAudio(model.project, segment: segment.id) {
+                Button("Extrair áudio") {
+                    model.selection = segment.id
+                    model.extractAudio()
+                }
+            }
             Divider()
             Button("Apagar", role: .destructive) {
                 model.selection = segment.id
@@ -714,7 +773,7 @@ private struct SegmentView: View {
 
     /// Picos do som de um vídeo, só numa faixa alta o bastante.
     private func videoPeaks(_ m: Material) -> [Float]? {
-        guard rowHeight >= Self.waveformRowHeight, m.kind == .video, m.hasAudio else { return nil }
+        guard rowHeight >= Self.waveformRowHeight, m.kind == .video, m.hasAudio, !segment.audioDetached else { return nil }
         return model.waveforms[m.id]
     }
 
@@ -732,6 +791,13 @@ private struct SegmentView: View {
             Text(title)
                 .font(Theme.font(compact ? 9 : 10, .medium))
                 .lineLimit(1)
+            // O som foi extraído para a faixa de áudio.
+            if segment.audioDetached {
+                Image(systemName: "speaker.slash")
+                    .font(Theme.font(compact ? 8 : 9, .medium))
+                    .foregroundStyle(Theme.textSecondary)
+                    .help("Áudio extraído")
+            }
             if !compact {
                 ForEach(badgeItems, id: \.self) { item in
                     Text(item)
@@ -822,7 +888,8 @@ private struct ClipActionBar: View {
             let start = CGFloat(seg.targetStart.seconds * zoom)
             let end = CGFloat(seg.targetEnd.seconds * zoom)
             let canSplit = seg.targetRange.contains(model.playhead) && model.playhead > seg.targetStart
-            let actions = canSplit ? 3 : 2
+            let canExtract = TimelineEditor.canExtractAudio(model.project, segment: seg.id)
+            let actions = 2 + (canSplit ? 1 : 0) + (canExtract ? 1 : 0)
             let width = CGFloat(actions) * Self.height + CGFloat(actions - 1) + 8
             // Ao lado da linha do playhead (ou no início do clipe), dentro da área
             // visível, sem se afastar do clipe e sem passar das bordas do conteúdo.
@@ -842,6 +909,10 @@ private struct ClipActionBar: View {
                 }
                 action("plus.square.on.square", "Duplicar (⌘D)") { model.duplicateSelection() }
                 separator
+                if canExtract {
+                    action("waveform.badge.minus", "Extrair áudio") { model.extractAudio() }
+                    separator
+                }
                 action("trash", "Apagar (⌫)") { model.deleteSelection() }
             }
             .padding(.horizontal, 4)

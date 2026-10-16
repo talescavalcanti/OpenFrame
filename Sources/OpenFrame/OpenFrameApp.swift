@@ -74,6 +74,8 @@ struct OpenFrameApp: App {
                         .disabled(model.selection == nil)
                     Button("Apagar  ⌫") { model.deleteSelection() }
                         .disabled(model.selection == nil)
+                    Button("Extrair áudio") { model.extractAudio() }
+                        .disabled(!model.canExtractAudio)
                     Divider()
                     Button("Adicionar texto") { model.addText() }
                         .keyboardShortcut("t")
