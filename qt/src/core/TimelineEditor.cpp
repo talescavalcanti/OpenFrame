@@ -195,6 +195,82 @@ QUuid addText(const TextContent &content, Project &p, Micros time, Micros durati
     return seg.id;
 }
 
+// MARK: - Áudio
+
+bool canExtractAudio(const Project &p, const QUuid &id)
+{
+    const auto seg = p.segment(id);
+    if (!seg || seg->text || seg->audioDetached)
+        return false;
+    const Material *m = p.material(seg->materialId);
+    return m && m->kind == MaterialKind::Video && m->hasAudio;
+}
+
+std::optional<QUuid> extractAudio(Project &p, const QUuid &id)
+{
+    const auto loc = p.locate(id);
+    if (!canExtractAudio(p, id) || !loc)
+        return std::nullopt;
+    const Segment seg = p.tracks[loc->track].segments[loc->index];
+    const Material video = *p.material(seg.materialId);
+    const QString name = QStringLiteral("Áudio de %1").arg(video.name);
+    const auto existing = std::find_if(p.materials.cbegin(), p.materials.cend(), [&](const Material &m) {
+        return m.kind == MaterialKind::Audio && m.path == video.path && m.name == name;
+    });
+    Material audio;
+    if (existing != p.materials.cend()) {
+        audio = *existing;
+    } else {
+        audio.kind = MaterialKind::Audio;
+        audio.path = video.path;
+        audio.name = name;
+        audio.duration = video.duration;
+        audio.hasAudio = video.hasAudio;
+        p.materials.append(audio);
+    }
+
+    Micros crossIn = 0, crossOut = 0;
+    if (p.tracks[loc->track].isMain) {
+        const QList<Segment> &segs = p.tracks[loc->track].segments;
+        if (loc->index > 0)
+            crossIn = std::max<Micros>(0, segs[loc->index - 1].targetEnd() - seg.targetStart);
+        if (loc->index + 1 < segs.size())
+            crossOut = std::max<Micros>(0, seg.targetEnd() - segs[loc->index + 1].targetStart);
+    }
+    Segment sound(audio.id, seg.source, seg.targetStart);
+    sound.speed = seg.speed;
+    sound.volume = seg.volume;
+    sound.fadeIn = std::max(seg.fadeIn, crossIn);
+    sound.fadeOut = std::max(seg.fadeOut, crossOut);
+    p.tracks[loc->track].segments[loc->index].audioDetached = true;
+    place(sound, TrackKind::Audio, p);
+    return sound.id;
+}
+
+QUuid addRecording(const Material &m, Project &p, Micros time)
+{
+    addMaterial(m, p);
+    const Segment seg(m.id, sourceRange(m), std::max<Micros>(0, time));
+    place(seg, TrackKind::Audio, p);
+    return seg.id;
+}
+
+// MARK: - Faixas
+
+void setTrackHeight(Project &p, const QUuid &track, std::optional<double> height)
+{
+    for (Track &t : p.tracks)
+        if (t.id == track)
+            t.height = Track::clampedHeight(height);
+}
+
+void setAllTrackHeights(Project &p, std::optional<double> height)
+{
+    const auto h = Track::clampedHeight(height);
+    for (Track &t : p.tracks)
+        t.height = h;
+}
+
 std::optional<int> freeTrack(TrackKind kind, TimeRange range, const Project &p, std::optional<QUuid> excluding)
 {
     for (int t = 0; t < p.tracks.size(); ++t) {

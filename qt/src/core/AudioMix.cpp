@@ -72,8 +72,11 @@ QList<AudioClip> clips(const Project &project)
             const Material *m = project.material(seg.materialId);
             if (!m || seg.volume <= 0)
                 continue;
-            const bool sounds = track.kind == TrackKind::Video ? m->kind == MaterialKind::Video && m->hasAudio
-                                                               : m->kind == MaterialKind::Audio;
+            // Com o som extraído para uma faixa de áudio, o clipe de vídeo não soa (como volume 0). O áudio
+            // extraído é um material de áudio que aponta para o vídeo; um vídeo com som numa faixa de áudio também toca.
+            const bool video = m->kind == MaterialKind::Video && m->hasAudio;
+            const bool sounds = track.kind == TrackKind::Video ? video && !seg.audioDetached
+                                                               : m->kind == MaterialKind::Audio || video;
             if (sounds)
                 add(seg, *m);
         }

@@ -12,7 +12,7 @@ Tudo no namespace `of`; tempo em `Micros` (microssegundos, `qint64`).
 | `Effects.h` | `RGBA`, `Transform`, `Adjust`, `FilterPreset`/`FilterSetting`, `VideoEffect`, `SegmentAnimation`, `Transition`, `TextStyle`, `TextContent`, `displayName(...)` |
 | `Project.h` | `Material`, `Segment` (`targetDuration/targetEnd/targetRange`, `Segment::makeText`), `Track`, `AspectRatio` (`label`, `ratio`), `CanvasBackground` (`black()/color()/blur()`), `Canvas`, `Project` (`duration`, `material`, `mainTrackIndex`, `locate`, `segment`, `aspectValue`, `canvasSize`) |
 | `ProjectStore.h` | `encode/decode/save/load`, `toJson/fromJson`, `uuidString`, `fileExtension`; JSON igual ao do Swift, com os campos de motion e legendas (ver abaixo); tipo de animação desconhecido (versão futura) abre como `fade` e loop desconhecido é descartado |
-| `TimelineEditor.h` | as operações do Swift sobre `Project&` (`addMedia`, `addOverlay`, `insertMedia`, `addText`, `split`, `remove`, `duplicate`, `move`, `reorderMain`, `resolveOverlap`, `canMove`, `moveToTrack`, `trimStart`, `trimEnd`, `setSpeed`, `update`, `snapPoints`, `snap`, `snapMove`) |
+| `TimelineEditor.h` | as operações do Swift sobre `Project&` (`addMedia`, `addOverlay`, `insertMedia`, `addText`, `split`, `remove`, `duplicate`, `move`, `reorderMain`, `resolveOverlap`, `canMove`, `moveToTrack`, `trimStart`, `trimEnd`, `setSpeed`, `update`, `snapPoints`, `snap`, `snapMove`; áudio e altura das faixas na seção "Áudio na timeline") |
 | `Subtitles.h` | `SubtitleCue`, `SRT::parse/serialize/importCues/cues` |
 | `ExportSettings.h` | `ResolutionPreset`, `FrameRate` (`frameDuration` racional, `fpsValue`), `VideoCodec`, `ContainerFormat`, `BitrateMode` (todos com `label`), `ExportSettings` (`outputSize`, `videoBitrate`, `estimatedBytes`, `validationError`, `keyframeDistance`), `formattedFileSize` |
 | `ProjectLibrary.h` | `ProjectEntry`, `ProjectLibrary` (`list`, `entry`, `create`, `save`, `load`, `rename`, `duplicate`, `remove`, `importProject`, `writeThumbnail`, `nextName`, `defaultRoot`) |
@@ -329,3 +329,34 @@ O que ficou de fora, medido:
 Tempos das palavras na fala com pausas conhecidas (modelo base): erro médio de 14 ms no início e no fim, com o
 ajuste pela energia (sem ele, 0,31 s no DTW e 0,35 s nos tokens), como no Swift.
 
+
+## Áudio na timeline, etapa 1: som extraído, gravação na timeline e altura das faixas
+
+Contrato em `~/Desktop/opencut-wt/ESPEC-audio-timeline.md`; nomes iguais aos do Swift.
+
+| Cabeçalho | O que tem |
+|---|---|
+| `Project.h` | `Segment::audioDetached` (o som do clipe foi extraído: o clipe continua com a imagem e não soa); `Track::height` (`optional<double>`, em pontos; vazio = a padrão do app), `Track::heightMin` (32), `Track::heightMax` (200), `Track::defaultHeight` (50), `Track::clampedHeight(h)` |
+| `TimelineEditor.h` | `canExtractAudio(p, id)`, `extractAudio(p, id) -> optional<QUuid>` (o segmento de áudio novo), `addRecording(material, p, time) -> QUuid`, `setTrackHeight(p, trackId, optional<double>)`, `setAllTrackHeights(p, optional<double>)` |
+| `AudioMix.h` | `AudioMix::clips`: o clipe com `audioDetached` não soa; as faixas de áudio tocam também material de vídeo com som. Vale para o preview (`Player`), a exportação e a mistura da transcrição |
+
+- **Extrair** não grava nada em disco: o material novo é `Audio`, com o caminho do vídeo, nome "Áudio de <nome>",
+  sem largura/altura, a duração e o `hasAudio` do vídeo (o `ClipReader` toca a trilha de áudio do arquivo de vídeo).
+  O segmento novo fica na primeira faixa de áudio livre no trecho (ou numa nova, no fim), com o `targetStart`, o
+  `source`, a velocidade, o volume e os fades do clipe. **Duas diferenças do texto da especificação:**
+  1. extrair outro trecho do mesmo vídeo (as metades de um clipe dividido) reaproveita o material "Áudio de <nome>",
+     em vez de criar um igual a cada vez;
+  2. numa transição da faixa principal, o cruzamento do som (o fade extra da sobreposição) vira `fadeIn`/`fadeOut`
+     no segmento novo; sem isso, o som mudaria ao extrair. Esse fade fica fixo: mudar a transição depois não muda o
+     áudio extraído.
+- Para o app: o clipe de áudio novo é um clipe comum (mover, aparar, apagar). Apagar o áudio extraído **não**
+  devolve o som ao vídeo (como no CapCut); o desfazer, sim (uma cópia do projeto antes de `extractAudio`).
+  `split`, `duplicate`, `trimStart/End`, `move` e `moveToTrack` mantêm o `audioDetached`.
+- Com a faixa do vídeo muda, o áudio extraído soa (ele vai para uma faixa de áudio que não está muda).
+- **Transcrever um clipe** com o som extraído ouve o som do arquivo (`Transcriber::mixProject` desliga o
+  `audioDetached`, como já fazia com a faixa muda e o volume 0).
+- **Altura:** limitada a 32…200 ao gravar pelo `TimelineEditor` e ao ler; NaN/infinito voltam à padrão.
+  `removeEmptyTracks` apaga uma faixa vazia com altura própria (a altura vai junto).
+- **JSON:** `"audioDetached": true` só quando ligado; `"height"` só quando há altura. Ausente ou `null` = padrão. Os
+  fixtures antigos não mudam; o novo `fixtures/audio.openframe` (do `scripts/make-fixture.sh`) tem um clipe extraído
+  com transição e velocidade, uma gravação e as alturas 90/36/padrão.

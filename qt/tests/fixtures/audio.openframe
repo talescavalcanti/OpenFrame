@@ -1,0 +1,233 @@
+{
+  "canvas" : {
+    "aspect" : "original",
+    "background" : {
+      "black" : {
+
+      }
+    }
+  },
+  "formatVersion" : 1,
+  "fps" : 30,
+  "materials" : [
+    {
+      "duration" : 12345678,
+      "hasAudio" : true,
+      "height" : 1920,
+      "id" : "00000000-0000-4000-8000-000000000010",
+      "kind" : "video",
+      "name" : "clipe.mov",
+      "path" : "\/media\/clipe.mov",
+      "width" : 1080
+    },
+    {
+      "duration" : 12345678,
+      "hasAudio" : true,
+      "height" : 0,
+      "id" : "00000000-0000-4000-8000-000000001000",
+      "kind" : "audio",
+      "name" : "Áudio de clipe.mov",
+      "path" : "\/media\/clipe.mov",
+      "width" : 0
+    },
+    {
+      "duration" : 2500000,
+      "hasAudio" : true,
+      "height" : 0,
+      "id" : "00000000-0000-4000-8000-000000001001",
+      "kind" : "audio",
+      "name" : "Gravação 1.m4a",
+      "path" : "\/media\/Gravações\/Gravação 1.m4a",
+      "width" : 0
+    }
+  ],
+  "name" : "Áudio",
+  "tracks" : [
+    {
+      "height" : 90,
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000001",
+      "isMain" : true,
+      "kind" : "video",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "audioDetached" : true,
+          "effects" : [
+
+          ],
+          "fadeIn" : 200000,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000001100",
+          "materialId" : "00000000-0000-4000-8000-000000000010",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 12345678,
+            "start" : 0
+          },
+          "speed" : 1.5,
+          "targetStart" : 0,
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "transition" : {
+            "duration" : 400000,
+            "kind" : "dissolve"
+          },
+          "volume" : 0.8
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000001101",
+          "materialId" : "00000000-0000-4000-8000-000000000010",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 12345678,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 7830452,
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    },
+    {
+      "height" : 36,
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000001102",
+      "isMain" : false,
+      "kind" : "audio",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 200000,
+          "fadeOut" : 400000,
+          "id" : "00000000-0000-4000-8000-000000001103",
+          "materialId" : "00000000-0000-4000-8000-000000001000",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 12345678,
+            "start" : 0
+          },
+          "speed" : 1.5,
+          "targetStart" : 0,
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 0.8
+        }
+      ]
+    },
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000001104",
+      "isMain" : false,
+      "kind" : "audio",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000001105",
+          "materialId" : "00000000-0000-4000-8000-000000001001",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2500000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 1000000,
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    }
+  ]
+}

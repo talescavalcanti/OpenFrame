@@ -152,6 +152,9 @@ QJsonObject json(const Segment &s)
         o["transition"] = json(*s.transition);
     if (s.text)
         o["text"] = json(*s.text);
+    // Como no Swift: só gravado quando ligado.
+    if (s.audioDetached)
+        o["audioDetached"] = true;
     return o;
 }
 
@@ -165,6 +168,8 @@ QJsonObject json(const Track &t)
     // Como no Swift: só gravada quando ligada.
     if (t.isAutoCaptions)
         o["isAutoCaptions"] = true;
+    if (t.height)
+        o["height"] = *t.height;
     return o;
 }
 
@@ -564,6 +569,8 @@ public:
             const QJsonObject t = object(o, path, "text");
             s.text = textContent(t, p);
         }
+        if (present(o, "audioDetached"))
+            s.audioDetached = boolean(o, path, "audioDetached");
         return s;
     }
 
@@ -577,6 +584,8 @@ public:
         t.hidden = boolean(o, path, "hidden");
         if (present(o, "isAutoCaptions"))
             t.isAutoCaptions = boolean(o, path, "isAutoCaptions");
+        if (present(o, "height"))
+            t.height = Track::clampedHeight(number(o, path, "height"));
         const QJsonArray segments = array(o, path, "segments");
         for (int i = 0; i < segments.size(); ++i) {
             const QString p = path + QStringLiteral(".segments[%1]").arg(i);

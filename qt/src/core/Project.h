@@ -61,6 +61,9 @@ struct Segment {
     std::optional<LoopAnimation> animationLoop;
     std::optional<Transition> transition;
     std::optional<TextContent> text;
+    /// O som deste clipe foi extraído para uma faixa de áudio: o clipe continua com a imagem, mas não soa mais.
+    /// Só é gravado quando ligado; ausente na leitura = desligado.
+    bool audioDetached = false;
 
     Segment() = default;
     Segment(std::optional<QUuid> materialId, TimeRange source, Micros targetStart)
@@ -87,10 +90,22 @@ struct Track {
     /// Faixa das legendas automáticas ("substituir anteriores" e o painel Legendas).
     /// Só é gravada quando ligada; ausente na leitura = desligada.
     bool isAutoCaptions = false;
+    /// Altura da faixa na timeline, em pontos (vazio = a padrão do app, `defaultHeight`). Preferência de
+    /// visualização gravada no projeto, para a faixa voltar com a mesma altura. Só é gravada quando não é vazia;
+    /// na leitura, limitada a `heightMin...heightMax`.
+    std::optional<double> height;
     QList<Segment> segments;
+
+    /// `Track.heightRange` do Swift.
+    static constexpr double heightMin = 32;
+    static constexpr double heightMax = 200;
+    static constexpr double defaultHeight = 50;
 
     Track() = default;
     explicit Track(TrackKind kind, bool isMain = false) : kind(kind), isMain(isMain) {}
+
+    /// Altura limitada a `heightMin...heightMax` (vazio e valores não finitos voltam à padrão).
+    static std::optional<double> clampedHeight(std::optional<double> height);
 
     bool operator==(const Track &) const = default;
 };
