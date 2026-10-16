@@ -258,10 +258,44 @@ private slots:
         for (size_t i = 0; i < 1024 * 2; ++i)
             worst = std::max(worst, double(std::abs(out[i] - reference[i])));
         QVERIFY2(worst < 0.01, qPrintable(QString::number(worst)));
-        // Depois da primeira leitura, segue em sequência, sem pular de novo.
-        QTest::qSleep(100);
+        // Depois da primeira leitura, segue em sequência enquanto estiver à frente do relógio (o
+        // dispositivo lê adiantado): 10 blocos de 21 ms de uma vez, sem pular.
+        for (int i = 0; i < 10; ++i)
+            mixer.read(out.data(), 1024);
+        QCOMPARE(mixer.position(), start + 11 * 1024);
+        QCOMPARE(mixer.resyncs(), 0);
+    }
+
+    void clockedMixerResyncsAfterAStall()
+    {
+        // A máquina engasga mais que o buffer: o som ficaria atrasado até o próximo play.
+        // A leitura seguinte alcança o relógio de novo.
+        const AudioClip c = clip(tone, 0, Time::seconds(3));
+        const Micros base = Time::seconds(0.25);
+        QElapsedTimer clock;
+        clock.start();
+        ClockedMixer mixer({c}, base, clock);
+        std::vector<float> out(1024 * 2);
         mixer.read(out.data(), 1024);
-        QCOMPARE(mixer.position(), start + 2048);
+        // Um atraso pequeno (dentro de `maxLag`) não pula: é a folga normal do dispositivo.
+        QTest::qSleep(20);
+        mixer.read(out.data(), 1024);
+        QCOMPARE(mixer.resyncs(), 0);
+        QTest::qSleep(300);
+        const Micros before = clock.nsecsElapsed() / 1000;
+        mixer.read(out.data(), 1024);
+        const Micros after = clock.nsecsElapsed() / 1000;
+        QCOMPARE(mixer.resyncs(), 1);
+        const qint64 pos = mixer.position() - 1024;
+        QVERIFY2(pos >= AudioMix::sampleAt(base + before) && pos <= AudioMix::sampleAt(base + after),
+                 qPrintable(QStringLiteral("posição %1, relógio entre %2 e %3")
+                                .arg(pos).arg(AudioMix::sampleAt(base + before)).arg(AudioMix::sampleAt(base + after))));
+        // O conteúdo é o do instante alcançado.
+        const auto reference = mix({c}, Micros(pos * 1'000'000 / AudioMix::sampleRate), Time::seconds(0.05));
+        double worst = 0;
+        for (size_t i = 0; i < 1024 * 2; ++i)
+            worst = std::max(worst, double(std::abs(out[i] - reference[i])));
+        QVERIFY2(worst < 0.01, qPrintable(QString::number(worst)));
     }
 
     void clockedMixerWithoutClockStartsAtBase()
