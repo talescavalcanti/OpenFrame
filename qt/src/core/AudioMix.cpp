@@ -480,4 +480,28 @@ void AudioMixer::read(float *out, int frames)
     d->pos = b0;
 }
 
+ClockedMixer::ClockedMixer(QList<AudioClip> clips, Micros base, const QElapsedTimer &clock)
+    : m_mixer(std::move(clips)), m_base(base), m_clock(clock)
+{
+    // Abre os decodificadores que tocam logo depois da partida (o `read` abre os
+    // que começam até meio segundo adiante); o pulo da primeira leitura cai perto.
+    m_mixer.seek(base);
+    float scratch[channels];
+    m_mixer.read(scratch, 1);
+    m_mixer.seek(base);
+}
+
+void ClockedMixer::read(float *out, int frames)
+{
+    if (!m_aligned) {
+        m_aligned = true;
+        if (m_clock.isValid()) {
+            const Micros now = m_base + m_clock.nsecsElapsed() / 1000;
+            m_skipped = std::max<Micros>(0, now - m_base);
+            m_mixer.seek(now);
+        }
+    }
+    m_mixer.read(out, frames);
+}
+
 } // namespace of

@@ -2,6 +2,7 @@
 
 #include "Project.h"
 
+#include <QElapsedTimer>
 #include <QList>
 #include <memory>
 
@@ -74,6 +75,34 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> d;
+};
+
+/// Som do preview preso ao relógio do vídeo. O relógio do Player começa no play,
+/// mas o som só sai depois que o dispositivo parte (no Windows, com o WASAPI,
+/// isso passa de meio segundo, mais ainda numa máquina virtual). Tocar a partir do
+/// instante do play deixaria o som atrasado o tempo todo por essa partida.
+///
+/// Aqui os decodificadores abrem na construção (antes de o dispositivo pedir o
+/// primeiro bloco) e a primeira leitura pula para `base + tempo decorrido no
+/// relógio`: o primeiro som que sai já é o do instante que o vídeo mostra.
+class ClockedMixer
+{
+public:
+    /// `clock` é uma cópia do relógio do Player (o `QElapsedTimer` é monotônico e
+    /// pode ser lido de outra thread); `base` é a posição da timeline na partida dele.
+    ClockedMixer(QList<AudioClip> clips, Micros base, const QElapsedTimer &clock);
+
+    void read(float *out, int frames);
+    /// Quanto a primeira leitura pulou para alcançar o relógio (0 antes dela).
+    Micros skipped() const { return m_skipped; }
+    qint64 position() const { return m_mixer.position(); }
+
+private:
+    AudioMixer m_mixer;
+    Micros m_base;
+    QElapsedTimer m_clock;
+    bool m_aligned = false;
+    Micros m_skipped = 0;
 };
 
 } // namespace of
