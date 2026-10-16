@@ -134,7 +134,7 @@ EditorModel::EditorModel(QObject *parent)
       m_tracks(new KeyedListModel({"id", "kind", "isMain", "muted", "hidden", "row", "icon"}, this)),
       m_clips(new KeyedListModel({"id", "row", "start", "duration", "kind", "icon", "title", "badges", "materialId",
                                   "sourceStart", "sourceDuration", "materialDuration", "aspect", "volume", "isMain",
-                                  "dragged", "rowShift", "hidden"},
+                                  "dragged", "rowShift", "hidden", "hasAudio", "fullText", "durationText", "autoCaption"},
                                  this)),
       m_junctions(new KeyedListModel({"id", "time", "hasTransition", "nextId", "help"}, this)),
       m_cues(new KeyedListModel({"id", "start", "startText", "caption"}, this)),
@@ -448,7 +448,11 @@ void EditorModel::rebuildModels()
                           {"isMain", track.isMain},
                           {"dragged", isDragged},
                           {"rowShift", rowShift},
-                          {"hidden", track.hidden}});
+                          {"hidden", track.hidden},
+                          {"hasAudio", m && m->kind == MaterialKind::Video && m->hasAudio},
+                          {"fullText", seg.text ? seg.text->text : QString()},
+                          {"durationText", shortSeconds(seg.targetDuration())},
+                          {"autoCaption", track.isAutoCaptions}});
             if (seg.text)
                 cues.append({{"id", idString(seg.id)},
                              {"start", Time::toSeconds(seg.targetStart)},
@@ -471,6 +475,7 @@ void EditorModel::rebuildModels()
     std::sort(cues.begin(), cues.end(), [](const QVariantMap &a, const QVariantMap &b) {
         return a.value("start").toDouble() < b.value("start").toDouble();
     });
+    updateRowLayout();
     m_tracks->setItems(tracks);
     m_clips->setItems(clips);
     m_junctions->setItems(junctions);
@@ -904,6 +909,7 @@ void EditorModel::load(const Project &loaded, std::optional<QUuid> libraryId, co
     m_undo.clear();
     m_redo.clear();
     m_selection.reset();
+    m_rowHeights.clear();
     m_libraryId = libraryId;
     m_documentPath = documentPath;
     m_dirty = false;

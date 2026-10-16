@@ -39,6 +39,7 @@ QtObject {
         "copy-plus": "\ue3fd",
         "trash-2": "\ue18e",
         "move-horizontal": "\ue1c6",
+        "unfold-vertical": "\ue43e",
         "volume-x": "\ue1ac",
         "volume-2": "\ue1ab",
         "eye": "\ue0ba",

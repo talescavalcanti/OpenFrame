@@ -49,6 +49,7 @@ qt_add_qml_module(OpenFrame
         EditorCaptions.cpp
         EditorModel.h EditorModel.cpp
         EditorMotion.cpp
+        EditorRows.cpp
         FilterPreviews.h FilterPreviews.cpp
         KeyedListModel.h KeyedListModel.cpp
         MediaCache.h MediaCache.cpp

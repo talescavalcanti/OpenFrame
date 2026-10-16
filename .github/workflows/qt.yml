@@ -196,6 +196,7 @@ jobs:
           OPENFRAME_QPA: ${{ runner.os == 'Windows' && 'windows' || 'offscreen' }}
           OPENFRAME_SOFTWARE: ${{ runner.os == 'Windows' && '1' || '' }}
           OPENFRAME_CAPTURAS_MOTION: "1"
+          OPENFRAME_CAPTURAS_AUDIO: "1"
         run: .github/scripts/capturas.sh "${{ matrix.app }}" capturas
 
       - name: Publicar as capturas

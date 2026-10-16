@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Capturas offscreen do app (tela inicial, editor com mídia, projeto completo e
-# arrastes; com OPENFRAME_CAPTURAS_MOTION=1, também motion e legendas), para
+# arrastes; com OPENFRAME_CAPTURAS_MOTION=1, também motion e legendas; com
+# OPENFRAME_CAPTURAS_AUDIO=1, o áudio na timeline), para
 # conferir o visual sem tela. Usado pela CI; roda também no Mac.
 #
 # uso: capturas.sh <executável do OpenFrame> <pasta de saída>
@@ -22,7 +23,7 @@ out=$(nativo "$(cd "$2" && pwd)")
 root=$(nativo "$(cd "$(dirname "$0")/../.." && pwd)")
 work="$out/.trabalho"
 mkdir -p "$work/midia" "$work/biblioteca" "$work/biblioteca-completo" "$work/biblioteca-motion" \
-    "$work/biblioteca-legendas"
+    "$work/biblioteca-legendas" "$work/biblioteca-audio"
 
 # Mídia de teste: dois vídeos com som, uma foto e uma música.
 (
@@ -90,6 +91,12 @@ if [[ ${OPENFRAME_CAPTURAS_MOTION:-} == 1 ]]; then
         OPENFRAME_SNAPSHOT_SCENARIO=motion || falhas=1
     cenario legendas 400 OPENFRAME_LIBRARY_DIR="$work/biblioteca-legendas" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
         OPENFRAME_SNAPSHOT_SCENARIO=legendas OPENFRAME_FAKE_TRANSCRIPTION=1 || falhas=1
+fi
+
+# Áudio na timeline: faixas em alturas diferentes, miniaturas e forma de onda acompanhando a altura.
+if [[ ${OPENFRAME_CAPTURAS_AUDIO:-} == 1 ]]; then
+    cenario audio 300 OPENFRAME_LIBRARY_DIR="$work/biblioteca-audio" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
+        OPENFRAME_SNAPSHOT_SCENARIO=audio || falhas=1
 fi
 
 rm -rf "$work"

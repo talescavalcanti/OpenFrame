@@ -44,6 +44,11 @@ enum DebugSnapshot {
                 NSApp.terminate(nil)
                 return
             }
+            if ProcessInfo.processInfo.environment["OPENFRAME_SNAPSHOT_SCENARIO"] == "audio" {
+                await audioScenario(model, dir: dir)
+                NSApp.terminate(nil)
+                return
+            }
             if ProcessInfo.processInfo.environment["OPENFRAME_SNAPSHOT_SCENARIO"] == "arraste" {
                 await dragScenario(model, dir: dir)
                 NSApp.terminate(nil)
@@ -672,6 +677,92 @@ enum DebugSnapshot {
                 await wait(0.3)
                 if model.project != original { model.undo() }
                 await wait(0.5)
+            }
+        }
+    }
+
+    /// Áudio na timeline: faixas em alturas diferentes (todas compactas, normais e muito altas; misturadas),
+    /// com miniaturas, forma de onda e texto acompanhando a altura; o arraste da borda e o arraste de um
+    /// clipe para a faixa de cima, achando a linha pela geometria com alturas diferentes.
+    private static func audioScenario(_ model: EditorModel, dir: URL) async {
+        func wait(_ s: Double) async { try? await Task.sleep(for: .seconds(s)) }
+        // Timeline mais alta durante o cenário (a altura que o usuário deixou volta no fim).
+        let defaults = UserDefaults.standard
+        let savedTimelineHeight = defaults.object(forKey: "timelineHeight")
+        defer { defaults.set(savedTimelineHeight, forKey: "timelineHeight") }
+        defaults.set(620.0, forKey: "timelineHeight")
+        model.zoomToFit()
+        model.seek(to: 1_500_000)
+        await wait(1.5)
+        func rows() -> [Track] { model.displayTrackOrder().map { model.project.tracks[$0] } }
+        func describe(_ step: String) {
+            let tracks = rows()
+            let layout = model.timelineLayout(tracks)
+            let items = tracks.indices.map { i in
+                "\(tracks[i].kind)\(tracks[i].isMain ? "*" : "") topo \(Int(layout.top(i))) altura \(Int(layout.height(i)))"
+            }
+            log("alturas \(step): \(items.joined(separator: "; ")); conteúdo \(Int(layout.contentHeight)) pt")
+        }
+        describe("padrão")
+        capture("audio-1-normal", to: dir)
+        for (name, height) in [("compacta", CGFloat(36)), ("muito-alta", 140)] {
+            model.setAllRowHeights(height)
+            await wait(1)
+            describe(name)
+            log("menu marca \(model.commonRowHeight.map { "\(Int($0))" } ?? "nenhuma")")
+            capture("audio-\(name == "compacta" ? 2 : 3)-\(name)", to: dir)
+        }
+        // Misturadas: a principal muito alta (miniaturas com o som embaixo), o texto alto, o áudio
+        // compacto e a sobreposição normal; com o vídeo principal selecionado.
+        model.setAllRowHeights(nil)
+        for track in rows() {
+            let height: CGFloat? = track.isMain ? 140 : track.kind == .text ? 90 : track.kind == .audio ? 36 : nil
+            model.resizeRow(track.id, to: height)
+        }
+        model.endRowResize()
+        if let main = model.project.mainTrackIndex, let first = model.project.tracks[main].segments.first {
+            model.selection = first.id
+        }
+        await wait(1.5)
+        describe("misturadas")
+        log("menu marca \(model.commonRowHeight.map { "\(Int($0))" } ?? "nenhuma")")
+        capture("audio-4-misturadas", to: dir)
+        // Áudio alto: a forma de onda ocupa o clipe abaixo do nome.
+        if let audio = rows().first(where: { $0.kind == .audio }) {
+            model.resizeRow(audio.id, to: 120)
+            model.selection = audio.segments.first?.id
+            await wait(1)
+            capture("audio-5-audio-alto", to: dir)
+        }
+        // Borda da faixa: limites e duplo clique.
+        if let text = rows().first(where: { $0.kind == .text }) {
+            model.resizeRow(text.id, to: 10)
+            log("borda: pedir 10 → \(Int(model.rowHeight(text)))")
+            model.resizeRow(text.id, to: 500)
+            log("borda: pedir 500 → \(Int(model.rowHeight(text)))")
+            model.resizeRow(text.id, to: nil)
+            log("borda: duplo clique → \(Int(model.rowHeight(text))) (padrão)")
+            model.resizeRow(text.id, to: 90)
+        }
+        // Arraste do vídeo da sobreposição para a faixa de cima (texto não aceita) e para baixo
+        // (a principal, muito alta): a linha vem da posição y do cursor.
+        let tracks = rows()
+        let layout = model.timelineLayout(tracks)
+        if let row = tracks.firstIndex(where: { $0.kind == .video && !$0.isMain }),
+           let seg = tracks[row].segments.first {
+            for (name, y) in [("meio da principal", layout.top(row + 1) + layout.height(row + 1) / 2),
+                              ("fim da principal", layout.top(row + 2) - 1),
+                              ("sobre a régua", CGFloat(10))] {
+                let target = (layout.row(atY: y) ?? -1) - row
+                let before = model.project
+                model.dragMove(seg.id, dx: 0, rows: target)
+                await wait(0.6)
+                log("arraste para \(name) (y \(Int(y))): linhas \(target), destino \(String(describing: model.dragTarget?.row))")
+                if name == "meio da principal" { capture("audio-6-arraste-alturas", to: dir) }
+                model.endDragMove(seg.id)
+                await wait(0.3)
+                if model.project != before { model.undo() }
+                await wait(0.3)
             }
         }
     }

@@ -102,6 +102,9 @@ final class EditorModel {
     private(set) var dragPreview: DragPreview?
     /// Material da biblioteca sendo arrastado, para prever onde ele cai.
     var draggingMaterial: UUID?
+    /// Altura de cada faixa na timeline (ausente = a padrão). Provisório: fica só na
+    /// interface até o núcleo gravar a altura no projeto.
+    private(set) var rowHeights: [UUID: CGFloat] = [:]
     var exportSettings = ExportSettings()
     var showExport = false
     var showAutoCaptions = false
@@ -619,9 +622,10 @@ final class EditorModel {
             case .video:
                 let generator = AVAssetImageGenerator(asset: AVURLAsset(url: m.url))
                 generator.appliesPreferredTrackTransform = true
-                generator.maximumSize = CGSize(width: 240, height: 240)
+                // Nítidas também numa faixa alta; um quadro por segundo (de 10 a 30).
+                generator.maximumSize = CGSize(width: 480, height: 480)
                 var images: [CGImage] = []
-                let count = 10
+                let count = min(30, max(10, Int(m.duration.seconds)))
                 for i in 0..<count {
                     let t = CMTime(seconds: m.duration.seconds * (Double(i) + 0.5) / Double(count), preferredTimescale: 600)
                     if let (image, _) = try? await generator.image(at: t) { images.append(image) }
@@ -632,7 +636,7 @@ final class EditorModel {
                    let image = CGImageSourceCreateThumbnailAtIndex(src, 0, [
                        kCGImageSourceCreateThumbnailFromImageAlways: true,
                        kCGImageSourceCreateThumbnailWithTransform: true,
-                       kCGImageSourceThumbnailMaxPixelSize: 240,
+                       kCGImageSourceThumbnailMaxPixelSize: 480,
                    ] as CFDictionary) {
                     thumbnails[m.id] = [image]
                 }
@@ -1009,6 +1013,38 @@ final class EditorModel {
         return Array(texts) + Array(overlays) + main + audios
     }
 
+    // MARK: - Altura das faixas
+
+    func rowHeight(_ track: Track) -> CGFloat {
+        rowHeights[track.id] ?? TimelineLayout.defaultRowHeight
+    }
+
+    /// Geometria vertical da timeline com as faixas na ordem de exibição.
+    func timelineLayout(_ tracks: [Track]) -> TimelineLayout {
+        TimelineLayout(heights: tracks.map(rowHeight))
+    }
+
+    /// Muda a altura de uma faixa ao vivo, durante o arraste da borda (nil volta à padrão).
+    func resizeRow(_ id: UUID, to height: CGFloat?) {
+        let value = height.map { min(max($0, TimelineLayout.rowHeightRange.lowerBound), TimelineLayout.rowHeightRange.upperBound) }
+        let stored = value == TimelineLayout.defaultRowHeight ? nil : value
+        if rowHeights[id] != stored { rowHeights[id] = stored }
+    }
+
+    /// Fim do arraste da borda da faixa.
+    func endRowResize() {}
+
+    /// Mesma altura para todas as faixas (nil = a padrão).
+    func setAllRowHeights(_ height: CGFloat?) {
+        for track in project.tracks { resizeRow(track.id, to: height) }
+    }
+
+    /// Altura comum a todas as faixas, ou nil se forem diferentes.
+    var commonRowHeight: CGFloat? {
+        let heights = Set(project.tracks.map(rowHeight))
+        return heights.count == 1 ? heights.first : nil
+    }
+
     // MARK: - Projetos
 
     func refreshLibrary() {
@@ -1170,6 +1206,7 @@ final class EditorModel {
         playhead = 0
         thumbnails.removeAll()
         waveforms.removeAll()
+        rowHeights.removeAll()
         loaded.materials.forEach(loadThumbnails)
         screen = .editor
         lastThumbnail = Date()

@@ -39,7 +39,9 @@ Rectangle {
     visible: !Editor.gestureActive && Editor.selection !== "" && row >= 0
     // Dentro do clipe, sem passar das bordas dele (se couber).
     x: place === "inside" && end - start >= barWidth + 8 ? Math.max(start + 4, Math.min(baseX, end - barWidth - 4)) : baseX
-    y: 36 + row * 56 + (place === "above" ? -30 + 2 : place === "below" ? 50 - 2 : (50 - 30) / 2)
+    readonly property real rowTop: Editor.rowTops[row] ?? 0
+    readonly property real rowHeight: Editor.rowHeights[row] ?? 50
+    y: rowTop + (place === "above" ? -30 + 2 : place === "below" ? rowHeight - 2 : (rowHeight - 30) / 2)
     width: barWidth
     height: 30
     radius: 15

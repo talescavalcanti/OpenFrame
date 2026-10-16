@@ -8,6 +8,7 @@
 #include <QPointer>
 #include <QTimer>
 #include <QtConcurrent>
+#include <algorithm>
 
 #if __has_include("MediaProbe.h")
 #include "MediaProbe.h"
@@ -67,7 +68,8 @@ std::optional<Material> probe(const QString &path, QString *error)
 QList<QImage> thumbnails(const Material &m)
 {
 #ifdef OF_HAS_THUMBNAILS
-    return Thumbnails::frames(m, 10, 240);
+    // Nítidas também numa faixa alta; um quadro por segundo (de 10 a 30).
+    return Thumbnails::frames(m, std::clamp(int(Time::toSeconds(m.duration)), 10, 30), 480);
 #else
     if (m.kind == MaterialKind::Photo) {
         QImage image(m.path);
