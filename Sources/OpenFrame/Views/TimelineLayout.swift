@@ -1,4 +1,5 @@
 import CoreGraphics
+import OpenFrameCore
 
 /// Geometria vertical da timeline: a régua e, abaixo dela, as faixas na ordem de
 /// exibição, cada uma com a sua altura. As posições são do conteúdo da timeline
@@ -8,11 +9,10 @@ struct TimelineLayout {
     static let rulerHeight: CGFloat = 30
     static let headerWidth: CGFloat = 58
     static let clipInset: CGFloat = 4
-    static let rowHeightRange: ClosedRange<CGFloat> = 32...200
-    static let defaultRowHeight: CGFloat = 50
-    /// Alturas do controle da barra da timeline (Normal = a padrão).
-    static let rowHeightPresets: [(name: String, height: CGFloat)] = [
-        ("Compacta", 36), ("Normal", defaultRowHeight), ("Alta", 90), ("Muito alta", 140),
+    static let defaultRowHeight = CGFloat(Track.defaultHeight)
+    /// Alturas do controle da barra da timeline (Normal = a padrão, sem altura própria).
+    static let rowHeightPresets: [(name: String, height: CGFloat?)] = [
+        ("Compacta", 36), ("Normal", nil), ("Alta", 90), ("Muito alta", 140),
     ]
     /// Espaço de coordenadas do conteúdo, para o arraste achar a linha sob o cursor.
     static let space = "timeline"

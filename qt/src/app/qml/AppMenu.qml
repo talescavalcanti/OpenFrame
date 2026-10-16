@@ -23,6 +23,7 @@ OfMenu {
     OfMenuItem { text: "Dividir no cursor"; shortcutText: "Ctrl+B"; onTriggered: Editor.splitAtPlayhead() }
     OfMenuItem { text: "Duplicar"; shortcutText: "Ctrl+D"; enabled: Editor.selection !== ""; onTriggered: Editor.duplicateSelection() }
     OfMenuItem { text: "Apagar"; shortcutText: "Delete"; enabled: Editor.selection !== ""; onTriggered: Editor.deleteSelection() }
+    OfMenuItem { text: "Extrair áudio"; enabled: Editor.selectedSegment.canExtractAudio === true; onTriggered: Editor.extractAudio() }
     OfMenuItem { text: "Adicionar texto"; shortcutText: "Ctrl+T"; onTriggered: Editor.addText() }
     OfMenuItem { text: "Legendas automáticas…"; enabled: Editor.duration > 0; onTriggered: Editor.presentAutoCaptions() }
     OfMenuSeparator {}

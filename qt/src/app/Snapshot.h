@@ -67,6 +67,8 @@ private:
     void soundScenario();
     void packageScenario();
     void audioScenario();
+    void extractScenario();
+    void recordScenario();
     void describeRows(const QString &step);
     /// Arrasta no overlay do preview de `from` a `to` (pontos do item), em passos,
     /// pelas mesmas funções do mouse; com `release` falso, o gesto fica aberto.

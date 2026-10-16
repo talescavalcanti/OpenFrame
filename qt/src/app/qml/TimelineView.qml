@@ -38,7 +38,9 @@ Item {
         height: parent.height - y
         clip: true
 
-        readonly property real contentHeight: 8 + Editor.rowsHeight + timeline.reserve + 8
+        // Gravando numa faixa nova: uma linha a mais embaixo, para o clipe que cresce.
+        readonly property bool recordingNewRow: recordingClip.visible && Editor.recording.row >= Editor.tracks.count
+        readonly property real contentHeight: 8 + Editor.rowsHeight + (recordingNewRow ? 56 : 0) + timeline.reserve + 8
         property real scrollY: 0
         readonly property real maxScrollY: Math.max(0, contentHeight - height)
         onMaxScrollYChanged: scrollY = Math.min(scrollY, maxScrollY)
@@ -230,6 +232,59 @@ Item {
                     color: Theme.accent
                     fill: Theme.alpha(Theme.accent, 0.12)
                     z: 6
+                }
+
+                // Gravação em andamento: um clipe vermelho que cresce na faixa onde ela vai cair, com a
+                // forma de onda ao vivo (só a parte visível é desenhada).
+                Rectangle {
+                    id: recordingClip
+                    objectName: "recordingClip"
+                    readonly property int row: Editor.recording.row
+                    readonly property real visL: Math.max(0, content.visibleLeft - x)
+                    readonly property real visR: Math.min(width, content.visibleRight - x)
+                    visible: Editor.recording.phase === "recording" || Editor.recording.phase === "finishing"
+                    x: Editor.recording.start * Editor.zoom
+                    y: (Editor.rowTops[row] ?? Editor.rowTop(row)) + timeline.clipInset
+                    width: Math.max(4, Editor.recording.duration * Editor.zoom)
+                    height: (Editor.rowHeights[row] ?? 50) - 2 * timeline.clipInset
+                    z: 7
+                    radius: 9
+                    color: Theme.alpha(Theme.recording, 0.22)
+                    border.color: Theme.recording
+                    border.width: 1.5
+                    clip: true
+                    // Criada só durante a gravação: um item pintado que aparece com tamanho zero dá o
+                    // aviso do QPainter no renderizador por software.
+                    Loader {
+                        active: recordingClip.visible && recordingClip.width > 12
+                        x: Math.max(4, recordingClip.visL)
+                        y: recordingClip.height >= 40 ? 6 : 3
+                        width: Math.max(1, Math.min(recordingClip.width - 4, recordingClip.visR) - x)
+                        height: recordingClip.height - 2 * y
+                        sourceComponent: WaveformView {
+                            offset: parent.x - 4
+                            fullWidth: recordingClip.width - 8
+                            materialId: "gravacao-ao-vivo"
+                            from: 0
+                            to: Math.max(Editor.recording.duration, 0.02)
+                            color: Theme.alpha(Theme.recording, 0.9)
+                        }
+                    }
+                    Rectangle {
+                        visible: recordingClip.width > 70 && recordingClip.height >= 30
+                        x: Math.max(5, Math.min(recordingClip.visL + 5, recordingClip.width - width - 5))
+                        y: 5
+                        width: recLabel.implicitWidth + 24
+                        height: 16
+                        radius: 8
+                        color: Theme.recording
+                        Row {
+                            anchors.centerIn: parent
+                            spacing: 4
+                            Icon { name: "mic"; size: 9; color: "white"; anchors.verticalCenter: parent.verticalCenter }
+                            OfText { id: recLabel; text: "Gravando"; size: 9; weight: Theme.medium; color: "white" }
+                        }
+                    }
                 }
 
                 ClipActionBar {

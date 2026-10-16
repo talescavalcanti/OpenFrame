@@ -23,6 +23,8 @@ QtObject {
     readonly property color textOnAccent: "#000000"
     readonly property color warning: Qt.rgba(1, 0.62, 0.35, 1)
     readonly property color danger: Qt.rgba(1, 0.42, 0.4, 1)
+    /// Vermelho da gravação (botão, clipe que cresce).
+    readonly property color recording: "#FF4545"
 
     // Clipes: tons de cinza; o ícone diz o tipo.
     readonly property color clipVideo: Qt.rgba(0.15, 0.15, 0.15, 1)

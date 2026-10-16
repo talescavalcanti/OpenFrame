@@ -93,10 +93,10 @@ if [[ ${OPENFRAME_CAPTURAS_MOTION:-} == 1 ]]; then
         OPENFRAME_SNAPSHOT_SCENARIO=legendas OPENFRAME_FAKE_TRANSCRIPTION=1 || falhas=1
 fi
 
-# Áudio na timeline: faixas em alturas diferentes, miniaturas e forma de onda acompanhando a altura.
+# Áudio na timeline: alturas das faixas, extrair o áudio e gravar (microfone simulado).
 if [[ ${OPENFRAME_CAPTURAS_AUDIO:-} == 1 ]]; then
     cenario audio 300 OPENFRAME_LIBRARY_DIR="$work/biblioteca-audio" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
-        OPENFRAME_SNAPSHOT_SCENARIO=audio || falhas=1
+        OPENFRAME_SNAPSHOT_SCENARIO=audio OPENFRAME_FAKE_RECORDING=1 || falhas=1
 fi
 
 rm -rf "$work"

@@ -2,6 +2,7 @@
 
 #include "CanvasGeometry.h"
 #include "CaptionGeneration.h"
+#include "RecordingSession.h"
 #include "ExportSettings.h"
 #include "KeyedListModel.h"
 #include "Project.h"
@@ -21,6 +22,8 @@ class QQmlEngine;
 class QJSEngine;
 
 namespace of {
+
+class AudioRecorder;
 
 class PreviewEngine;
 class ExportJob;
@@ -99,6 +102,8 @@ class EditorModel : public QObject
 
     // Legendas automáticas (EditorCaptions.cpp)
     Q_PROPERTY(CaptionGeneration *captions READ captions CONSTANT)
+    // Gravar áudio (EditorRecording.cpp)
+    Q_PROPERTY(RecordingSession *recording READ recording CONSTANT)
     Q_PROPERTY(bool showAutoCaptions READ showAutoCaptions WRITE setShowAutoCaptions NOTIFY uiChanged)
     Q_PROPERTY(QString captionBackdrop READ captionBackdrop NOTIFY captionStateChanged)
     /// Muda quando chegam miniaturas ao MediaCache: as ligações que dependem delas
@@ -272,13 +277,13 @@ public:
     Q_INVOKABLE QVariantMap dropPreview(const QString &materialId, qreal time, int row) const;
     /// Linha exibida sem clipes entre `from` e `to` (s). Abaixo da última há espaço livre; acima da primeira, a régua.
     Q_INVOKABLE bool isRowFree(int row, qreal from, qreal to) const;
+    /// Extrai o som do clipe selecionado para uma faixa de áudio (um passo de desfazer) e seleciona o
+    /// clipe de áudio novo. Só faz algo se `selectedSegment.canExtractAudio`.
+    Q_INVOKABLE void extractAudio();
 
     // Altura das faixas (EditorRows.cpp)
     static constexpr qreal rulerHeight = 30;
     static constexpr qreal rowSpacing = 6;
-    static constexpr qreal defaultRowHeight = 50;
-    static constexpr qreal minRowHeight = 32;
-    static constexpr qreal maxRowHeight = 200;
     qreal rowHeightOf(const Track &track) const;
     QVariantList rowTops() const;
     QVariantList rowHeights() const;
@@ -290,11 +295,11 @@ public:
     /// Linha sob a posição `y` (cada linha vai do topo dela ao da seguinte); -1 sobre a régua.
     /// Abaixo da última faixa, devolve índices além dela.
     Q_INVOKABLE int rowAt(qreal y) const;
-    /// Altura de uma faixa ao vivo, durante o arraste da borda (0 = a padrão).
+    /// Altura de uma faixa ao vivo, durante o arraste da borda (0 = a padrão); o desfazer é um só, no fim.
     Q_INVOKABLE void resizeRow(const QString &trackId, qreal height);
     /// Fim do arraste da borda.
     Q_INVOKABLE void endRowResize();
-    /// Mesma altura para todas as faixas (0 = a padrão).
+    /// Mesma altura para todas as faixas (0 = a padrão), num passo de desfazer.
     Q_INVOKABLE void setAllRowHeights(qreal height);
     Q_INVOKABLE void dropMaterial(const QString &materialId, qreal time, int row);
 
@@ -392,6 +397,24 @@ public:
 
     // Legendas automáticas (EditorCaptions.cpp)
     CaptionGeneration *captions() const { return m_captions; }
+
+    // Gravar áudio (EditorRecording.cpp)
+    RecordingSession *recording() const { return m_recording; }
+    /// Abre o painel: pede a permissão do microfone e começa a escutar só o nível.
+    Q_INVOKABLE void presentRecorder();
+    /// Fecha o painel (não durante a contagem nem a gravação).
+    Q_INVOKABLE void closeRecorder();
+    /// Microfone (vazio = o padrão do sistema).
+    Q_INVOKABLE void selectRecordingInput(const QString &id);
+    /// Botão Gravar: contagem de 3 s e, depois, a gravação a partir do playhead.
+    Q_INVOKABLE void startRecording();
+    /// Para (botão, espaço ou fim do projeto): o material entra na biblioteca e o clipe na timeline, num
+    /// passo de desfazer, e fica selecionado.
+    Q_INVOKABLE void stopRecording();
+    /// Esc: na contagem, volta ao painel; gravando, joga fora (perguntando antes, se passou de 3 s).
+    Q_INVOKABLE void cancelRecording(bool confirmed = false);
+    /// Fecha a pergunta "Descartar a gravação?" sem descartar.
+    Q_INVOKABLE void keepRecording();
     bool showAutoCaptions() const { return m_showAutoCaptions; }
     void setShowAutoCaptions(bool show);
     QString captionSourceProblem() const;
@@ -534,9 +557,6 @@ private:
     qreal m_scrollX = 0;
     qreal m_viewportWidth = 0;
     std::optional<DragTarget> m_dragTarget;
-    /// Altura de cada faixa (ausente = a padrão). Provisório: fica só na interface até o núcleo
-    /// gravar a altura no projeto.
-    QHash<QUuid, qreal> m_rowHeights;
     /// Alturas na ordem de exibição, para avisar só quando a geometria muda.
     QList<qreal> m_rowLayout;
     void updateRowLayout();
@@ -572,6 +592,21 @@ private:
     KeyedListModel *m_cues;
 
     CaptionGeneration *m_captions = nullptr;
+    RecordingSession *m_recording = nullptr;
+    AudioRecorder *m_recorder = nullptr;
+    /// Escuta o microfone para o nível do painel (o arquivo temporário é apagado).
+    AudioRecorder *m_monitor = nullptr;
+    QTimer m_countdownTimer;
+    QString m_recordingPath;
+    /// A gravação começou antes do fim do projeto: para quando a reprodução chegar ao fim.
+    bool m_stopsAtEnd = false;
+    void setupRecording();
+    void startRecordingMonitor();
+    void stopRecordingMonitor();
+    void beginRecording();
+    void recordingLevel(float level);
+    void recordingFinished(bool ok, Micros duration, const QString &error);
+    void updateRecordingRow();
     bool m_showAutoCaptions = false;
     /// Trecho e opções da geração em andamento.
     struct CaptionJob {
