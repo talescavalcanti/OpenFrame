@@ -79,9 +79,11 @@ Para o app:
 - O som fica preso ao relógio do vídeo (`ClockedMixer`, em `AudioMix.h`): a
   primeira leitura do dispositivo pula o tempo que ele levou para partir (no
   Windows, perto de 1 s numa VM; no Mac, ~0,1 s), então o som sai no instante
-  que o vídeo mostra. O dispositivo e o formato são escolhidos uma vez (já no
+  que o vídeo mostra. Se depois o som ficar mais de 60 ms atrás do relógio (a
+  máquina engasgou mais que o buffer), a leitura seguinte pula para o relógio de
+  novo. O dispositivo e o formato são escolhidos uma vez (já no
   `setProject` com som) e refeitos quando a saída padrão muda.
-  `OPENFRAME_AUDIO_LOG=1` mostra quanto foi pulado em cada play.
+  `OPENFRAME_AUDIO_LOG=1` mostra quanto foi pulado em cada play e cada vez que o som teve de alcançar o vídeo.
 
 ## Etapa 5: exportação e miniatura
 

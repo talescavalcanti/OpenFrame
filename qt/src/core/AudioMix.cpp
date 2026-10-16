@@ -493,14 +493,17 @@ ClockedMixer::ClockedMixer(QList<AudioClip> clips, Micros base, const QElapsedTi
 
 void ClockedMixer::read(float *out, int frames)
 {
-    if (!m_aligned) {
-        m_aligned = true;
-        if (m_clock.isValid()) {
-            const Micros now = m_base + m_clock.nsecsElapsed() / 1000;
+    if (m_clock.isValid()) {
+        const Micros now = m_base + m_clock.nsecsElapsed() / 1000;
+        if (!m_aligned) {
             m_skipped = std::max<Micros>(0, now - m_base);
+            m_mixer.seek(now);
+        } else if (now - m_mixer.position() * 1'000'000 / sampleRate > maxLag) {
+            ++m_resyncs;
             m_mixer.seek(now);
         }
     }
+    m_aligned = true;
     m_mixer.read(out, frames);
 }
 
