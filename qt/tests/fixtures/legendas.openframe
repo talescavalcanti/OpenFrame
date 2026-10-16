@@ -1,0 +1,6328 @@
+{
+  "canvas" : {
+    "aspect" : "r16x9",
+    "background" : {
+      "black" : {
+
+      }
+    }
+  },
+  "formatVersion" : 1,
+  "fps" : 30,
+  "materials" : [
+
+  ],
+  "name" : "Legendas",
+  "tracks" : [
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000001",
+      "isMain" : true,
+      "kind" : "video",
+      "muted" : false,
+      "segments" : [
+
+      ]
+    },
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000300",
+      "isAutoCaptions" : true,
+      "isMain" : false,
+      "kind" : "text",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000301",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 200000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000302",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2560000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 1620000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Hoje eu vou mostrar como gerar",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000303",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2120000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 4180000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "legendas"
+              },
+              {
+                "end" : 1160000,
+                "start" : 580000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 1500000,
+                "start" : 1240000,
+                "text" : "no"
+              },
+              {
+                "end" : 2040000,
+                "start" : 1580000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000304",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 6300000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000305",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 7720000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000306",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1840000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 9680000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "depois escolha o estilo",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000307",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2400000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 11520000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.8,
+                "r" : 0
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "none",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 12,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "que"
+              },
+              {
+                "end" : 840000,
+                "start" : 380000,
+                "text" : "combina"
+              },
+              {
+                "end" : 1220000,
+                "start" : 920000,
+                "text" : "com"
+              },
+              {
+                "end" : 1520000,
+                "start" : 1300000,
+                "text" : "o"
+              },
+              {
+                "end" : 1900000,
+                "start" : 1600000,
+                "text" : "seu"
+              },
+              {
+                "end" : 2400000,
+                "start" : 1980000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000308",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 20200000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000309",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2560000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 21620000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Hoje eu vou mostrar como gerar",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000310",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2120000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 24180000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "legendas"
+              },
+              {
+                "end" : 1160000,
+                "start" : 580000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 1500000,
+                "start" : 1240000,
+                "text" : "no"
+              },
+              {
+                "end" : 2040000,
+                "start" : 1580000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000311",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 26300000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000312",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 27720000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000313",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1840000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 29680000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "depois escolha o estilo",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationOut" : {
+            "duration" : 150000,
+            "kind" : "fade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000314",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2400000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 31520000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "rise",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.25,
+              "shadowColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 0.85,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 5,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.55
+            },
+            "text" : "que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "que"
+              },
+              {
+                "end" : 840000,
+                "start" : 380000,
+                "text" : "combina"
+              },
+              {
+                "end" : 1220000,
+                "start" : 920000,
+                "text" : "com"
+              },
+              {
+                "end" : 1520000,
+                "start" : 1300000,
+                "text" : "o"
+              },
+              {
+                "end" : 1900000,
+                "start" : 1600000,
+                "text" : "seu"
+              },
+              {
+                "end" : 2400000,
+                "start" : 1980000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000315",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 40200000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0.5,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "dim",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.45,
+              "backgroundPaddingY" : 0.25,
+              "backgroundRadius" : 0.35,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.055,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.72
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000316",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 4680000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 41620000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0.5,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "dim",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.45,
+              "backgroundPaddingY" : 0.25,
+              "backgroundRadius" : 0.35,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.055,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.72
+            },
+            "text" : "Hoje eu vou mostrar como gerar legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              },
+              {
+                "end" : 3060000,
+                "start" : 2560000,
+                "text" : "legendas"
+              },
+              {
+                "end" : 3720000,
+                "start" : 3140000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 4060000,
+                "start" : 3800000,
+                "text" : "no"
+              },
+              {
+                "end" : 4600000,
+                "start" : 4140000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000317",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 46300000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0.5,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "dim",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.45,
+              "backgroundPaddingY" : 0.25,
+              "backgroundRadius" : 0.35,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.055,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.72
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000318",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 47720000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0.5,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "dim",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.45,
+              "backgroundPaddingY" : 0.25,
+              "backgroundRadius" : 0.35,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.055,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.72
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000319",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 4240000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 49680000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0.5,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "dim",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.55,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.45,
+              "backgroundPaddingY" : 0.25,
+              "backgroundRadius" : 0.35,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.055,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.72
+            },
+            "text" : "depois escolha o estilo que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              },
+              {
+                "end" : 2140000,
+                "start" : 1840000,
+                "text" : "que"
+              },
+              {
+                "end" : 2680000,
+                "start" : 2220000,
+                "text" : "combina"
+              },
+              {
+                "end" : 3060000,
+                "start" : 2760000,
+                "text" : "com"
+              },
+              {
+                "end" : 3360000,
+                "start" : 3140000,
+                "text" : "o"
+              },
+              {
+                "end" : 3740000,
+                "start" : 3440000,
+                "text" : "seu"
+              },
+              {
+                "end" : 4240000,
+                "start" : 3820000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000320",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 60200000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000321",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2560000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 61620000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "Hoje eu vou mostrar como gerar",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000322",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2120000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 64180000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "legendas"
+              },
+              {
+                "end" : 1160000,
+                "start" : 580000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 1500000,
+                "start" : 1240000,
+                "text" : "no"
+              },
+              {
+                "end" : 2040000,
+                "start" : 1580000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000323",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 66300000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000324",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 67720000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000325",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1840000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 69680000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "depois escolha o estilo",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000326",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2400000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 71520000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "progressive",
+              "reveal" : "fill",
+              "scale" : 1.05
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.075,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.68,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 18,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.5
+            },
+            "text" : "que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "que"
+              },
+              {
+                "end" : 840000,
+                "start" : 380000,
+                "text" : "combina"
+              },
+              {
+                "end" : 1220000,
+                "start" : 920000,
+                "text" : "com"
+              },
+              {
+                "end" : 1520000,
+                "start" : 1300000,
+                "text" : "o"
+              },
+              {
+                "end" : 1900000,
+                "start" : 1600000,
+                "text" : "seu"
+              },
+              {
+                "end" : 2400000,
+                "start" : 1980000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000327",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 80200000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000328",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2560000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 81620000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "Hoje eu vou mostrar como gerar",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000329",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2120000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 84180000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "legendas"
+              },
+              {
+                "end" : 1160000,
+                "start" : 580000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 1500000,
+                "start" : 1240000,
+                "text" : "no"
+              },
+              {
+                "end" : 2040000,
+                "start" : 1580000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000330",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 86300000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000331",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 87720000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000332",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1840000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 89680000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "depois escolha o estilo",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000333",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2400000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 91520000,
+          "text" : {
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 0.4,
+                "g" : 1,
+                "r" : 0.2
+              },
+              "dimOpacity" : 0.35,
+              "mode" : "current",
+              "reveal" : "type",
+              "scale" : 1
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.8,
+                "b" : 0.07,
+                "g" : 0.05,
+                "r" : 0.05
+              },
+              "backgroundEnabled" : true,
+              "backgroundPaddingX" : 0.5,
+              "backgroundPaddingY" : 0.3,
+              "backgroundRadius" : 0.2,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Menlo",
+              "fontSize" : 0.06,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.66,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : false,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.6
+            },
+            "text" : "que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "que"
+              },
+              {
+                "end" : 840000,
+                "start" : 380000,
+                "text" : "combina"
+              },
+              {
+                "end" : 1220000,
+                "start" : 920000,
+                "text" : "com"
+              },
+              {
+                "end" : 1520000,
+                "start" : 1300000,
+                "text" : "o"
+              },
+              {
+                "end" : 1900000,
+                "start" : 1600000,
+                "text" : "seu"
+              },
+              {
+                "end" : 2400000,
+                "start" : 1980000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000334",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 100200000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                1
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "Light",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.058,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.3,
+              "shadowColor" : {
+                "a" : 0.45,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.03,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.68
+            },
+            "text" : "Olá, pessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000335",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 4680000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 101620000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                7,
+                9
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "Light",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.058,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.3,
+              "shadowColor" : {
+                "a" : 0.45,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.03,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.68
+            },
+            "text" : "Hoje eu vou mostrar como gerar legendas automáticas no editor,",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              },
+              {
+                "end" : 2480000,
+                "start" : 2100000,
+                "text" : "gerar"
+              },
+              {
+                "end" : 3060000,
+                "start" : 2560000,
+                "text" : "legendas"
+              },
+              {
+                "end" : 3720000,
+                "start" : 3140000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 4060000,
+                "start" : 3800000,
+                "text" : "no"
+              },
+              {
+                "end" : 4600000,
+                "start" : 4140000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000336",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 106300000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                1
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "Light",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.058,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.3,
+              "shadowColor" : {
+                "a" : 0.45,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.03,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.68
+            },
+            "text" : "sem internet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000337",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1960000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 107720000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                3
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "Light",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.058,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.3,
+              "shadowColor" : {
+                "a" : 0.45,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.03,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.68
+            },
+            "text" : "Primeiro escolha o idioma;",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 300000,
+            "kind" : "focus"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000338",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 4240000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 109680000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                1,
+                9
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : false,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "Light",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.058,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 0.64,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.3,
+              "shadowColor" : {
+                "a" : 0.45,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.03,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.68
+            },
+            "text" : "depois escolha o estilo que combina com o seu vídeo.",
+            "words" : [
+              {
+                "end" : 420000,
+                "start" : 0,
+                "text" : "depois"
+              },
+              {
+                "end" : 960000,
+                "start" : 500000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1260000,
+                "start" : 1040000,
+                "text" : "o"
+              },
+              {
+                "end" : 1760000,
+                "start" : 1340000,
+                "text" : "estilo"
+              },
+              {
+                "end" : 2140000,
+                "start" : 1840000,
+                "text" : "que"
+              },
+              {
+                "end" : 2680000,
+                "start" : 2220000,
+                "text" : "combina"
+              },
+              {
+                "end" : 3060000,
+                "start" : 2760000,
+                "text" : "com"
+              },
+              {
+                "end" : 3360000,
+                "start" : 3140000,
+                "text" : "o"
+              },
+              {
+                "end" : 3740000,
+                "start" : 3440000,
+                "text" : "seu"
+              },
+              {
+                "end" : 4240000,
+                "start" : 3820000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000339",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 120200000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                1
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "Olá,\npessoal!",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Olá,"
+              },
+              {
+                "end" : 920000,
+                "start" : 420000,
+                "text" : "pessoal!"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000340",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2100000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 121620000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                3
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "Hoje\neu vou\nmostrar como",
+            "words" : [
+              {
+                "end" : 340000,
+                "start" : 0,
+                "text" : "Hoje"
+              },
+              {
+                "end" : 680000,
+                "start" : 420000,
+                "text" : "eu"
+              },
+              {
+                "end" : 1060000,
+                "start" : 760000,
+                "text" : "vou"
+              },
+              {
+                "end" : 1600000,
+                "start" : 1140000,
+                "text" : "mostrar"
+              },
+              {
+                "end" : 2020000,
+                "start" : 1680000,
+                "text" : "como"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000341",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2580000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 123720000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                2
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "gerar legendas\nautomáticas\nno editor,",
+            "words" : [
+              {
+                "end" : 380000,
+                "start" : 0,
+                "text" : "gerar"
+              },
+              {
+                "end" : 960000,
+                "start" : 460000,
+                "text" : "legendas"
+              },
+              {
+                "end" : 1620000,
+                "start" : 1040000,
+                "text" : "automáticas"
+              },
+              {
+                "end" : 1960000,
+                "start" : 1700000,
+                "text" : "no"
+              },
+              {
+                "end" : 2500000,
+                "start" : 2040000,
+                "text" : "editor,"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000342",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 920000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 126300000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                1
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "sem\ninternet.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "sem"
+              },
+              {
+                "end" : 920000,
+                "start" : 380000,
+                "text" : "internet."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000343",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2460000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 127720000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                3
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "Primeiro escolha\no idioma;\ndepois",
+            "words" : [
+              {
+                "end" : 500000,
+                "start" : 0,
+                "text" : "Primeiro"
+              },
+              {
+                "end" : 1040000,
+                "start" : 580000,
+                "text" : "escolha"
+              },
+              {
+                "end" : 1340000,
+                "start" : 1120000,
+                "text" : "o"
+              },
+              {
+                "end" : 1880000,
+                "start" : 1420000,
+                "text" : "idioma;"
+              },
+              {
+                "end" : 2380000,
+                "start" : 1960000,
+                "text" : "depois"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000344",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2260000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 130180000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                4
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "escolha o\nestilo que\ncombina",
+            "words" : [
+              {
+                "end" : 460000,
+                "start" : 0,
+                "text" : "escolha"
+              },
+              {
+                "end" : 760000,
+                "start" : 540000,
+                "text" : "o"
+              },
+              {
+                "end" : 1260000,
+                "start" : 840000,
+                "text" : "estilo"
+              },
+              {
+                "end" : 1640000,
+                "start" : 1340000,
+                "text" : "que"
+              },
+              {
+                "end" : 2180000,
+                "start" : 1720000,
+                "text" : "combina"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        },
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "animationIn" : {
+            "duration" : 400000,
+            "kind" : "cascade"
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000345",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 1480000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 132440000,
+          "text" : {
+            "emphasis" : {
+              "color" : {
+                "a" : 1,
+                "b" : 0.3,
+                "g" : 0.2,
+                "r" : 1
+              },
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "scale" : 1,
+              "words" : [
+                3
+              ]
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : false,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : true,
+              "fontFace" : "Condensed Black",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.073116,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : -0.15,
+              "maxWidth" : 0.2025,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.2,
+              "shadowColor" : {
+                "a" : 0.5,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "upper",
+              "underline" : false,
+              "x" : 0,
+              "y" : 0
+            },
+            "text" : "com\no seu\nvídeo.",
+            "words" : [
+              {
+                "end" : 300000,
+                "start" : 0,
+                "text" : "com"
+              },
+              {
+                "end" : 600000,
+                "start" : 380000,
+                "text" : "o"
+              },
+              {
+                "end" : 980000,
+                "start" : 680000,
+                "text" : "seu"
+              },
+              {
+                "end" : 1480000,
+                "start" : 1060000,
+                "text" : "vídeo."
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    },
+    {
+      "hidden" : false,
+      "id" : "00000000-0000-4000-8000-000000000900",
+      "isMain" : false,
+      "kind" : "text",
+      "muted" : false,
+      "segments" : [
+        {
+          "adjust" : {
+            "brightness" : 0,
+            "contrast" : 0,
+            "exposure" : 0,
+            "fade" : 0,
+            "grain" : 0,
+            "highlights" : 0,
+            "hue" : 0,
+            "saturation" : 0,
+            "shadows" : 0,
+            "sharpen" : 0,
+            "temperature" : 0,
+            "tint" : 0,
+            "vignette" : 0
+          },
+          "effects" : [
+
+          ],
+          "fadeIn" : 0,
+          "fadeOut" : 0,
+          "id" : "00000000-0000-4000-8000-000000000901",
+          "opacity" : 1,
+          "source" : {
+            "duration" : 2000000,
+            "start" : 0
+          },
+          "speed" : 1,
+          "targetStart" : 0,
+          "text" : {
+            "emphasis" : {
+              "fontFace" : "Italic",
+              "fontName" : "Didot",
+              "scale" : 1.3,
+              "words" : [
+                1,
+                5
+              ]
+            },
+            "highlight" : {
+              "backgroundColor" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 0.45,
+                "r" : 0.1
+              },
+              "backgroundEnabled" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 0.1,
+                "g" : 0.85,
+                "r" : 1
+              },
+              "dimOpacity" : 0.5,
+              "mode" : "progressive",
+              "reveal" : "dim",
+              "scale" : 1.12
+            },
+            "style" : {
+              "alignment" : "center",
+              "backgroundColor" : {
+                "a" : 0.6,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "backgroundEnabled" : false,
+              "backgroundPaddingX" : 0.21,
+              "backgroundPaddingY" : 0.21,
+              "backgroundRadius" : 0.18,
+              "balanceLines" : true,
+              "bold" : true,
+              "color" : {
+                "a" : 1,
+                "b" : 1,
+                "g" : 1,
+                "r" : 1
+              },
+              "fitLines" : false,
+              "fontFace" : "",
+              "fontName" : "Helvetica Neue",
+              "fontSize" : 0.07,
+              "italic" : false,
+              "letterSpacing" : 0,
+              "lineSpacing" : 0,
+              "maxWidth" : 2.5,
+              "opacity" : 1,
+              "rotation" : 0,
+              "scale" : 1,
+              "shadow" : true,
+              "shadowAngle" : -90,
+              "shadowBlur" : 0.15,
+              "shadowColor" : {
+                "a" : 0.65,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "shadowDistance" : 0.04,
+              "strokeColor" : {
+                "a" : 1,
+                "b" : 0,
+                "g" : 0,
+                "r" : 0
+              },
+              "strokeWidth" : 0,
+              "textCase" : "none",
+              "underline" : false,
+              "x" : 0,
+              "y" : -0.7
+            },
+            "text" : "de manhã cedo\ncom o sol",
+            "words" : [
+              {
+                "end" : 200000,
+                "start" : 0,
+                "text" : "de"
+              },
+              {
+                "end" : 600000,
+                "start" : 250000,
+                "text" : "manhã"
+              },
+              {
+                "end" : 900000,
+                "start" : 650000,
+                "text" : "cedo"
+              },
+              {
+                "end" : 1200000,
+                "start" : 1000000,
+                "text" : "com"
+              },
+              {
+                "end" : 1300000,
+                "start" : 1250000,
+                "text" : "o"
+              },
+              {
+                "end" : 1700000,
+                "start" : 1350000,
+                "text" : "sol"
+              }
+            ]
+          },
+          "transform" : {
+            "rotation" : 0,
+            "scale" : 1,
+            "x" : 0,
+            "y" : 0
+          },
+          "volume" : 1
+        }
+      ]
+    }
+  ]
+}

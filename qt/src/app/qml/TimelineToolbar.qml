@@ -8,6 +8,13 @@ Item {
 
     readonly property var seg: Editor.selectedSegment
 
+    component HeightItem: OfMenuItem {
+        property var preset
+        text: preset.title
+        marked: Editor.commonRowHeight === preset.value
+        onTriggered: Editor.setAllRowHeights(preset.height)
+    }
+
     Row {
         anchors.left: parent.left
         anchors.leftMargin: 12
@@ -30,6 +37,19 @@ Item {
             help: "Adicionar texto (Ctrl+T)"
             onClicked: Editor.addText()
         }
+        CircleButton {
+            id: micButton
+            objectName: "recordButton"
+            size: 28
+            iconName: "mic"
+            on: Editor.recording.showPanel
+            help: "Gravar áudio"
+            onClicked: Editor.presentRecorder()
+            RecorderPanel {
+                x: 0
+                y: micButton.height + 8
+            }
+        }
     }
 
     Row {
@@ -45,6 +65,27 @@ Item {
         anchors.rightMargin: 12
         anchors.verticalCenter: parent.verticalCenter
         spacing: 6
+        // Altura de todas as faixas de uma vez.
+        GlyphButton {
+            id: heightButton
+            objectName: "rowHeightButton"
+            anchors.verticalCenter: parent.verticalCenter
+            iconName: "unfold-vertical"
+            iconSize: 15
+            help: "Altura das faixas"
+            rightPadding: 6
+            onClicked: heightMenu.popup(heightButton, 0, heightButton.height + 4)
+            OfMenu {
+                id: heightMenu
+                objectName: "rowHeightMenu"
+                onOpened: Editor.modalCount += 1
+                onClosed: Editor.modalCount -= 1
+                HeightItem { preset: Editor.rowHeightPresets[0] }
+                HeightItem { preset: Editor.rowHeightPresets[1] }
+                HeightItem { preset: Editor.rowHeightPresets[2] }
+                HeightItem { preset: Editor.rowHeightPresets[3] }
+            }
+        }
         GlyphButton {
             anchors.verticalCenter: parent.verticalCenter
             iconName: "move-horizontal"

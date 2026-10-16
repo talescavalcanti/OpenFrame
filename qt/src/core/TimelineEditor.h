@@ -2,6 +2,7 @@
 
 #include "Project.h"
 
+#include <QPointF>
 #include <functional>
 
 namespace of {
@@ -40,6 +41,29 @@ QUuid insertMedia(const Material &m, Project &p, Micros time, std::optional<int>
 
 QUuid addText(const TextContent &content, Project &p, Micros time, Micros duration = defaultTextDuration);
 
+// Áudio
+
+/// Se o segmento é um vídeo com som que ainda não foi extraído.
+bool canExtractAudio(const Project &p, const QUuid &id);
+
+/// Extrai o som do clipe para uma faixa de áudio, sem gravar nada em disco: um material de áudio que aponta
+/// para o mesmo arquivo ("Áudio de <nome>", reaproveitado se outro trecho do mesmo vídeo já foi extraído) e um
+/// segmento no mesmo trecho, com a velocidade, o volume e os fades do clipe, na primeira faixa de áudio livre no
+/// trecho (ou numa nova). O cruzamento de uma transição da faixa principal vira fade no segmento novo, para o som
+/// não mudar. O clipe fica com `audioDetached` (não soa mais). Devolve o id do segmento de áudio novo.
+std::optional<QUuid> extractAudio(Project &p, const QUuid &id);
+
+/// Põe uma gravação (o material entra no projeto se ainda não estiver) na timeline a partir de `time`, numa
+/// faixa de áudio livre no trecho (ou numa nova). Devolve o id do segmento.
+QUuid addRecording(const Material &m, Project &p, Micros time);
+
+// Faixas
+
+/// Muda a altura de uma faixa (limitada a `Track::heightMin...heightMax`; vazio volta à padrão).
+void setTrackHeight(Project &p, const QUuid &track, std::optional<double> height);
+/// Muda a altura de todas as faixas de uma vez (o controle global da barra da timeline).
+void setAllTrackHeights(Project &p, std::optional<double> height);
+
 /// Primeira faixa não principal do tipo sem nada no intervalo (ignorando `excluding`).
 std::optional<int> freeTrack(TrackKind kind, TimeRange range, const Project &p, std::optional<QUuid> excluding);
 
@@ -77,6 +101,14 @@ void setSpeed(Project &p, const QUuid &id, double speed);
 
 /// Altera um segmento e reaplica o layout da faixa principal.
 void update(Project &p, const QUuid &id, const std::function<void(Segment &)> &change);
+
+/// Grava posição/escala/rotação no lugar certo: `text.style` no texto, `transform` no visual.
+/// `center` normalizado (-1...1, y para cima); escala mínima 0,01.
+void setPlacement(Project &p, const QUuid &id, QPointF center, double scale, double rotation);
+
+/// Muda a largura da caixa de um texto (`style.maxWidth`, limitada a `TextStyle::maxWidthMin...Max`); o texto
+/// se reorganiza. Numa faixa de legendas automáticas, vale para todos os textos da faixa. Ignora NaN/infinito.
+void setTextWidth(Project &p, const QUuid &id, double maxWidth);
 
 // Ímã (snap)
 

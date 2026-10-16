@@ -55,6 +55,11 @@ public:
     void seek(Micros t);
     bool isPlaying() const;
     Micros time() const;
+    /// Liga ou desliga o som do preview (a gravação toca a timeline muda).
+    void setAudioEnabled(bool enabled);
+    /// Lado menor do quadro do preview em pixels (degraus do `PreviewResolution`).
+    void setPreviewShortSide(int side);
+    int previewShortSide() const;
 
 signals:
     void timeChanged(Micros t);

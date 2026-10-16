@@ -25,6 +25,12 @@ Item {
                 anchors.fill: parent
                 radius: 10
             }
+            // Seleção, alças e guias sobre o quadro (desligado durante a reprodução).
+            CanvasOverlay {
+                objectName: "canvasOverlay"
+                anchors.fill: parent
+                visible: Editor.duration > 0
+            }
             // Grade dos terços, no ciano da marca.
             Item {
                 visible: Editor.showGrid

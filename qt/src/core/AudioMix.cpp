@@ -72,8 +72,11 @@ QList<AudioClip> clips(const Project &project)
             const Material *m = project.material(seg.materialId);
             if (!m || seg.volume <= 0)
                 continue;
-            const bool sounds = track.kind == TrackKind::Video ? m->kind == MaterialKind::Video && m->hasAudio
-                                                               : m->kind == MaterialKind::Audio;
+            // Com o som extraído para uma faixa de áudio, o clipe de vídeo não soa (como volume 0). O áudio
+            // extraído é um material de áudio que aponta para o vídeo; um vídeo com som numa faixa de áudio também toca.
+            const bool video = m->kind == MaterialKind::Video && m->hasAudio;
+            const bool sounds = track.kind == TrackKind::Video ? video && !seg.audioDetached
+                                                               : m->kind == MaterialKind::Audio || video;
             if (sounds)
                 add(seg, *m);
         }
@@ -478,6 +481,33 @@ void AudioMixer::read(float *out, int frames)
     for (qint64 i = 0; i < qint64(frames) * channels; ++i)
         out[i] = std::clamp(out[i], -1.0f, 1.0f);
     d->pos = b0;
+}
+
+ClockedMixer::ClockedMixer(QList<AudioClip> clips, Micros base, const QElapsedTimer &clock)
+    : m_mixer(std::move(clips)), m_base(base), m_clock(clock)
+{
+    // Abre os decodificadores que tocam logo depois da partida (o `read` abre os
+    // que começam até meio segundo adiante); o pulo da primeira leitura cai perto.
+    m_mixer.seek(base);
+    float scratch[channels];
+    m_mixer.read(scratch, 1);
+    m_mixer.seek(base);
+}
+
+void ClockedMixer::read(float *out, int frames)
+{
+    if (m_clock.isValid()) {
+        const Micros now = m_base + m_clock.nsecsElapsed() / 1000;
+        if (!m_aligned) {
+            m_skipped = std::max<Micros>(0, now - m_base);
+            m_mixer.seek(now);
+        } else if (now - m_mixer.position() * 1'000'000 / sampleRate > maxLag) {
+            ++m_resyncs;
+            m_mixer.seek(now);
+        }
+    }
+    m_aligned = true;
+    m_mixer.read(out, frames);
 }
 
 } // namespace of

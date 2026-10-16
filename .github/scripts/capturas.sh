@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # Capturas offscreen do app (tela inicial, editor com mídia, projeto completo e
-# arrastes), para conferir o visual sem tela. Usado pela CI; roda também no Mac.
+# arrastes; com OPENFRAME_CAPTURAS_MOTION=1, também motion e legendas; com
+# OPENFRAME_CAPTURAS_AUDIO=1, o áudio na timeline), para
+# conferir o visual sem tela. Usado pela CI; roda também no Mac.
 #
 # uso: capturas.sh <executável do OpenFrame> <pasta de saída>
 # Precisa do ffmpeg no PATH (gera a mídia de teste). OPENFRAME_QPA troca a
-# plataforma do Qt (padrão: offscreen; no Windows a CI usa "windows").
+# plataforma do Qt (padrão: offscreen; no Windows a CI usa "windows"). As
+# legendas usam a transcrição falsa; com OPENFRAME_MODELS_DIR apontando para o
+# modelo base, a geração não tenta baixar nada.
 set -euo pipefail
 
 # No Windows (Git Bash) o app recebe caminhos nativos (C:/...).
@@ -18,7 +22,8 @@ mkdir -p "$2"
 out=$(nativo "$(cd "$2" && pwd)")
 root=$(nativo "$(cd "$(dirname "$0")/../.." && pwd)")
 work="$out/.trabalho"
-mkdir -p "$work/midia" "$work/biblioteca" "$work/biblioteca-completo"
+mkdir -p "$work/midia" "$work/biblioteca" "$work/biblioteca-completo" "$work/biblioteca-motion" \
+    "$work/biblioteca-legendas" "$work/biblioteca-audio"
 
 # Mídia de teste: dois vídeos com som, uma foto e uma música.
 (
@@ -77,6 +82,21 @@ if [[ -n $projeto ]]; then
 else
     echo "::error::O cenário com mídia não deixou projeto na biblioteca"
     falhas=1
+fi
+
+# Seleção, alças e guias no preview e aba Animação; janela, estilos, painel e
+# inspetor das legendas.
+if [[ ${OPENFRAME_CAPTURAS_MOTION:-} == 1 ]]; then
+    cenario motion 300 OPENFRAME_LIBRARY_DIR="$work/biblioteca-motion" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
+        OPENFRAME_SNAPSHOT_SCENARIO=motion || falhas=1
+    cenario legendas 400 OPENFRAME_LIBRARY_DIR="$work/biblioteca-legendas" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
+        OPENFRAME_SNAPSHOT_SCENARIO=legendas OPENFRAME_FAKE_TRANSCRIPTION=1 || falhas=1
+fi
+
+# Áudio na timeline: alturas das faixas, extrair o áudio e gravar (microfone simulado).
+if [[ ${OPENFRAME_CAPTURAS_AUDIO:-} == 1 ]]; then
+    cenario audio 300 OPENFRAME_LIBRARY_DIR="$work/biblioteca-audio" OPENFRAME_SNAPSHOT_MEDIA="$work/midia" \
+        OPENFRAME_SNAPSHOT_SCENARIO=audio OPENFRAME_FAKE_RECORDING=1 || falhas=1
 fi
 
 rm -rf "$work"

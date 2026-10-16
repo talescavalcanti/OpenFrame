@@ -5,7 +5,7 @@ name: Qt (Windows e Linux)
 
 on:
   push:
-    branches: [main, develop, "feature/multiplataforma*"]
+    branches: [main, develop, "feature/multiplataforma*", "feature/qt-motion-legendas*"]
     paths: ["qt/**", ".github/workflows/qt.yml", ".github/scripts/**"]
   pull_request:
     paths: ["qt/**", ".github/workflows/qt.yml", ".github/scripts/**"]
@@ -23,6 +23,13 @@ env:
   # publicados por tempo indeterminado; os diários somem em poucas semanas.
   FFMPEG_RELEASE: autobuild-2026-09-30-13-08
   FFMPEG_BUILD: ffmpeg-n9.0.2-17-g2a571b6068
+  # Modelo "base" do Whisper (o mesmo arquivo e sha256 de qt/src/core/WhisperModels.cpp),
+  # para o teste de transcrição. A chave do cache é o sha256.
+  WHISPER_BASE_URL: https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin
+  WHISPER_BASE_SHA256: 60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe
+  # O ilammy/msvc-dev-cmd ainda não tem versão em Node 24 (nem a v1.13.0); as
+  # outras actions já têm. Força o Node 24 em todas, até ele publicar uma.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -56,7 +63,7 @@ jobs:
         shell: bash
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Dependências do sistema (Linux)
         if: runner.os == 'Linux'
@@ -87,7 +94,7 @@ jobs:
 
       - name: Cache do FFmpeg
         id: ffmpeg-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ runner.temp }}/ffmpeg
           key: ffmpeg-${{ env.FFMPEG_BUILD }}-${{ matrix.ffmpeg-asset }}
@@ -117,6 +124,32 @@ jobs:
           fi
           "$root/bin/ffmpeg" -hide_banner -version | head -n 1
 
+      - name: Cache do modelo Whisper (base)
+        id: whisper-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.temp }}/whisper-models
+          key: whisper-ggml-base-${{ runner.os }}-${{ env.WHISPER_BASE_SHA256 }}
+
+      - name: Baixar o modelo Whisper (base)
+        if: steps.whisper-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/whisper-models"
+          cd "$RUNNER_TEMP/whisper-models"
+          curl -fsSL --retry 3 -o ggml-base.bin.parcial "$WHISPER_BASE_URL"
+          echo "$WHISPER_BASE_SHA256  ggml-base.bin.parcial" | sha256sum -c -
+          mv ggml-base.bin.parcial ggml-base.bin
+
+      # Com OPENFRAME_REQUIRE_WHISPER_MODEL, o teste de transcrição falha em vez
+      # de pular quando o modelo falta: na CI o pulo não pode acontecer.
+      - name: Modelo Whisper no ambiente
+        run: |
+          models="$RUNNER_TEMP/whisper-models"
+          if [[ "$RUNNER_OS" == Windows ]]; then models=$(cygpath -m "$models"); fi
+          echo "OPENFRAME_MODELS_DIR=$models" >> "$GITHUB_ENV"
+          echo "OPENFRAME_REQUIRE_WHISPER_MODEL=1" >> "$GITHUB_ENV"
+          ls -l "$RUNNER_TEMP/whisper-models"
+
       # O /utf-8 do MSVC vem do qt/CMakeLists.txt. Por CXXFLAGS, o Git Bash
       # o converte num caminho (C:/Program Files/Git/utf-8).
       - name: Configurar
@@ -124,6 +157,15 @@ jobs:
 
       - name: Compilar
         run: cmake --build build --parallel
+
+      # Diagnóstico do WhisperUnitTests: a detecção automática de proxy (WPAD) pode
+      # atrasar a primeira conexão do Qt, mesmo para 127.0.0.1.
+      - name: Proxy do sistema (Windows)
+        if: runner.os == 'Windows'
+        continue-on-error: true
+        run: |
+          netsh winhttp show proxy
+          reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" || true
 
       - name: Testes do núcleo
         run: |
@@ -136,9 +178,12 @@ jobs:
                 status=0
                 exe=$(find build -name "$t.exe" | head -n 1)
                 rm -f diag.txt
-                "$exe" -platform "$qpa" -o diag.txt,txt -v2 || status=$?
+                # A plataforma vai pelo ambiente: as suítes sem interface
+                # (QTEST_GUILESS_MAIN) recusam a opção -platform.
+                QT_QPA_PLATFORM="$qpa" "$exe" -o diag.txt,txt -v2 || status=$?
                 echo "== $t ($qpa): saída $status"
-                tail -n 25 diag.txt 2>/dev/null || true
+                grep -E -A4 'FAIL!|QFATAL|QCRITICAL|QWARN' diag.txt 2>/dev/null | head -n 60 || true
+                tail -n 15 diag.txt 2>/dev/null || true
               done
             done
           fi
@@ -150,11 +195,13 @@ jobs:
         env:
           OPENFRAME_QPA: ${{ runner.os == 'Windows' && 'windows' || 'offscreen' }}
           OPENFRAME_SOFTWARE: ${{ runner.os == 'Windows' && '1' || '' }}
+          OPENFRAME_CAPTURAS_MOTION: "1"
+          OPENFRAME_CAPTURAS_AUDIO: "1"
         run: .github/scripts/capturas.sh "${{ matrix.app }}" capturas
 
       - name: Publicar as capturas
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: capturas-${{ runner.os }}
           path: capturas
@@ -169,8 +216,37 @@ jobs:
             .github/scripts/pacote-linux.sh build pacotes
           fi
 
+      # O pacote extraído leva o whisper/ggml com as variantes de CPU e o plugin de
+      # TLS, baixa por HTTPS e transcreve uma fala com uma variante de dentro dele.
+      - name: Conferir o pacote (whisper e TLS)
+        run: .github/scripts/conferir-pacote.sh pacotes conferencia
+
+      - name: Publicar a conferência do pacote
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: conferencia-${{ runner.os }}
+          path: conferencia
+          if-no-files-found: ignore
+          retention-days: 14
+
+      # Tira a libva do sistema e toca o AppImage gravando a saída de som: prova que
+      # o pacote, sem o plugin de mídia do Qt, não cai e o som sai.
+      - name: AppImage sem libva, com som
+        if: runner.os == 'Linux'
+        run: .github/scripts/som-appimage.sh pacotes/*.AppImage som
+
+      - name: Publicar o teste de som
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@v6
+        with:
+          name: som-Linux
+          path: som
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Publicar os pacotes
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: OpenFrame-${{ runner.os }}
           path: |

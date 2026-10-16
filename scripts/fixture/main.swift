@@ -3,7 +3,7 @@ import Foundation
 // Gera um projeto que usa todos os campos do formato .openframe. A versão
 // multiplataforma (qt/) lê este arquivo nos testes e precisa gravá-lo de volta
 // com o mesmo conteúdo: é o que garante que os dois apps abrem os mesmos projetos.
-// Uso: scripts/make-fixture.sh  (grava qt/tests/fixtures/completo.openframe)
+// Uso: scripts/make-fixture.sh  (grava qt/tests/fixtures/completo.openframe e os outros ao lado)
 
 func uuid(_ n: Int) -> UUID { UUID(uuidString: String(format: "00000000-0000-4000-8000-%012d", n))! }
 
@@ -126,4 +126,143 @@ for (name, bg) in [("fundo-preto", CanvasBackground.black), ("fundo-desfoque", .
     q.canvas.background = bg
     try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("\(name).openframe"))
 }
+// Texto e motion: todas as animações de entrada e saída e os quatro loops, em texto e em vídeo.
+do {
+    var q = Project()
+    q.name = "Motion"
+    q.tracks[0].id = uuid(1)
+    q.materials = [video]
+    var clip = Segment(materialId: video.id, source: TimeRange(start: 0, duration: 6_000_000), targetStart: 0)
+    clip.id = uuid(100)
+    clip.animationIn = SegmentAnimation(kind: .focus, duration: 300_000)
+    clip.animationLoop = LoopAnimation(kind: .shine, period: 1_500_000, intensity: 0.8)
+    q.tracks[0].segments = [clip]
+    var texts = Track(kind: .text)
+    texts.id = uuid(101)
+    let kinds = AnimationKind.allCases
+    let loops = LoopKind.allCases
+    for (k, kind) in kinds.enumerated() {
+        var seg = Segment.text(TextContent(text: "Animação \(kind.rawValue)"),
+                               at: Micros(k) * 1_000_000, duration: 900_000)
+        seg.id = uuid(200 + k)
+        seg.animationIn = SegmentAnimation(kind: kind, duration: 400_000)
+        seg.animationOut = SegmentAnimation(kind: kinds[(k + 5) % kinds.count], duration: 250_000)
+        if k < loops.count {
+            seg.animationLoop = LoopAnimation(kind: loops[k], period: Micros(1_000_000 + 250_000 * k),
+                                              intensity: 0.25 * Double(k + 1))
+        }
+        texts.segments.append(seg)
+    }
+    q.tracks.append(texts)
+    try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("motion.openframe"))
+}
+
+// Legendas: a faixa automática gerada pelo CaptionBuilder (palavras, destaque com as revelações, palavra-chave,
+// Empilhado com fitLines) e textos feitos à mão com os campos raros (U+00A0, maxWidth > 1, ênfase sem cor).
+do {
+    var q = Project()
+    q.name = "Legendas"
+    q.canvas.aspect = .r16x9
+    q.tracks[0].id = uuid(1)
+    let speech = "Olá, pessoal! Hoje eu vou mostrar como gerar legendas automáticas no editor, sem internet. " +
+        "Primeiro escolha o idioma; depois escolha o estilo que combina com o seu vídeo."
+    var spoken: [TranscribedWord] = []
+    var t: Micros = 200_000
+    for word in speech.split(separator: " ") {
+        let end = t + 180_000 + 40_000 * Micros(min(word.count, 10))
+        spoken.append(TranscribedWord(text: String(word), start: t, end: end))
+        t = end + (word.hasSuffix(".") || word.hasSuffix("!") ? 500_000 : 80_000)
+    }
+    var n = 300
+    for (preset, accent) in [(CaptionPreset.highlight, RGBA(0, 0.8, 1)), (.rise, nil), (.guided, RGBA(1, 0.5, 0)),
+                             (.fill, nil), (.typing, RGBA(0.2, 1, 0.4)), (.editorial, nil), (.stacked, RGBA(1, 0.2, 0.3))] {
+        let cues = CaptionBuilder.cues(from: spoken, preset: preset, aspect: q.aspectValue)
+        // Cada visual no seu trecho da timeline (substituir só troca o que toca o trecho).
+        let offset = Micros(n - 300) / 40 * 20_000_000
+        let shifted = cues.map { cue -> CaptionCue in
+            var c = cue
+            c.start += offset
+            c.end += offset
+            c.words = c.words.map { TranscribedWord(text: $0.text, start: $0.start + offset, end: $0.end + offset) }
+            return c
+        }
+        CaptionBuilder.apply(shifted, preset: preset, accent: accent, to: &q, replacing: true)
+        n += 40
+    }
+    // Ids fixos: o arquivo não muda a cada geração.
+    var id = 300
+    for t in q.tracks.indices where t > 0 {
+        q.tracks[t].id = uuid(id)
+        id += 1
+        for k in q.tracks[t].segments.indices {
+            q.tracks[t].segments[k].id = uuid(id)
+            id += 1
+        }
+    }
+    var manual = Track(kind: .text)
+    manual.id = uuid(900)
+    var style = TextStyle()
+    style.maxWidth = 2.5
+    style.balanceLines = true
+    var content = TextContent(text: "de\u{00A0}manhã cedo\ncom\u{00A0}o sol", style: style)
+    content.words = [CaptionWord(text: "de", start: 0, end: 200_000), CaptionWord(text: "manhã", start: 250_000, end: 600_000),
+                     CaptionWord(text: "cedo", start: 650_000, end: 900_000), CaptionWord(text: "com", start: 1_000_000, end: 1_200_000),
+                     CaptionWord(text: "o", start: 1_250_000, end: 1_300_000), CaptionWord(text: "sol", start: 1_350_000, end: 1_700_000)]
+    var h = WordHighlight()
+    h.backgroundEnabled = true
+    h.mode = .progressive
+    h.reveal = .dim
+    h.dimOpacity = 0.5
+    content.highlight = h
+    content.emphasis = WordEmphasis(words: [1, 5])
+    var seg = Segment.text(content, at: 0, duration: 2_000_000)
+    seg.id = uuid(901)
+    manual.segments = [seg]
+    q.tracks.append(manual)
+    try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("legendas.openframe"))
+}
+
+// Áudio na timeline: um clipe com o som extraído (material de áudio no mesmo arquivo do vídeo), uma gravação e
+// faixas com altura própria (e uma na padrão, sem a chave).
+do {
+    var q = Project()
+    q.name = "Áudio"
+    q.tracks[0].id = uuid(1)
+    var take = Material(kind: .audio, path: "/media/Gravações/Gravação 1.m4a", name: "Gravação 1.m4a",
+                        duration: 2_500_000, width: 0, height: 0, hasAudio: true)
+    take.id = uuid(1001)
+    let first = TimelineEditor.addMedia(video, to: &q)
+    TimelineEditor.addMedia(video, to: &q)
+    TimelineEditor.update(&q, segment: first) {
+        $0.speed = 1.5
+        $0.volume = 0.8
+        $0.fadeIn = 200_000
+        $0.transition = Transition(kind: .dissolve, duration: 400_000)
+    }
+    TimelineEditor.extractAudio(&q, segment: first)
+    TimelineEditor.addRecording(take, to: &q, at: 1_000_000)
+    TimelineEditor.setAllTrackHeights(&q, height: 90)
+    TimelineEditor.setTrackHeight(&q, track: q.tracks[1].id, height: 36)
+    TimelineEditor.setTrackHeight(&q, track: q.tracks[2].id, height: nil)
+    // Ids fixos: o arquivo não muda a cada geração.
+    if let k = q.materials.firstIndex(where: { $0.kind == .audio && $0.path == video.path }) {
+        let old = q.materials[k].id
+        q.materials[k].id = uuid(1000)
+        for t in q.tracks.indices {
+            for s in q.tracks[t].segments.indices where q.tracks[t].segments[s].materialId == old {
+                q.tracks[t].segments[s].materialId = uuid(1000)
+            }
+        }
+    }
+    var id = 1100
+    for t in q.tracks.indices {
+        if t > 0 { q.tracks[t].id = uuid(id); id += 1 }
+        for k in q.tracks[t].segments.indices {
+            q.tracks[t].segments[k].id = uuid(id)
+            id += 1
+        }
+    }
+    try ProjectStore.save(q, to: out.deletingLastPathComponent().appendingPathComponent("audio.openframe"))
+}
+
 print("ok: \(out.path)")

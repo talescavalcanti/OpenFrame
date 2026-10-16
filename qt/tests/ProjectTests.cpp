@@ -8,7 +8,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QRegularExpression>
+#include <set>
 #include <QTemporaryDir>
+#include <functional>
 
 using namespace of;
 using namespace of::test;
@@ -233,125 +235,209 @@ private slots:
         QVERIFY(!ProjectStore::decode("[]", &error));
     }
 
-    // Animações novas do app do Mac: tipo desconhecido vira esmaecer e o loop é ignorado
-    // Legendas automáticas do Mac: `words`/`highlight` no texto e `isAutoCaptions` na faixa são
-    // ignorados na leitura e se perdem ao regravar (o porte das legendas para o Qt vem depois).
-    void captionFieldsAreTolerated()
+    /// O primeiro texto do projeto, com `change` aplicado ao JSON do segmento e da faixa.
+    static QJsonObject editedText(const std::function<void(QJsonObject &track, QJsonObject &seg)> &change)
     {
         Project p;
         TE::addText(text(QStringLiteral("um dois")), p, 0);
         QJsonObject o = ProjectStore::toJson(p);
         QJsonArray tracks = o["tracks"].toArray();
         QJsonObject track = tracks[1].toObject();
-        track["isAutoCaptions"] = true;
         QJsonArray segments = track["segments"].toArray();
         QJsonObject seg = segments[0].toObject();
-        QJsonObject content = seg["text"].toObject();
-        content["words"] = QJsonArray{QJsonObject{{"text", "um"}, {"start", 0}, {"end", 300000}},
-                                      QJsonObject{{"text", "dois"}, {"start", 350000}, {"end", 700000}}};
-        content["highlight"] = QJsonObject{{"color", QJsonObject{{"r", 1}, {"g", 0.85}, {"b", 0.1}, {"a", 1}}},
-                                           {"scale", 1.12}, {"backgroundEnabled", true}, {"mode", "progressive"}};
-        seg["text"] = content;
+        change(track, seg);
         segments[0] = seg;
         track["segments"] = segments;
         tracks[1] = track;
         o["tracks"] = tracks;
+        return o;
+    }
 
+    // Legendas automáticas: `words`/`highlight` no texto e `isAutoCaptions` na faixa são lidos e ficam ao
+    // regravar; no destaque, campos ausentes ficam com o padrão
+    void captionFieldsRoundTrip()
+    {
+        const QJsonObject o = editedText([](QJsonObject &track, QJsonObject &seg) {
+            track["isAutoCaptions"] = true;
+            QJsonObject content = seg["text"].toObject();
+            content["words"] = QJsonArray{QJsonObject{{"text", "um"}, {"start", 0}, {"end", 300000}},
+                                          QJsonObject{{"text", "dois"}, {"start", 350000}, {"end", 700000}}};
+            content["highlight"] = QJsonObject{{"color", QJsonObject{{"r", 1}, {"g", 0.85}, {"b", 0.1}, {"a", 1}}},
+                                               {"scale", 1.12}, {"backgroundEnabled", true}, {"mode", "progressive"}};
+            seg["text"] = content;
+        });
         QString error;
         const auto back = ProjectStore::fromJson(o, &error);
         QVERIFY2(back, qPrintable(error));
-        QCOMPARE(back->tracks[1].segments[0].text->text, QStringLiteral("um dois"));
+        const Track &track = back->tracks[1];
+        QVERIFY(track.isAutoCaptions);
+        const TextContent &t = *track.segments[0].text;
+        QCOMPARE(t.words->size(), 2);
+        QCOMPARE(t.words->at(1), (CaptionWord{QStringLiteral("dois"), 350000, 700000}));
+        QVERIFY(t.highlight->backgroundEnabled);
+        QCOMPARE(t.highlight->mode, HighlightMode::Progressive);
+        QCOMPARE(t.highlight->reveal, WordReveal::None);
+        QCOMPARE(t.highlight->dimOpacity, 0.35);
+        QCOMPARE(t.highlight->backgroundColor, (RGBA{0.1, 0.45, 1, 1}));
+        QVERIFY(t.activeHighlight());
+
         const QJsonObject again = ProjectStore::toJson(*back)["tracks"][1].toObject();
-        QVERIFY(!again.contains(QStringLiteral("isAutoCaptions")));
+        QCOMPARE(again["isAutoCaptions"].toBool(), true);
         const QJsonObject againText = again["segments"][0]["text"].toObject();
-        QVERIFY(!againText.contains(QStringLiteral("words")));
-        QVERIFY(!againText.contains(QStringLiteral("highlight")));
+        QCOMPARE(againText["words"].toArray().size(), 2);
+        // O destaque sai com todos os campos, como o Codable do Swift grava.
+        QCOMPARE(againText["highlight"]["reveal"].toString(), QStringLiteral("none"));
+        QCOMPARE(againText["highlight"]["dimOpacity"].toDouble(), 0.35);
+        QVERIFY(!againText.contains(QStringLiteral("emphasis")));
+        // Sem legendas, as chaves não são gravadas.
+        const QJsonObject plain = ProjectStore::toJson(Project())["tracks"][0].toObject();
+        QVERIFY(!plain.contains(QStringLiteral("isAutoCaptions")));
     }
 
-    // Estilos de legenda do Mac: `balanceLines`/`fitLines` no estilo, `maxWidth` acima de 1, `reveal`/
-    // `dimOpacity` no destaque e `emphasis` no texto são ignorados (ou lidos como estão) na leitura.
-    void captionStyleFieldsAreTolerated()
+    // Estilos de legenda: `balanceLines`/`fitLines`, `maxWidth` acima de 1, `reveal`/`dimOpacity` e `emphasis`
+    // ficam ao regravar; `mode`/`reveal` desconhecidos viram o padrão; a ênfase sem cor não grava a cor
+    void captionStyleFieldsRoundTrip()
     {
-        Project p;
-        TE::addText(text(QStringLiteral("um dois")), p, 0);
-        QJsonObject o = ProjectStore::toJson(p);
-        QJsonArray tracks = o["tracks"].toArray();
-        QJsonObject track = tracks[1].toObject();
-        track["isAutoCaptions"] = true;
-        QJsonArray segments = track["segments"].toArray();
-        QJsonObject seg = segments[0].toObject();
-        QJsonObject content = seg["text"].toObject();
-        content["text"] = QStringLiteral("um dois\ntrês");
-        QJsonObject style = content["style"].toObject();
-        style["balanceLines"] = true;
-        style["fitLines"] = true;
-        style["maxWidth"] = 2.5;
-        content["style"] = style;
-        content["words"] = QJsonArray{QJsonObject{{"text", "um"}, {"start", 0}, {"end", 300000}},
-                                      QJsonObject{{"text", "dois"}, {"start", 350000}, {"end", 700000}},
-                                      QJsonObject{{"text", "três"}, {"start", 750000}, {"end", 900000}}};
-        content["highlight"] = QJsonObject{{"scale", 1.05}, {"mode", "progressive"}, {"reveal", "fill"},
-                                           {"dimOpacity", 0.35}};
-        content["emphasis"] = QJsonObject{{"words", QJsonArray{1}}, {"fontName", "Didot"}, {"fontFace", "Italic"},
-                                          {"scale", 1.3}, {"color", QJsonObject{{"r", 1}, {"g", 0.8}, {"b", 0.1}, {"a", 1}}}};
-        seg["text"] = content;
-        segments[0] = seg;
-        track["segments"] = segments;
-        tracks[1] = track;
-        o["tracks"] = tracks;
-
+        const QJsonObject o = editedText([](QJsonObject &track, QJsonObject &seg) {
+            track["isAutoCaptions"] = true;
+            QJsonObject content = seg["text"].toObject();
+            content["text"] = QStringLiteral("um dois\ntrês");
+            QJsonObject style = content["style"].toObject();
+            style["balanceLines"] = true;
+            style["fitLines"] = true;
+            style["maxWidth"] = 2.5;
+            content["style"] = style;
+            content["words"] = QJsonArray{QJsonObject{{"text", "um"}, {"start", 0}, {"end", 300000}},
+                                          QJsonObject{{"text", "dois"}, {"start", 350000}, {"end", 700000}},
+                                          QJsonObject{{"text", "três"}, {"start", 750000}, {"end", 900000}}};
+            content["highlight"] = QJsonObject{{"scale", 1.05}, {"mode", "progressive"}, {"reveal", "fill"},
+                                               {"dimOpacity", 0.35}};
+            content["emphasis"] = QJsonObject{{"words", QJsonArray{1}}, {"fontName", "Didot"}, {"fontFace", "Italic"},
+                                              {"scale", 1.3},
+                                              {"color", QJsonObject{{"r", 1}, {"g", 0.8}, {"b", 0.1}, {"a", 1}}}};
+            seg["text"] = content;
+        });
         QString error;
         const auto back = ProjectStore::fromJson(o, &error);
         QVERIFY2(back, qPrintable(error));
-        QCOMPARE(back->tracks[1].segments[0].text->text, QStringLiteral("um dois\ntrês"));
-        QCOMPARE(back->tracks[1].segments[0].text->style.maxWidth, 2.5);
-        const QJsonObject againText = ProjectStore::toJson(*back)["tracks"][1]["segments"][0]["text"].toObject();
-        QVERIFY(!againText.contains(QStringLiteral("emphasis")));
-        QVERIFY(!againText["style"].toObject().contains(QStringLiteral("fitLines")));
+        const TextContent &t = *back->tracks[1].segments[0].text;
+        QCOMPARE(t.text, QStringLiteral("um dois\ntrês"));
+        QCOMPARE(t.style.maxWidth, 2.5);
+        QVERIFY(t.style.balanceLines && t.style.fitLines);
+        QCOMPARE(t.highlight->reveal, WordReveal::Fill);
+        QCOMPARE(t.emphasis->words, QList<int>{1});
+        QCOMPARE(*t.emphasis->color, (RGBA{1, 0.8, 0.1, 1}));
+        const QJsonObject again = ProjectStore::toJson(*back);
+        QString diff = jsonDiff(o["tracks"][1]["segments"][0]["text"]["emphasis"],
+                                again["tracks"][1]["segments"][0]["text"]["emphasis"]);
+        QVERIFY2(diff.isEmpty(), qPrintable(diff));
+        QCOMPARE(again["tracks"][1]["segments"][0]["text"]["style"]["fitLines"].toBool(), true);
+
+        // Valores de uma versão futura: o modo e a revelação desconhecidos viram o padrão; a ênfase
+        // sem campos fica com o padrão (Didot itálico, 1,3, sem cor).
+        const QJsonObject future = editedText([](QJsonObject &, QJsonObject &seg) {
+            QJsonObject content = seg["text"].toObject();
+            content["highlight"] = QJsonObject{{"mode", "rainbow"}, {"reveal", "explode"}};
+            content["emphasis"] = QJsonObject{};
+            seg["text"] = content;
+        });
+        const auto read = ProjectStore::fromJson(future, &error);
+        QVERIFY2(read, qPrintable(error));
+        const TextContent &f = *read->tracks[1].segments[0].text;
+        QCOMPARE(f.highlight->mode, HighlightMode::Current);
+        QCOMPARE(f.highlight->reveal, WordReveal::None);
+        QCOMPARE(*f.emphasis, WordEmphasis{});
+        QVERIFY(!ProjectStore::toJson(*read)["tracks"][1]["segments"][0]["text"]["emphasis"].toObject().contains(
+            QStringLiteral("color")));
+        // Um tipo errado ainda é erro, com o caminho.
+        const QJsonObject bad = editedText([](QJsonObject &, QJsonObject &seg) {
+            QJsonObject content = seg["text"].toObject();
+            content["highlight"] = QJsonObject{{"reveal", 3}};
+            seg["text"] = content;
+        });
+        QVERIFY(!ProjectStore::fromJson(bad, &error));
+        QVERIFY2(error.contains(QStringLiteral("highlight.reveal")), qPrintable(error));
     }
 
-    void unknownAnimationsAreTolerated()
+    // As 17 animações e os 4 loops são lidos e gravados; tipo desconhecido vira esmaecer e loop
+    // desconhecido é descartado
+    void animationsRoundTrip()
     {
-        Project p;
-        TE::addText(text(QStringLiteral("A")), p, 0);
-        QJsonObject o = ProjectStore::toJson(p);
-        QJsonArray tracks = o["tracks"].toArray();
-        QJsonObject track = tracks[1].toObject();
-        QJsonArray segments = track["segments"].toArray();
-        QJsonObject seg = segments[0].toObject();
-        seg["animationIn"] = QJsonObject{{"kind", "cascade"}, {"duration", 700000}};
-        seg["animationOut"] = QJsonObject{{"kind", "zoomIn"}, {"duration", 400000}};
-        seg["animationLoop"] = QJsonObject{{"kind", "shine"}, {"period", 2000000}, {"intensity", 0.5}};
-        segments[0] = seg;
-        track["segments"] = segments;
-        tracks[1] = track;
-        o["tracks"] = tracks;
-
+        const QJsonObject o = editedText([](QJsonObject &, QJsonObject &seg) {
+            seg["animationIn"] = QJsonObject{{"kind", "cascade"}, {"duration", 700000}};
+            seg["animationOut"] = QJsonObject{{"kind", "decode"}, {"duration", 400000}};
+            seg["animationLoop"] = QJsonObject{{"kind", "shine"}, {"period", 2000000}, {"intensity", 0.5}};
+        });
         QString error;
         const auto back = ProjectStore::fromJson(o, &error);
         QVERIFY2(back, qPrintable(error));
         const Segment &s = back->tracks[1].segments[0];
-        QVERIFY(s.animationIn && s.animationIn->kind == AnimationKind::Fade);
-        QCOMPARE(s.animationIn->duration, 700000);
-        QVERIFY(s.animationOut && s.animationOut->kind == AnimationKind::ZoomIn);
-        // Ao regravar, o tipo novo vira "fade" e o loop some.
-        const QJsonObject again = ProjectStore::toJson(*back)["tracks"][1]["segments"][0].toObject();
-        QCOMPARE(again["animationIn"]["kind"].toString(), QStringLiteral("fade"));
-        QVERIFY(!again.contains(QStringLiteral("animationLoop")));
+        QCOMPARE(s.animationIn->kind, AnimationKind::Cascade);
+        QCOMPARE(s.animationOut->kind, AnimationKind::Decode);
+        QCOMPARE(*s.animationLoop, (LoopAnimation{LoopKind::Shine, 2000000, 0.5}));
+        const QString diff = jsonDiff(o, ProjectStore::toJson(*back));
+        QVERIFY2(diff.isEmpty(), qPrintable(diff));
+        QCOMPARE(allCases<AnimationKind>().size(), 17);
+        QCOMPARE(allCases<LoopKind>().size(), 4);
+
+        const QJsonObject future = editedText([](QJsonObject &, QJsonObject &seg) {
+            seg["animationIn"] = QJsonObject{{"kind", "teleport"}, {"duration", 700000}};
+            seg["animationLoop"] = QJsonObject{{"kind", "rainbow"}, {"period", 2000000}, {"intensity", 0.5}};
+        });
+        const auto read = ProjectStore::fromJson(future, &error);
+        QVERIFY2(read, qPrintable(error));
+        QCOMPARE(read->tracks[1].segments[0].animationIn->kind, AnimationKind::Fade);
+        QVERIFY(!read->tracks[1].segments[0].animationLoop);
 
         // O tipo ainda precisa ser texto, e a duração continua obrigatória.
-        QJsonObject bad = o;
-        QJsonArray badTracks = bad["tracks"].toArray();
-        QJsonObject badTrack = badTracks[1].toObject();
-        QJsonArray badSegments = badTrack["segments"].toArray();
-        QJsonObject badSeg = badSegments[0].toObject();
-        badSeg["animationIn"] = QJsonObject{{"kind", 3}, {"duration", 700000}};
-        badSegments[0] = badSeg;
-        badTrack["segments"] = badSegments;
-        badTracks[1] = badTrack;
-        bad["tracks"] = badTracks;
+        const QJsonObject bad = editedText([](QJsonObject &, QJsonObject &seg) {
+            seg["animationIn"] = QJsonObject{{"kind", 3}, {"duration", 700000}};
+        });
         QVERIFY(!ProjectStore::fromJson(bad, &error));
         QVERIFY2(error.contains(QStringLiteral("animationIn.kind")), qPrintable(error));
+        const QJsonObject badLoop = editedText([](QJsonObject &, QJsonObject &seg) {
+            seg["animationLoop"] = QJsonObject{{"kind", "float"}, {"intensity", 0.5}};
+        });
+        QVERIFY(!ProjectStore::fromJson(badLoop, &error));
+        QVERIFY2(error.contains(QStringLiteral("animationLoop.period")), qPrintable(error));
+    }
+
+    // Os fixtures de motion e legendas do Swift chegam com os valores certos
+    void swiftMotionAndCaptionFixtures()
+    {
+        const auto motion = ProjectStore::decode(readFixture(QStringLiteral("motion.openframe")));
+        QVERIFY(motion);
+        const Track &texts = motion->tracks[1];
+        QCOMPARE(texts.segments.size(), 17);
+        for (int k = 0; k < 17; ++k)
+            QCOMPARE(texts.segments[k].animationIn->kind, AnimationKind(k));
+        QCOMPARE(texts.segments[3].animationLoop->kind, LoopKind::Shine);
+        QCOMPARE(motion->tracks[0].segments[0].animationLoop->intensity, 0.8);
+
+        const auto captions = ProjectStore::decode(readFixture(QStringLiteral("legendas.openframe")));
+        QVERIFY(captions);
+        const Track &auto_ = captions->tracks[1];
+        QVERIFY(auto_.isAutoCaptions);
+        QVERIFY(!captions->tracks[2].isAutoCaptions);
+        int withWords = 0, fit = 0, emphasized = 0;
+        std::set<WordReveal> reveals;
+        for (const Segment &s : auto_.segments) {
+            QVERIFY(s.text->words);
+            withWords += s.text->activeHighlight() ? 1 : 0;
+            fit += s.text->style.fitLines ? 1 : 0;
+            emphasized += s.text->emphasis ? 1 : 0;
+            if (s.text->highlight)
+                reveals.insert(s.text->highlight->reveal);
+        }
+        QVERIFY(withWords > 20);
+        QVERIFY(fit > 0 && emphasized > fit);
+        QCOMPARE(reveals.size(), 5);
+        const TextContent &manual = *captions->tracks[2].segments[0].text;
+        QVERIFY(manual.text.contains(QChar(0x00A0)));
+        QCOMPARE(manual.style.maxWidth, 2.5);
+        QCOMPARE(TextContent::wordsOf(manual.text).size(), 6);
+        QVERIFY(manual.activeHighlight());
+        QVERIFY(!manual.emphasis->color);
     }
 
     // Estilo de texto sem campos (versões anteriores) fica com o padrão

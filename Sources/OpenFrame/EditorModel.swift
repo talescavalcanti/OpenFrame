@@ -108,6 +108,7 @@ final class EditorModel {
     /// Legenda com o texto em edição no painel Legendas.
     var editingCaption: UUID?
     @ObservationIgnored let captionGeneration = CaptionGeneration()
+    @ObservationIgnored let recording = AudioRecording()
     var errorMessage: String?
     /// Tela inicial (projetos) ou editor.
     private(set) var screen = Screen.home
@@ -619,9 +620,10 @@ final class EditorModel {
             case .video:
                 let generator = AVAssetImageGenerator(asset: AVURLAsset(url: m.url))
                 generator.appliesPreferredTrackTransform = true
-                generator.maximumSize = CGSize(width: 240, height: 240)
+                // Nítidas também numa faixa alta; um quadro por segundo (de 10 a 30).
+                generator.maximumSize = CGSize(width: 480, height: 480)
                 var images: [CGImage] = []
-                let count = 10
+                let count = min(30, max(10, Int(m.duration.seconds)))
                 for i in 0..<count {
                     let t = CMTime(seconds: m.duration.seconds * (Double(i) + 0.5) / Double(count), preferredTimescale: 600)
                     if let (image, _) = try? await generator.image(at: t) { images.append(image) }
@@ -632,7 +634,7 @@ final class EditorModel {
                    let image = CGImageSourceCreateThumbnailAtIndex(src, 0, [
                        kCGImageSourceCreateThumbnailFromImageAlways: true,
                        kCGImageSourceCreateThumbnailWithTransform: true,
-                       kCGImageSourceThumbnailMaxPixelSize: 240,
+                       kCGImageSourceThumbnailMaxPixelSize: 480,
                    ] as CFDictionary) {
                     thumbnails[m.id] = [image]
                 }
@@ -1007,6 +1009,258 @@ final class EditorModel {
         let main = t.indices.filter { t[$0].isMain }
         let audios = t.indices.filter { t[$0].kind == .audio }
         return Array(texts) + Array(overlays) + main + audios
+    }
+
+    // MARK: - Altura das faixas
+
+    func rowHeight(_ track: Track) -> CGFloat {
+        CGFloat(track.height ?? Track.defaultHeight)
+    }
+
+    /// Geometria vertical da timeline com as faixas na ordem de exibição.
+    func timelineLayout(_ tracks: [Track]) -> TimelineLayout {
+        TimelineLayout(heights: tracks.map(rowHeight))
+    }
+
+    /// Muda a altura de uma faixa ao vivo, durante o arraste da borda (nil volta à padrão); o desfazer
+    /// é um só, ao soltar (`endRowResize`). Só a timeline muda: o preview não é refeito.
+    func resizeRow(_ id: UUID, to height: CGFloat?) {
+        beginGesture()
+        guard var copy = gestureBase else { return }
+        TimelineEditor.setTrackHeight(&copy, track: id, height: height.map(Double.init))
+        guard copy != project else { return }
+        project = copy
+        isDirty = true
+        scheduleAutosave()
+    }
+
+    /// Fim do arraste da borda da faixa (ou do duplo clique).
+    func endRowResize() {
+        endGesture()
+    }
+
+    /// Mesma altura para todas as faixas (nil = a padrão), num passo de desfazer.
+    func setAllRowHeights(_ height: CGFloat?) {
+        mutate { TimelineEditor.setAllTrackHeights(&$0, height: height.map(Double.init)) }
+    }
+
+    /// Altura comum a todas as faixas, ou nil se forem diferentes.
+    var commonRowHeight: CGFloat? {
+        let heights = Set(project.tracks.map(rowHeight))
+        return heights.count == 1 ? heights.first : nil
+    }
+
+    // MARK: - Extrair áudio
+
+    /// O selecionado é um vídeo com som que ainda não foi extraído.
+    var canExtractAudio: Bool {
+        selection.map { TimelineEditor.canExtractAudio(project, segment: $0) } ?? false
+    }
+
+    /// Extrai o som do clipe selecionado para uma faixa de áudio (um passo de desfazer) e seleciona o
+    /// clipe de áudio novo.
+    func extractAudio() {
+        guard let id = selection, TimelineEditor.canExtractAudio(project, segment: id) else { return }
+        var sound: UUID?
+        mutate { sound = TimelineEditor.extractAudio(&$0, segment: id) }
+        guard let sound else { return }
+        selection = sound
+        if let m = project.material(project.segment(sound)?.materialId), waveforms[m.id] == nil {
+            loadThumbnails(m)
+        }
+    }
+
+    // MARK: - Gravar áudio
+
+    /// Abre o painel de gravação: pede a permissão do microfone e começa a escutar só o nível.
+    func presentRecorder() {
+        let r = recording
+        guard !r.phase.isActive else { return }
+        r.showPanel = true
+        r.phase = .ready
+        r.confirmDiscard = false
+        r.inputs = AudioRecorder.inputs().map { AudioRecording.Input(id: $0.id, name: $0.name) }
+        r.defaultInput = AudioRecorder.defaultInput
+        if let input = r.input, !r.inputs.contains(where: { $0.id == input }) { r.input = nil }
+        Task {
+            guard await AudioRecorder.requestPermission() else {
+                r.phase = .failed(RecordingError.permissionDenied.localizedDescription)
+                return
+            }
+            guard r.showPanel, r.phase == .ready else { return }
+            guard !r.inputs.isEmpty else {
+                r.phase = .failed(RecordingError.noInput.localizedDescription)
+                return
+            }
+            startRecordingMonitor()
+        }
+    }
+
+    /// Fecha o painel (não durante a contagem nem a gravação).
+    func closeRecorder() {
+        let r = recording
+        guard !r.phase.isActive else { return }
+        stopRecordingMonitor()
+        r.showPanel = false
+    }
+
+    func selectRecordingInput(_ id: String?) {
+        recording.input = id
+        if recording.monitor != nil { startRecordingMonitor() }
+    }
+
+    /// O nível do painel: grava o microfone num arquivo temporário, apagado ao parar.
+    private func startRecordingMonitor() {
+        let r = recording
+        stopRecordingMonitor()
+        let monitor = AudioRecorder()
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("openframe-nivel-\(UUID().uuidString).m4a")
+        do {
+            try monitor.start(input: r.input, to: url)
+        } catch {
+            r.phase = .failed(error.localizedDescription)
+            return
+        }
+        r.monitor = monitor
+        startRecordingTimer()
+    }
+
+    private func stopRecordingMonitor() {
+        let r = recording
+        r.monitor?.cancel()
+        r.monitor = nil
+        if r.phase != .recording {
+            r.timer?.invalidate()
+            r.timer = nil
+            r.level = 0
+        }
+    }
+
+    private func startRecordingTimer() {
+        recording.timer?.invalidate()
+        recording.timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.recordingTick() }
+        }
+    }
+
+    private func recordingTick() {
+        let r = recording
+        guard let source = r.phase == .recording ? r.recorder : r.monitor else { return }
+        r.level = max(source.takeLevel(), r.level * 0.82)
+        guard r.phase == .recording else { return }
+        r.peaks = source.peaks
+        r.duration = source.duration
+        // Fim do projeto: a reprodução parou sozinha.
+        if r.stopsAtEnd, !isPlaying { stopRecording() }
+    }
+
+    /// Botão Gravar: contagem de 3 s e, depois, a gravação a partir do playhead.
+    func startRecording() {
+        let r = recording
+        guard r.phase == .ready else { return }
+        r.phase = .countdown(3)
+        r.countdownTask = Task { [weak self] in
+            for n in [3, 2, 1] {
+                r.phase = .countdown(n)
+                try? await Task.sleep(for: .seconds(1))
+                if Task.isCancelled { return }
+            }
+            self?.beginRecording()
+        }
+    }
+
+    private func beginRecording() {
+        let r = recording
+        stopRecordingMonitor()
+        if isPlaying { togglePlay() }
+        let url = library.recordingURL(for: libraryID)
+        do {
+            try r.recorder.start(input: r.input, to: url)
+        } catch {
+            r.phase = .failed(error.localizedDescription)
+            return
+        }
+        r.url = url
+        r.start = playhead
+        r.peaks = []
+        r.duration = 0
+        r.phase = .recording
+        selection = nil
+        // A timeline toca sem som, para o áudio do projeto não vazar para o microfone.
+        player.isMuted = true
+        r.stopsAtEnd = playhead < duration - 30_000
+        if r.stopsAtEnd {
+            excerpt = nil
+            isPlaying = true
+            player.play()
+        }
+        startRecordingTimer()
+    }
+
+    /// Para a gravação (botão, espaço ou fim do projeto): o material entra na biblioteca de mídia e o
+    /// clipe na timeline, num passo de desfazer, e fica selecionado.
+    func stopRecording() {
+        let r = recording
+        guard r.phase == .recording else { return }
+        r.phase = .finishing
+        r.timer?.invalidate()
+        r.timer = nil
+        if isPlaying { togglePlay() }
+        player.isMuted = false
+        Task {
+            do {
+                _ = try await r.recorder.stop()
+                guard let url = r.url else { return }
+                let material = try await MediaProbe.probe(url)
+                var id: UUID?
+                mutate { id = TimelineEditor.addRecording(material, to: &$0, at: r.start) }
+                loadThumbnails(material)
+                selection = id
+                r.phase = .ready
+                r.level = 0
+                r.showPanel = false
+            } catch {
+                r.phase = .failed(error.localizedDescription)
+            }
+        }
+    }
+
+    /// Esc: na contagem, volta ao painel; gravando, joga fora (perguntando antes, se passou de 3 s).
+    func cancelRecording(confirmed: Bool = false) {
+        let r = recording
+        switch r.phase {
+        case .countdown:
+            r.countdownTask?.cancel()
+            r.phase = .ready
+        case .recording:
+            if r.duration > 3_000_000, !confirmed {
+                r.confirmDiscard = true
+                return
+            }
+            r.timer?.invalidate()
+            r.timer = nil
+            r.recorder.cancel()
+            if isPlaying { togglePlay() }
+            player.isMuted = false
+            r.phase = .ready
+            r.peaks = []
+            r.duration = 0
+            startRecordingMonitor()
+        default:
+            break
+        }
+    }
+
+    /// Linha (na ordem de exibição) onde a gravação vai cair: a primeira faixa de áudio livre no trecho;
+    /// `tracks.count` = uma faixa nova embaixo.
+    func recordingRow(_ tracks: [Track]) -> Int {
+        let r = recording
+        let range = TimeRange(start: r.start, duration: max(r.duration, 1))
+        guard let t = TimelineEditor.freeTrack(kind: .audio, range: range, in: project, excluding: nil),
+              let row = tracks.firstIndex(where: { $0.id == project.tracks[t].id })
+        else { return tracks.count }
+        return row
     }
 
     // MARK: - Projetos
@@ -1447,6 +1701,15 @@ final class EditorModel {
         if NSApp.keyWindow?.firstResponder is NSText { return false }
         if !flags.intersection([.command, .control, .option]).isEmpty { return false }
         guard NSApp.keyWindow?.sheetParent == nil, NSApp.keyWindow?.attachedSheet == nil else { return false }
+        // Gravando: espaço para, Esc cancela.
+        if recording.phase.isActive {
+            switch keyCode {
+            case 49: stopRecording()
+            case 53: cancelRecording()
+            default: return false
+            }
+            return true
+        }
         switch keyCode {
         case 49: togglePlay()
         case 6 where flags.contains(.shift): zoomToFit()

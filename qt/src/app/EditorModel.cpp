@@ -3,6 +3,7 @@
 #include "CoreBridge.h"
 #include "FontCatalog.h"
 #include "MediaCache.h"
+#include "MotionCore.h"
 #include "ProjectStore.h"
 #include "Subtitles.h"
 #include "TextPresets.h"
@@ -100,18 +101,6 @@ QJsonObject setPath(QJsonObject o, const QStringList &keys, int i, const QJsonVa
     return o;
 }
 
-QVariantList options(const QStringList &values, const QStringList &titles, const QStringList &icons = {})
-{
-    QVariantList list;
-    for (int i = 0; i < values.size(); ++i) {
-        QVariantMap m{{"value", values[i]}, {"title", titles.value(i)}};
-        if (!icons.isEmpty())
-            m.insert("icon", icons.value(i));
-        list.append(m);
-    }
-    return list;
-}
-
 const QStringList tabKeys{"basic", "adjust", "filters", "effects", "animation", "transition", "text", "audio"};
 const QStringList tabTitles{"Básico", "Ajustar", "Filtros", "Efeitos", "Animação", "Transição", "Texto", "Áudio"};
 const QStringList tabIcons{"move", "sliders-horizontal", "blend", "sparkles", "wand-sparkles", "arrow-left-right", "type",
@@ -145,7 +134,8 @@ EditorModel::EditorModel(QObject *parent)
       m_tracks(new KeyedListModel({"id", "kind", "isMain", "muted", "hidden", "row", "icon"}, this)),
       m_clips(new KeyedListModel({"id", "row", "start", "duration", "kind", "icon", "title", "badges", "materialId",
                                   "sourceStart", "sourceDuration", "materialDuration", "aspect", "volume", "isMain",
-                                  "dragged", "rowShift", "hidden"},
+                                  "dragged", "rowShift", "hidden", "hasAudio", "fullText", "durationText", "autoCaption",
+                                  "audioDetached", "canExtractAudio"},
                                  this)),
       m_junctions(new KeyedListModel({"id", "time", "hasTransition", "nextId", "help"}, this)),
       m_cues(new KeyedListModel({"id", "start", "startText", "caption"}, this)),
@@ -156,6 +146,11 @@ EditorModel::EditorModel(QObject *parent)
     m_lastCoalesce.start();
     m_lastThumbnail = QDateTime::currentDateTime().addSecs(-60);
 
+    connect(MediaCache::instance(), &MediaCache::changed, this, [this] {
+        ++m_thumbnailRevision;
+        emit thumbnailsChanged();
+    });
+
     m_autosave.setSingleShot(true);
     m_autosave.setInterval(800);
     connect(&m_autosave, &QTimer::timeout, this, &EditorModel::saveNow);
@@ -163,6 +158,14 @@ EditorModel::EditorModel(QObject *parent)
     // O resumo da exportação depende das opções e do projeto (duração, proporção).
     connect(this, &EditorModel::exportSettingsChanged, this, &EditorModel::exportSummaryChanged);
     connect(this, &EditorModel::projectChanged, this, &EditorModel::exportSummaryChanged);
+
+    setupCaptions();
+    setupRecording();
+
+    // Resolução do preview: ~300 ms depois que o tamanho do player parar.
+    m_previewResolutionTimer.setSingleShot(true);
+    m_previewResolutionTimer.setInterval(300);
+    connect(&m_previewResolutionTimer, &QTimer::timeout, this, &EditorModel::updatePreviewResolution);
 
     m_slideTimer.setSingleShot(true);
     m_slideTimer.setInterval(200);
@@ -447,7 +450,13 @@ void EditorModel::rebuildModels()
                           {"isMain", track.isMain},
                           {"dragged", isDragged},
                           {"rowShift", rowShift},
-                          {"hidden", track.hidden}});
+                          {"hidden", track.hidden},
+                          {"hasAudio", m && m->kind == MaterialKind::Video && m->hasAudio},
+                          {"fullText", seg.text ? seg.text->text : QString()},
+                          {"durationText", shortSeconds(seg.targetDuration())},
+                          {"autoCaption", track.isAutoCaptions},
+                          {"audioDetached", seg.audioDetached},
+                          {"canExtractAudio", TimelineEditor::canExtractAudio(p, seg.id)}});
             if (seg.text)
                 cues.append({{"id", idString(seg.id)},
                              {"start", Time::toSeconds(seg.targetStart)},
@@ -470,6 +479,7 @@ void EditorModel::rebuildModels()
     std::sort(cues.begin(), cues.end(), [](const QVariantMap &a, const QVariantMap &b) {
         return a.value("start").toDouble() < b.value("start").toDouble();
     });
+    updateRowLayout();
     m_tracks->setItems(tracks);
     m_clips->setItems(clips);
     m_junctions->setItems(junctions);
@@ -508,6 +518,8 @@ QVariantMap EditorModel::segmentMap(const Segment &seg) const
     map["endText"] = Time::format(seg.targetEnd());
     map["durationText"] = shortSeconds(seg.targetDuration());
     map["hasAudio"] = m && m->hasAudio;
+    map["audioDetached"] = seg.audioDetached;
+    map["canExtractAudio"] = TimelineEditor::canExtractAudio(m_project, seg.id);
     map["isText"] = seg.text.has_value();
     map["fadeInSeconds"] = Time::toSeconds(seg.fadeIn);
     map["fadeOutSeconds"] = Time::toSeconds(seg.fadeOut);
@@ -517,6 +529,15 @@ QVariantMap EditorModel::segmentMap(const Segment &seg) const
         const QColor color = seg.text->style.color.color();
         map["textColor"] = color;
     }
+    if (seg.text) {
+        map["wordList"] = TextContent::wordsOf(seg.text->text);
+        map["highlightActive"] = seg.text->activeHighlight().has_value();
+        map["isAutoCaption"] = CaptionsCore::isAutoCaption(m_project, seg.id);
+    }
+    if (const auto loop = MotionCore::loop(m_project, seg.id))
+        map["loop"] = QVariantMap{{"kind", loop->kind},
+                                  {"periodSeconds", Time::toSeconds(loop->period)},
+                                  {"intensity", loop->intensity}};
     return map;
 }
 
@@ -1219,6 +1240,21 @@ void EditorModel::duplicateSelection()
         setSelection(idString(*copy));
 }
 
+void EditorModel::extractAudio()
+{
+    if (!m_selection || !TimelineEditor::canExtractAudio(m_project, *m_selection))
+        return;
+    const QUuid id = *m_selection;
+    std::optional<QUuid> sound;
+    mutate([&](Project &p) { sound = TimelineEditor::extractAudio(p, id); });
+    if (!sound)
+        return;
+    if (const auto seg = m_project.segment(*sound))
+        if (const Material *m = m_project.material(seg->materialId))
+            loadMediaPreviews(*m);
+    setSelection(idString(*sound));
+}
+
 void EditorModel::addText(const QString &preset)
 {
     TextStyle style;
@@ -1429,6 +1465,15 @@ void EditorModel::setAnimation(const QString &which, const QString &key)
                 anim = SegmentAnimation{*kind, anim ? anim->duration : 500'000};
         });
     });
+    // Toca o trecho do efeito: a entrada com um respiro de 0,3 s, a saída até o fim.
+    const auto seg = m_project.segment(id);
+    const auto &anim = seg ? (which == "out" ? seg->animationOut : seg->animationIn) : std::nullopt;
+    if (!seg || !anim)
+        return;
+    if (which == "out")
+        playExcerpt(std::max(seg->targetStart, seg->targetEnd() - anim->duration), seg->targetEnd());
+    else
+        playExcerpt(seg->targetStart, std::min(seg->targetEnd(), seg->targetStart + anim->duration + 300'000));
 }
 
 void EditorModel::setTransition(const QString &key)
@@ -1533,6 +1578,13 @@ QVariantList EditorModel::filterOptions() const
     return list;
 }
 
+QString EditorModel::filterPreview(const QString &materialId, const QString &filter) const
+{
+    if (materialId.isEmpty() || MediaCache::instance()->thumbnails(materialId).isEmpty())
+        return {};
+    return QStringLiteral("image://filters/%1/%2").arg(materialId, filter);
+}
+
 QVariantList EditorModel::effectOptions() const
 {
     QVariantList list;
@@ -1551,11 +1603,7 @@ QVariantList EditorModel::transitionOptions() const
 
 QVariantList EditorModel::animationOptions(bool text) const
 {
-    QVariantList list{QVariantMap{{"value", QString()}, {"title", QStringLiteral("Nenhuma")}}};
-    for (auto a : allCases<AnimationKind>())
-        if (text || !isTextOnly(a))
-            list.append(QVariantMap{{"value", enumKey(a)}, {"title", displayName(a)}});
-    return list;
+    return MotionCore::animationKinds(text);
 }
 
 QVariantList EditorModel::textPresets() const
@@ -1585,6 +1633,20 @@ void EditorModel::playerTimeChanged(Micros t)
 {
     if (!m_playing)
         return;
+    if (m_excerpt && t >= m_excerpt->first) {
+        // Fim do trecho: volta depois do sinal, porque o Player ainda pede o quadro do
+        // tick em seguida e ele passaria à frente do quadro da volta.
+        const Micros resume = m_excerpt->second;
+        m_excerpt.reset();
+        QTimer::singleShot(0, this, [this, resume] {
+            if (m_excerpt || !m_playing)
+                return;
+            m_preview->pause();
+            setPlaying(false);
+            seekMicros(resume);
+        });
+        return;
+    }
     setPlayheadMicros(std::min(t, m_project.duration()));
     revealPlayhead();
     if (m_playhead >= m_project.duration())
@@ -1593,6 +1655,7 @@ void EditorModel::playerTimeChanged(Micros t)
 
 void EditorModel::togglePlay()
 {
+    m_excerpt.reset();
     if (m_playing) {
         m_preview->pause();
         setPlaying(false);
@@ -2115,6 +2178,17 @@ bool EditorModel::eventFilter(QObject *watched, QEvent *event)
 /// exceto ao digitar texto ou com um diálogo aberto.
 bool EditorModel::handleKey(int key, Qt::KeyboardModifiers modifiers)
 {
+    // Gravando (o painel aberto conta como diálogo): espaço para, Esc cancela.
+    if (m_screen == "editor" && m_recording->active() && !m_recording->confirmDiscard()
+        && !(modifiers & (Qt::ControlModifier | Qt::AltModifier))) {
+        if (key == Qt::Key_Space)
+            stopRecording();
+        else if (key == Qt::Key_Escape)
+            cancelRecording();
+        else
+            return false;
+        return true;
+    }
     if (m_screen != "editor" || m_showExport || m_modalCount > 0)
         return false;
     if (QObject *focus = QGuiApplication::focusObject()) {

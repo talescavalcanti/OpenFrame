@@ -1,23 +1,14 @@
 #pragma once
 
+#include "Captions.h"
+#include "Color.h"
 #include "Enums.h"
 #include "Timing.h"
 
-#include <QColor>
 #include <QUuid>
 #include <optional>
 
 namespace of {
-
-struct RGBA {
-    double r = 0, g = 0, b = 0, a = 1;
-
-    static RGBA white() { return {1, 1, 1, 1}; }
-    static RGBA black() { return {0, 0, 0, 1}; }
-    static RGBA yellow() { return {1, 0.85, 0.1, 1}; }
-    QColor color() const { return QColor::fromRgbF(float(r), float(g), float(b), float(a)); }
-    bool operator==(const RGBA &) const = default;
-};
 
 /// Posição, escala e rotação do clipe no canvas. `x`/`y` são normalizados
 /// em -1...1 (centro = 0, `y` positivo para cima); `rotation` em graus.
@@ -72,17 +63,34 @@ struct VideoEffect {
     bool operator==(const VideoEffect &) const = default;
 };
 
-enum class AnimationKind { Fade, ZoomIn, ZoomOut, SlideLeft, SlideRight, SlideUp, SlideDown, Spin, Typewriter };
+enum class AnimationKind {
+    Fade, ZoomIn, ZoomOut, SlideLeft, SlideRight, SlideUp, SlideDown, Spin, Typewriter,
+    Focus, Cascade, Elastic, Wave, WordByWord, MaskReveal, Tracking, Decode
+};
 OF_ENUM_KEYS(AnimationKind, "fade", "zoomIn", "zoomOut", "slideLeft", "slideRight", "slideUp", "slideDown", "spin",
-             "typewriter")
+             "typewriter", "focus", "cascade", "elastic", "wave", "wordByWord", "maskReveal", "tracking", "decode")
 QString displayName(AnimationKind);
 /// Animações que só fazem sentido em texto.
-inline bool isTextOnly(AnimationKind k) { return k == AnimationKind::Typewriter; }
+bool isTextOnly(AnimationKind k);
 
 struct SegmentAnimation {
     AnimationKind kind = AnimationKind::Fade;
     Micros duration = 500'000;
     bool operator==(const SegmentAnimation &) const = default;
+};
+
+/// Animação contínua que roda o clipe inteiro, somada à entrada e à saída.
+enum class LoopKind { Float, Pulse, Glow, Shine };
+OF_ENUM_KEYS(LoopKind, "float", "pulse", "glow", "shine")
+QString displayName(LoopKind);
+
+struct LoopAnimation {
+    LoopKind kind = LoopKind::Float;
+    /// Duração de um ciclo.
+    Micros period = 2'000'000;
+    /// 0...1.
+    double intensity = 0.5;
+    bool operator==(const LoopAnimation &) const = default;
 };
 
 enum class TransitionKind { Dissolve, FadeBlack, FadeWhite, WipeLeft, WipeRight, SlideLeft, SlideRight, Zoom, Blur };
@@ -139,8 +147,19 @@ struct TextStyle {
     double y = -0.7;
     double scale = 1;
     double rotation = 0;
-    /// Largura máxima da caixa como fração da largura do canvas.
+    /// Largura máxima da caixa como fração da largura do canvas (a quebra automática de linha).
     double maxWidth = 0.9;
+    /// A quebra automática equilibra as linhas, como o `text-wrap: balance` do CSS: o mesmo número de
+    /// linhas, com a mais longa a menor possível.
+    bool balanceLines = false;
+    /// Cada linha (quebrada por `\n`) é escalada para ocupar a largura `maxWidth`, entre 0,6× e 2,5× o
+    /// tamanho da fonte (o bloco justificado do visual Empilhado).
+    bool fitLines = false;
+
+    /// Faixa permitida para `maxWidth`. Passa de 1 para permitir uma linha só em textos longos; o que sair
+    /// do quadro é cortado, como em qualquer elemento.
+    static constexpr double maxWidthMin = 0.1;
+    static constexpr double maxWidthMax = 3.0;
 
     bool operator==(const TextStyle &) const = default;
 };
@@ -148,6 +167,27 @@ struct TextStyle {
 struct TextContent {
     QString text;
     TextStyle style;
+    /// Tempos das palavras (legendas automáticas): a palavra i casa com a i-ésima palavra do texto.
+    /// Opcionais: sem eles a chave não é gravada e projetos antigos abrem iguais.
+    std::optional<QList<CaptionWord>> words;
+    std::optional<WordHighlight> highlight;
+    /// Palavras-chave em destaque tipográfico (visual Editorial).
+    std::optional<WordEmphasis> emphasis;
+
+    TextContent() = default;
+    TextContent(QString text, TextStyle style = {}) : text(std::move(text)), style(std::move(style)) {}
+
+    /// Palavras do texto, separadas por espaço ou quebra de linha (a mesma divisão do destaque).
+    static QStringList wordsOf(const QString &text);
+
+    /// O destaque vale quando há tempos para cada palavra do texto. Se o usuário editou o texto
+    /// e a contagem não bate, o destaque é ignorado (sem erro).
+    struct ActiveHighlight {
+        QList<CaptionWord> words;
+        WordHighlight style;
+    };
+    std::optional<ActiveHighlight> activeHighlight() const;
+
     bool operator==(const TextContent &) const = default;
 };
 

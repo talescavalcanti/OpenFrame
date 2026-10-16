@@ -12,8 +12,35 @@
 #include <QQuickWindow>
 #include <QStyleHints>
 
+#ifdef Q_OS_LINUX
+#include <filesystem>
+#endif
+
+namespace {
+
+// No AppImage, o Qt usa só os plugins e os módulos QML do pacote. O QT_PLUGIN_PATH e o
+// QML_IMPORT_PATH de fora (um Qt de desenvolvimento, por exemplo) se somam aos do pacote, e
+// um plugin de outro Qt pode derrubar o app: o de mídia FFmpeg pede a libva-drm e aborta sem
+// ela. O AppImage abre pelo AppRun, um link para usr/bin/OpenFrame, e o linuxdeploy põe o
+// qt.conf ao lado do executável; o build não tem nenhum dos dois.
+void useOnlyBundledQt()
+{
+#ifdef Q_OS_LINUX
+    namespace fs = std::filesystem;
+    std::error_code error;
+    const fs::path bin = fs::canonical("/proc/self/exe", error).parent_path();
+    if (error || !fs::exists(bin / "qt.conf", error) || !fs::exists(bin.parent_path().parent_path() / "AppRun", error))
+        return;
+    for (const char *name : {"QT_PLUGIN_PATH", "QT_QPA_PLATFORM_PLUGIN_PATH", "QML_IMPORT_PATH", "QML2_IMPORT_PATH"})
+        qunsetenv(name);
+#endif
+}
+
+} // namespace
+
 int main(int argc, char *argv[])
 {
+    useOnlyBundledQt();
     QGuiApplication app(argc, argv);
     QGuiApplication::setOrganizationName(QStringLiteral("OpenFrame"));
     QGuiApplication::setOrganizationDomain(QStringLiteral("openframe.app"));

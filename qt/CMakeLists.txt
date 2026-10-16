@@ -13,7 +13,7 @@ endif()
 
 option(OPENFRAME_BUILD_TESTS "Compila os testes" ON)
 
-find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Concurrent)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Concurrent Network)
 qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(src/core)

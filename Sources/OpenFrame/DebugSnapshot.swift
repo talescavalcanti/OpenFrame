@@ -44,6 +44,11 @@ enum DebugSnapshot {
                 NSApp.terminate(nil)
                 return
             }
+            if ProcessInfo.processInfo.environment["OPENFRAME_SNAPSHOT_SCENARIO"] == "audio" {
+                await audioScenario(model, dir: dir)
+                NSApp.terminate(nil)
+                return
+            }
             if ProcessInfo.processInfo.environment["OPENFRAME_SNAPSHOT_SCENARIO"] == "arraste" {
                 await dragScenario(model, dir: dir)
                 NSApp.terminate(nil)
@@ -674,6 +679,198 @@ enum DebugSnapshot {
                 await wait(0.5)
             }
         }
+    }
+
+    /// Áudio na timeline (rodar com `OPENFRAME_FAKE_RECORDING=1`, que troca o microfone por uma voz sintética):
+    /// faixas em alturas diferentes, com miniaturas, forma de onda e texto acompanhando a altura e um desfazer por
+    /// gesto da borda e por escolha do menu; extrair o áudio de um clipe (timeline e aba de som, antes e depois);
+    /// o painel de gravação pronto, na contagem, gravando (com o clipe vermelho que cresce) e com os erros de
+    /// permissão e de microfone.
+    private static func audioScenario(_ model: EditorModel, dir: URL) async {
+        func wait(_ s: Double) async { try? await Task.sleep(for: .seconds(s)) }
+        // Timeline mais alta durante o cenário (a altura que o usuário deixou volta no fim).
+        let defaults = UserDefaults.standard
+        let savedTimelineHeight = defaults.object(forKey: "timelineHeight")
+        defer { defaults.set(savedTimelineHeight, forKey: "timelineHeight") }
+        defaults.set(620.0, forKey: "timelineHeight")
+        model.zoomToFit()
+        model.seek(to: 1_500_000)
+        await wait(1.5)
+        func rows() -> [Track] { model.displayTrackOrder().map { model.project.tracks[$0] } }
+        func describe(_ step: String) {
+            let tracks = rows()
+            let layout = model.timelineLayout(tracks)
+            let items = tracks.indices.map { i in
+                "\(tracks[i].kind)\(tracks[i].isMain ? "*" : "") topo \(Int(layout.top(i))) altura \(Int(layout.height(i)))"
+            }
+            log("alturas \(step): \(items.joined(separator: "; ")); conteúdo \(Int(layout.contentHeight)) pt; "
+                + "menu marca \(model.commonRowHeight.map { "\(Int($0))" } ?? "nenhuma")")
+        }
+        /// Muda a altura como o arraste da borda: vários passos, um desfazer.
+        func resize(_ track: Track, to heights: [CGFloat?]) {
+            for h in heights { model.resizeRow(track.id, to: h) }
+            model.endRowResize()
+        }
+        describe("padrão")
+        capture("audio-1-normal", to: dir)
+        for (index, name, height) in [(2, "compacta", CGFloat(36)), (3, "muito-alta", 140)] {
+            model.setAllRowHeights(height)
+            await wait(1)
+            describe(name)
+            capture("audio-\(index)-\(name)", to: dir)
+        }
+        model.undo()
+        describe("desfazer o menu (volta à compacta)")
+        model.setAllRowHeights(nil)
+        // Misturadas: a principal muito alta (miniaturas com o som embaixo), o texto alto, o áudio
+        // compacto e a sobreposição normal; com o vídeo principal selecionado.
+        for track in rows() {
+            if track.kind == .text { resize(track, to: [70, 90]) }
+            if track.kind == .audio { resize(track, to: [40, 36]) }
+        }
+        if let main = rows().first(where: \.isMain) {
+            resize(main, to: [80, 110, 140])
+            model.undo()
+            log("borda: um desfazer depois do arraste 80 → 110 → 140 deixa a principal em "
+                + "\(Int(model.rowHeight(rows().first(where: \.isMain)!)))")
+            model.redo()
+        }
+        if let main = model.project.mainTrackIndex, let first = model.project.tracks[main].segments.first {
+            model.selection = first.id
+        }
+        await wait(1.5)
+        describe("misturadas")
+        capture("audio-4-misturadas", to: dir)
+        // Áudio alto: a forma de onda ocupa o clipe abaixo do nome.
+        if let audio = rows().first(where: { $0.kind == .audio }) {
+            resize(audio, to: [120])
+            model.selection = audio.segments.first?.id
+            await wait(1)
+            capture("audio-5-audio-alto", to: dir)
+        }
+        // Borda da faixa: limites e duplo clique.
+        if let text = rows().first(where: { $0.kind == .text }) {
+            model.resizeRow(text.id, to: 10)
+            log("borda: pedir 10 → \(Int(model.rowHeight(rows().first { $0.id == text.id }!)))")
+            model.resizeRow(text.id, to: 500)
+            log("borda: pedir 500 → \(Int(model.rowHeight(rows().first { $0.id == text.id }!)))")
+            model.endRowResize()
+            resize(text, to: [nil])
+            log("borda: duplo clique → \(Int(model.rowHeight(rows().first { $0.id == text.id }!))) (padrão)")
+            resize(text, to: [90])
+        }
+        // Arraste do vídeo da sobreposição para a principal (muito alta) e sobre a régua: a linha vem
+        // da posição y do cursor.
+        let tracks = rows()
+        let layout = model.timelineLayout(tracks)
+        if let row = tracks.firstIndex(where: { $0.kind == .video && !$0.isMain }),
+           let seg = tracks[row].segments.first {
+            for (name, y) in [("meio da principal", layout.top(row + 1) + layout.height(row + 1) / 2),
+                              ("fim da principal", layout.top(row + 2) - 1),
+                              ("sobre a régua", CGFloat(10))] {
+                let target = (layout.row(atY: y) ?? -1) - row
+                let before = model.project
+                model.dragMove(seg.id, dx: 0, rows: target)
+                await wait(0.6)
+                log("arraste para \(name) (y \(Int(y))): linhas \(target), destino \(String(describing: model.dragTarget?.row))")
+                if name == "meio da principal" { capture("audio-6-arraste-alturas", to: dir) }
+                model.endDragMove(seg.id)
+                await wait(0.3)
+                if model.project != before { model.undo() }
+                await wait(0.3)
+            }
+        }
+
+        // Extrair o áudio do primeiro clipe da principal, com as faixas altas para ver a forma de onda sumir.
+        model.setAllRowHeights(90)
+        model.zoomToFit()
+        guard let main = model.project.mainTrackIndex, let video = model.project.tracks[main].segments.first else {
+            log("falha: sem clipe na faixa principal")
+            return
+        }
+        model.selection = video.id
+        model.inspectorTab = .basic
+        await wait(1.2)
+        log("extrair: pode \(model.canExtractAudio), materiais \(model.project.materials.count), "
+            + "faixas de áudio \(model.project.tracks.filter { $0.kind == .audio }.count)")
+        capture("audio-7-antes-de-extrair", to: dir)
+        await captureInspectorScrolled("audio-7b-aba-som-antes", fractions: [1], region: true, to: dir)
+        let before = model.project
+        model.extractAudio()
+        await wait(1.5)
+        let p = model.project
+        if let sound = model.selection, let seg = p.segment(sound), let m = p.material(seg.materialId),
+           let loc = p.locate(sound) {
+            log("extrair: selecionado o áudio novo \"\(m.name)\" (\(m.kind), mesmo arquivo \(m.path == p.material(video.materialId)?.path)), "
+                + "início \(Time.format(seg.targetStart)) = \(Time.format(video.targetStart)), faixa \(p.tracks[loc.track].kind); "
+                + "vídeo audioDetached \(p.segment(video.id)?.audioDetached == true), pode extrair de novo "
+                + "\(TimelineEditor.canExtractAudio(p, segment: video.id)), materiais \(p.materials.count)")
+        } else {
+            log("falha: extrair não selecionou o áudio novo")
+        }
+        capture("audio-8-depois-de-extrair", to: dir)
+        model.selection = video.id
+        model.inspectorTab = .basic
+        await wait(1)
+        capture("audio-9-video-extraido", to: dir)
+        await captureInspectorScrolled("audio-9b-aba-som-extraido", fractions: [1], region: true, to: dir)
+        model.undo()
+        log("extrair: um desfazer volta tudo \(model.project == before)")
+        model.redo()
+        model.selection = nil
+
+        // Gravar.
+        guard ProcessInfo.processInfo.environment["OPENFRAME_FAKE_RECORDING"] == "1" else {
+            log("gravação pulada: rode com OPENFRAME_FAKE_RECORDING=1")
+            return
+        }
+        model.setAllRowHeights(nil)
+        model.seek(to: 2_000_000)
+        model.presentRecorder()
+        await wait(2)
+        log("gravar: microfones \(model.recording.inputs.map(\.name)), fase \(model.recording.phase), nível \(String(format: "%.2f", model.recording.level))")
+        capture("audio-10-gravar-pronto", to: dir)
+        // Esc na contagem volta ao painel.
+        model.startRecording()
+        await wait(0.5)
+        model.cancelRecording()
+        log("gravar: Esc na contagem → \(model.recording.phase)")
+        model.startRecording()
+        await wait(0.4)
+        capture("audio-11-contagem", to: dir)
+        let tracksBefore = model.project.tracks.filter { $0.kind == .audio }.count
+        await wait(3)
+        log("gravar: fase \(model.recording.phase), tocando \(model.isPlaying), mudo \(model.player.isMuted), "
+            + "linha de destino \(model.recordingRow(rows())) de \(rows().count)")
+        await wait(2.5)
+        log("gravar: \(Time.format(model.recording.duration)) gravados, \(model.recording.peaks.count) picos, playhead \(Time.format(model.playhead))")
+        capture("audio-12-gravando", to: dir)
+        model.stopRecording()
+        for _ in 0..<40 where model.recording.phase != .ready { await wait(0.1) }
+        await wait(1)
+        let after = model.project
+        if let id = model.selection, let seg = after.segment(id), let m = after.material(seg.materialId) {
+            log("gravar: \"\(m.name)\" \(Time.format(m.duration)) na biblioteca, clipe em \(Time.format(seg.targetStart)), "
+                + "faixas de áudio \(tracksBefore) → \(after.tracks.filter { $0.kind == .audio }.count), "
+                + "mudo \(model.player.isMuted), painel aberto \(model.recording.showPanel), arquivo \(m.path)")
+        } else {
+            log("falha: a gravação não entrou na timeline (\(model.recording.phase))")
+        }
+        capture("audio-13-gravado", to: dir)
+        model.undo()
+        log("gravar: um desfazer tira o clipe e o material (\(model.project.materials.count) materiais)")
+        model.redo()
+        // Erros.
+        for (index, mode) in [(14, "sem-permissao"), (15, "sem-microfone")] {
+            setenv("OPENFRAME_FAKE_RECORDING", mode, 1)
+            model.presentRecorder()
+            await wait(1.5)
+            log("gravar \(mode): \(model.recording.phase)")
+            capture("audio-\(index)-gravar-\(mode)", to: dir)
+            model.closeRecorder()
+            await wait(0.5)
+        }
+        setenv("OPENFRAME_FAKE_RECORDING", "1", 1)
     }
 
     /// Legendas automáticas (rodar com `OPENFRAME_FAKE_TRANSCRIPTION=1` e `OPENFRAME_MODELS_DIR` numa pasta
