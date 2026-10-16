@@ -13,6 +13,8 @@ set_target_properties(OpenFrame PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER app.openframe.qt
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
+    # O modelo do Qt com o NSMicrophoneUsageDescription: sem ele, o QMicrophonePermission nega no Mac.
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in
 )
 
 file(GLOB OPENFRAME_QML CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" qml/*.qml qml/*.js)
@@ -49,12 +51,14 @@ qt_add_qml_module(OpenFrame
         EditorCaptions.cpp
         EditorModel.h EditorModel.cpp
         EditorMotion.cpp
+        EditorRecording.cpp
         EditorRows.cpp
         FilterPreviews.h FilterPreviews.cpp
         KeyedListModel.h KeyedListModel.cpp
         MediaCache.h MediaCache.cpp
         MotionCore.h MotionCore.cpp
         PaintedItems.h PaintedItems.cpp
+        RecordingSession.h
         Snapshot.h Snapshot.cpp
         TextPresets.h TextPresets.cpp
     RESOURCES

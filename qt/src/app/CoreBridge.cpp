@@ -278,6 +278,15 @@ int PreviewEngine::previewShortSide() const
     return d->shortSide;
 }
 
+void PreviewEngine::setAudioEnabled(bool enabled)
+{
+#ifdef OF_HAS_PLAYER
+    d->player.setAudioEnabled(enabled);
+#else
+    Q_UNUSED(enabled)
+#endif
+}
+
 bool PreviewEngine::isPlaying() const
 {
     return d->playing;

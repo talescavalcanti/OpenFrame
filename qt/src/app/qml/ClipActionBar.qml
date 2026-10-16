@@ -11,7 +11,8 @@ Rectangle {
     readonly property real start: (seg.start || 0) * Editor.zoom
     readonly property real end: (seg.end || 0) * Editor.zoom
     readonly property bool canSplit: Editor.playhead > (seg.start || 0) && Editor.playhead < (seg.end || 0)
-    readonly property int actions: canSplit ? 3 : 2
+    readonly property bool canExtract: seg.canExtractAudio === true
+    readonly property int actions: 2 + (canSplit ? 1 : 0) + (canExtract ? 1 : 0)
     readonly property real barWidth: actions * 30 + (actions - 1) + 8
 
     // Ao lado da linha do playhead (ou no início do clipe), dentro da área
@@ -81,6 +82,16 @@ Rectangle {
             onClicked: Editor.duplicateSelection()
         }
         Rectangle { width: 1; height: 16; anchors.verticalCenter: parent.verticalCenter; color: Qt.rgba(1, 1, 1, 0.1) }
+        GlyphButton {
+            visible: bar.canExtract
+            width: 30
+            height: 30
+            iconName: "audio-lines"
+            iconSize: 13
+            help: "Extrair áudio"
+            onClicked: Editor.extractAudio()
+        }
+        Rectangle { visible: bar.canExtract; width: 1; height: 16; anchors.verticalCenter: parent.verticalCenter; color: Qt.rgba(1, 1, 1, 0.1) }
         GlyphButton {
             width: 30
             height: 30

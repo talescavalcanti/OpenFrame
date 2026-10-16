@@ -7,6 +7,7 @@
 #include "MediaCache.h"
 #include "MotionCore.h"
 #include "ProjectStore.h"
+#include "TimelineEditor.h"
 
 #include <QCoreApplication>
 #include <QDirIterator>
@@ -1306,12 +1307,30 @@ void Snapshot::audioScenario()
         capture("audio-3-muito-alta");
         // Misturadas: a principal muito alta (miniaturas com o som embaixo), o texto alto, o áudio
         // compacto e a sobreposição normal; com o vídeo principal selecionado.
+        m_model->undo();
+        describeRows("desfazer o menu (volta à compacta)");
+        if (m_model->commonRowHeight() != 36)
+            return fail("o desfazer do menu não voltou à compacta");
         m_model->setAllRowHeights(0);
+        // Cada faixa num gesto da borda (vários passos, um desfazer).
         for (const auto &t : m_model->project().tracks) {
-            const qreal height = t.isMain ? 140 : t.kind == TrackKind::Text ? 90 : t.kind == TrackKind::Audio ? 36 : 0;
-            m_model->resizeRow(idString(t.id), height);
+            const QList<qreal> steps = t.kind == TrackKind::Text    ? QList<qreal>{70, 90}
+                                     : t.kind == TrackKind::Audio ? QList<qreal>{40, 36}
+                                                                    : QList<qreal>{};
+            for (qreal h : steps)
+                m_model->resizeRow(idString(t.id), h);
+            m_model->endRowResize();
         }
+        const QString main = idString(m_model->project().tracks[*m_model->project().mainTrackIndex()].id);
+        for (qreal h : {80, 110, 140})
+            m_model->resizeRow(main, h);
         m_model->endRowResize();
+        m_model->undo();
+        const qreal undone = m_model->rowHeightOf(m_model->project().tracks[*m_model->project().mainTrackIndex()]);
+        log(QStringLiteral("borda: um desfazer depois do arraste 80 → 110 → 140 deixa a principal em %1").arg(undone));
+        if (undone != Track::defaultHeight)
+            return fail("o desfazer da borda não voltou à altura padrão");
+        m_model->redo();
         m_model->setSelection(firstMainSegment(m_model->project()));
     });
     then(1200, [this] {
@@ -1321,6 +1340,7 @@ void Snapshot::audioScenario()
     then(0, [this, trackOf] {
         // Áudio alto: a forma de onda ocupa o clipe abaixo do nome.
         m_model->resizeRow(trackOf([](const Track &t) { return t.kind == TrackKind::Audio; }), 120);
+        m_model->endRowResize();
         m_model->setSelection(firstOfKind(m_model->project(), TrackKind::Audio));
     });
     then(1000, [this, trackOf] {
@@ -1337,11 +1357,14 @@ void Snapshot::audioScenario()
         log(QStringLiteral("borda: pedir 10 → %1").arg(height()));
         m_model->resizeRow(text, 500);
         log(QStringLiteral("borda: pedir 500 → %1").arg(height()));
+        m_model->endRowResize();
         m_model->resizeRow(text, 0);
+        m_model->endRowResize();
         log(QStringLiteral("borda: duplo clique → %1 (padrão)").arg(height()));
-        if (height() != EditorModel::defaultRowHeight)
+        if (height() != Track::defaultHeight)
             return fail("a borda não voltou à altura padrão");
         m_model->resizeRow(text, 90);
+        m_model->endRowResize();
     });
     // Arraste da sobreposição: para o meio e para o fim da principal (muito alta), e sobre a régua.
     const QList<std::pair<QString, int>> targets{{"meio da principal", 0}, {"fim da principal", 1}, {"sobre a régua", 2}};
@@ -1377,7 +1400,169 @@ void Snapshot::audioScenario()
         });
         then(300, [] {});
     }
+    extractScenario();
+    if (qEnvironmentVariable("OPENFRAME_FAKE_RECORDING") == "1")
+        recordScenario();
+    else
+        then(0, [this] { log("gravação pulada: rode com OPENFRAME_FAKE_RECORDING=1"); });
     then(0, toggleTimeline);
+}
+
+/// Extrair o áudio do primeiro clipe da principal (faixas altas, para ver a forma de onda sumir): timeline e aba
+/// de som antes e depois, e um desfazer que volta tudo.
+void Snapshot::extractScenario()
+{
+    auto before = std::make_shared<Project>();
+    auto video = std::make_shared<QString>();
+    then(0, [this, video] {
+        m_model->setAllRowHeights(90);
+        m_model->zoomToFit();
+        *video = firstMainSegment(m_model->project());
+        m_model->setSelection(*video);
+        m_model->setInspectorTab("basic");
+    });
+    then(1200, [this] {
+        log(QStringLiteral("extrair: pode %1, materiais %2")
+                .arg(m_model->selectedSegment().value("canExtractAudio").toBool())
+                .arg(m_model->project().materials.size()));
+        if (!m_model->selectedSegment().value("canExtractAudio").toBool())
+            return fail("o primeiro clipe da principal não pode ter o áudio extraído");
+        capture("audio-7-antes-de-extrair");
+        scrollInspectorTo(QStringLiteral("audioControls"), 10);
+    });
+    then(500, [this, before] {
+        captureItem(QStringLiteral("inspector"), QStringLiteral("audio-7b-aba-som-antes"));
+        scrollInspector(0);
+        *before = m_model->project();
+        m_model->extractAudio();
+    });
+    then(1500, [this, video] {
+        const Project &p = m_model->project();
+        const auto sound = QUuid::fromString(m_model->selection());
+        const auto seg = p.segment(sound);
+        const auto original = p.segment(QUuid::fromString(*video));
+        const Material *m = seg ? p.material(seg->materialId) : nullptr;
+        if (!seg || !m || m->kind != MaterialKind::Audio || !original || !original->audioDetached)
+            return fail("extrair não selecionou um áudio novo, ou o vídeo não ficou sem som");
+        log(QStringLiteral("extrair: selecionado o áudio novo \"%1\", início %2 = %3; vídeo audioDetached %4, "
+                           "pode extrair de novo %5, materiais %6")
+                .arg(m->name, Time::format(seg->targetStart), Time::format(original->targetStart))
+                .arg(original->audioDetached)
+                .arg(TimelineEditor::canExtractAudio(p, original->id))
+                .arg(p.materials.size()));
+        capture("audio-8-depois-de-extrair");
+        m_model->setSelection(*video);
+        m_model->setInspectorTab("basic");
+    });
+    then(800, [this] { scrollInspectorTo(QStringLiteral("audioControls"), 10); });
+    then(500, [this, before] {
+        capture("audio-9-video-extraido");
+        captureItem(QStringLiteral("inspector"), QStringLiteral("audio-9b-aba-som-extraido"));
+        scrollInspector(0);
+        m_model->undo();
+        log(QStringLiteral("extrair: um desfazer volta tudo %1").arg(m_model->project() == *before));
+        if (!(m_model->project() == *before))
+            return fail("o desfazer não voltou o projeto de antes de extrair");
+        m_model->redo();
+        m_model->setSelection({});
+    });
+}
+
+/// Gravar com a voz sintética (`OPENFRAME_FAKE_RECORDING=1`): o painel pronto, Esc na contagem, a contagem,
+/// gravando (o clipe vermelho cresce e a timeline toca muda), o clipe no fim e os erros de permissão e de
+/// microfone.
+void Snapshot::recordScenario()
+{
+    RecordingSession *rec = m_model->recording();
+    auto audioTracks = [this] {
+        int n = 0;
+        for (const auto &t : m_model->project().tracks)
+            n += t.kind == TrackKind::Audio;
+        return n;
+    };
+    auto tracksBefore = std::make_shared<int>(0);
+    then(0, [this] {
+        m_model->setAllRowHeights(0);
+        m_model->seek(2.0);
+        m_model->presentRecorder();
+    });
+    then(2000, [this, rec] {
+        QStringList names;
+        for (const QVariant &v : rec->inputs())
+            names << v.toMap().value("name").toString();
+        log(QStringLiteral("gravar: microfones [%1] (%2), fase %3, nível %4")
+                .arg(names.join(", "), rec->inputName(), rec->phase())
+                .arg(rec->level(), 0, 'f', 2));
+        if (rec->phase() != "ready")
+            return fail("o painel de gravação não ficou pronto: " + rec->error());
+        capture("audio-10-gravar-pronto");
+        m_model->startRecording();
+    });
+    then(500, [this, rec] {
+        m_model->cancelRecording();
+        log("gravar: Esc na contagem → " + rec->phase());
+        if (rec->phase() != "ready")
+            return fail("cancelar a contagem não voltou ao painel");
+        m_model->startRecording();
+    });
+    then(400, [this, tracksBefore, audioTracks] {
+        capture("audio-11-contagem");
+        *tracksBefore = audioTracks();
+    });
+    then(3000, [this, rec] {
+        log(QStringLiteral("gravar: fase %1, tocando %2, linha de destino %3 de %4")
+                .arg(rec->phase())
+                .arg(m_model->isPlaying())
+                .arg(rec->row())
+                .arg(m_model->displayTrackOrder().size()));
+        if (rec->phase() != "recording")
+            return fail("a gravação não começou depois da contagem: " + rec->error());
+    });
+    then(2500, [this, rec] {
+        log(QStringLiteral("gravar: %1 gravados, %2 picos, playhead %3")
+                .arg(rec->durationText())
+                .arg(MediaCache::instance()->peaks(RecordingSession::peaksId).size())
+                .arg(m_model->playheadText()));
+        capture("audio-12-gravando");
+        m_model->stopRecording();
+    });
+    waitUntil([rec] { return rec->phase() == "ready" && !rec->showPanel(); }, 10'000,
+              QStringLiteral("a gravação entrar na timeline"));
+    then(800, [this, tracksBefore, audioTracks] {
+        const Project &p = m_model->project();
+        const auto seg = p.segment(QUuid::fromString(m_model->selection()));
+        const Material *m = seg ? p.material(seg->materialId) : nullptr;
+        if (!seg || !m)
+            return fail("a gravação não ficou selecionada na timeline");
+        log(QStringLiteral("gravar: \"%1\" %2 na biblioteca, clipe em %3, faixas de áudio %4 → %5, arquivo %6")
+                .arg(m->name, Time::format(m->duration), Time::format(seg->targetStart))
+                .arg(*tracksBefore)
+                .arg(audioTracks())
+                .arg(m->path));
+        capture("audio-13-gravado");
+        const int materials = int(p.materials.size());
+        m_model->undo();
+        log(QStringLiteral("gravar: um desfazer tira o clipe e o material (%1 → %2 materiais)")
+                .arg(materials)
+                .arg(m_model->project().materials.size()));
+        m_model->redo();
+    });
+    const QList<std::pair<int, QString>> errors{{14, "sem-permissao"}, {15, "sem-microfone"}};
+    for (const auto &[index, mode] : errors) {
+        then(0, [this, mode] {
+            qputenv("OPENFRAME_FAKE_RECORDING", mode.toUtf8());
+            m_model->presentRecorder();
+        });
+        then(1500, [this, rec, index, mode] {
+            log(QStringLiteral("gravar %1: %2 \"%3\"").arg(mode, rec->phase(), rec->error()));
+            if (rec->phase() != "failed")
+                return fail("sem o erro de " + mode);
+            capture(QStringLiteral("audio-%1-gravar-%2").arg(index).arg(mode));
+            m_model->closeRecorder();
+        });
+        then(500, [] {});
+    }
+    then(0, [] { qputenv("OPENFRAME_FAKE_RECORDING", "1"); });
 }
 
 } // namespace of

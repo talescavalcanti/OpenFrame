@@ -134,7 +134,8 @@ EditorModel::EditorModel(QObject *parent)
       m_tracks(new KeyedListModel({"id", "kind", "isMain", "muted", "hidden", "row", "icon"}, this)),
       m_clips(new KeyedListModel({"id", "row", "start", "duration", "kind", "icon", "title", "badges", "materialId",
                                   "sourceStart", "sourceDuration", "materialDuration", "aspect", "volume", "isMain",
-                                  "dragged", "rowShift", "hidden", "hasAudio", "fullText", "durationText", "autoCaption"},
+                                  "dragged", "rowShift", "hidden", "hasAudio", "fullText", "durationText", "autoCaption",
+                                  "audioDetached", "canExtractAudio"},
                                  this)),
       m_junctions(new KeyedListModel({"id", "time", "hasTransition", "nextId", "help"}, this)),
       m_cues(new KeyedListModel({"id", "start", "startText", "caption"}, this)),
@@ -159,6 +160,7 @@ EditorModel::EditorModel(QObject *parent)
     connect(this, &EditorModel::projectChanged, this, &EditorModel::exportSummaryChanged);
 
     setupCaptions();
+    setupRecording();
 
     // Resolução do preview: ~300 ms depois que o tamanho do player parar.
     m_previewResolutionTimer.setSingleShot(true);
@@ -452,7 +454,9 @@ void EditorModel::rebuildModels()
                           {"hasAudio", m && m->kind == MaterialKind::Video && m->hasAudio},
                           {"fullText", seg.text ? seg.text->text : QString()},
                           {"durationText", shortSeconds(seg.targetDuration())},
-                          {"autoCaption", track.isAutoCaptions}});
+                          {"autoCaption", track.isAutoCaptions},
+                          {"audioDetached", seg.audioDetached},
+                          {"canExtractAudio", TimelineEditor::canExtractAudio(p, seg.id)}});
             if (seg.text)
                 cues.append({{"id", idString(seg.id)},
                              {"start", Time::toSeconds(seg.targetStart)},
@@ -514,6 +518,8 @@ QVariantMap EditorModel::segmentMap(const Segment &seg) const
     map["endText"] = Time::format(seg.targetEnd());
     map["durationText"] = shortSeconds(seg.targetDuration());
     map["hasAudio"] = m && m->hasAudio;
+    map["audioDetached"] = seg.audioDetached;
+    map["canExtractAudio"] = TimelineEditor::canExtractAudio(m_project, seg.id);
     map["isText"] = seg.text.has_value();
     map["fadeInSeconds"] = Time::toSeconds(seg.fadeIn);
     map["fadeOutSeconds"] = Time::toSeconds(seg.fadeOut);
@@ -909,7 +915,6 @@ void EditorModel::load(const Project &loaded, std::optional<QUuid> libraryId, co
     m_undo.clear();
     m_redo.clear();
     m_selection.reset();
-    m_rowHeights.clear();
     m_libraryId = libraryId;
     m_documentPath = documentPath;
     m_dirty = false;
@@ -1233,6 +1238,21 @@ void EditorModel::duplicateSelection()
     mutate([&](Project &p) { copy = TimelineEditor::duplicate(p, id); });
     if (copy)
         setSelection(idString(*copy));
+}
+
+void EditorModel::extractAudio()
+{
+    if (!m_selection || !TimelineEditor::canExtractAudio(m_project, *m_selection))
+        return;
+    const QUuid id = *m_selection;
+    std::optional<QUuid> sound;
+    mutate([&](Project &p) { sound = TimelineEditor::extractAudio(p, id); });
+    if (!sound)
+        return;
+    if (const auto seg = m_project.segment(*sound))
+        if (const Material *m = m_project.material(seg->materialId))
+            loadMediaPreviews(*m);
+    setSelection(idString(*sound));
 }
 
 void EditorModel::addText(const QString &preset)
@@ -2158,6 +2178,17 @@ bool EditorModel::eventFilter(QObject *watched, QEvent *event)
 /// exceto ao digitar texto ou com um diálogo aberto.
 bool EditorModel::handleKey(int key, Qt::KeyboardModifiers modifiers)
 {
+    // Gravando (o painel aberto conta como diálogo): espaço para, Esc cancela.
+    if (m_screen == "editor" && m_recording->active() && !m_recording->confirmDiscard()
+        && !(modifiers & (Qt::ControlModifier | Qt::AltModifier))) {
+        if (key == Qt::Key_Space)
+            stopRecording();
+        else if (key == Qt::Key_Escape)
+            cancelRecording();
+        else
+            return false;
+        return true;
+    }
     if (m_screen != "editor" || m_showExport || m_modalCount > 0)
         return false;
     if (QObject *focus = QGuiApplication::focusObject()) {

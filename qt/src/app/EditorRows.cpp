@@ -2,6 +2,7 @@
 // (a parte do `EditorModel` que corresponde ao `TimelineLayout.swift`).
 
 #include "EditorModel.h"
+#include "TimelineEditor.h"
 
 #include <QSet>
 #include <algorithm>
@@ -11,7 +12,7 @@ namespace of {
 
 qreal EditorModel::rowHeightOf(const Track &track) const
 {
-    return m_rowHeights.value(track.id, defaultRowHeight);
+    return track.height.value_or(Track::defaultHeight);
 }
 
 void EditorModel::updateRowLayout()
@@ -33,9 +34,9 @@ qreal EditorModel::rowTop(int row) const
         y += m_rowLayout[i] + rowSpacing;
     // Fora das faixas, linhas de altura padrão.
     if (row < 0)
-        y += row * (defaultRowHeight + rowSpacing);
+        y += row * (Track::defaultHeight + rowSpacing);
     else if (row > count)
-        y += (row - count) * (defaultRowHeight + rowSpacing);
+        y += (row - count) * (Track::defaultHeight + rowSpacing);
     return y;
 }
 
@@ -50,7 +51,7 @@ int EditorModel::rowAt(qreal y) const
         if (y < top)
             return i;
     }
-    return count + int(std::floor((y - top) / (defaultRowHeight + rowSpacing)));
+    return count + int(std::floor((y - top) / (Track::defaultHeight + rowSpacing)));
 }
 
 QVariantList EditorModel::rowTops() const
@@ -84,40 +85,44 @@ qreal EditorModel::commonRowHeight() const
 
 QVariantList EditorModel::rowHeightPresets() const
 {
-    return {QVariantMap{{"title", QStringLiteral("Compacta")}, {"height", 36}},
-            QVariantMap{{"title", QStringLiteral("Normal")}, {"height", defaultRowHeight}},
-            QVariantMap{{"title", QStringLiteral("Alta")}, {"height", 90}},
-            QVariantMap{{"title", QStringLiteral("Muito alta")}, {"height", 140}}};
+    // `height` = o que o menu grava (0 = a padrão, sem altura própria); `value` = a altura que ele marca.
+    return {QVariantMap{{"title", QStringLiteral("Compacta")}, {"height", 36}, {"value", 36}},
+            QVariantMap{{"title", QStringLiteral("Normal")}, {"height", 0}, {"value", Track::defaultHeight}},
+            QVariantMap{{"title", QStringLiteral("Alta")}, {"height", 90}, {"value", 90}},
+            QVariantMap{{"title", QStringLiteral("Muito alta")}, {"height", 140}, {"value", 140}}};
 }
 
 namespace {
 
-/// Guarda a altura limitada; a padrão não é guardada.
-void storeHeight(QHash<QUuid, qreal> &heights, const QUuid &id, qreal height)
+std::optional<double> heightOrDefault(qreal height)
 {
-    const qreal value = height > 0 ? std::clamp(height, EditorModel::minRowHeight, EditorModel::maxRowHeight)
-                                   : EditorModel::defaultRowHeight;
-    if (value == EditorModel::defaultRowHeight)
-        heights.remove(id);
-    else
-        heights.insert(id, value);
+    return height > 0 ? std::optional<double>(height) : std::nullopt;
 }
 
 } // namespace
 
 void EditorModel::resizeRow(const QString &trackId, qreal height)
 {
-    storeHeight(m_rowHeights, QUuid::fromString(trackId), height);
+    // Um desfazer por gesto (ao soltar, `endRowResize`); só a timeline muda, o preview não é refeito.
+    beginGesture();
+    Project copy = *m_gestureBase;
+    TimelineEditor::setTrackHeight(copy, QUuid::fromString(trackId), heightOrDefault(height));
+    if (copy == m_project)
+        return;
+    m_project = copy;
+    m_dirty = true;
+    scheduleAutosave();
     updateRowLayout();
 }
 
-void EditorModel::endRowResize() {}
+void EditorModel::endRowResize()
+{
+    endGesture();
+}
 
 void EditorModel::setAllRowHeights(qreal height)
 {
-    for (const auto &track : m_project.tracks)
-        storeHeight(m_rowHeights, track.id, height);
-    updateRowLayout();
+    mutate([&](Project &p) { TimelineEditor::setAllTrackHeights(p, heightOrDefault(height)); });
 }
 
 } // namespace of

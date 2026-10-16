@@ -29,6 +29,8 @@ Item {
     required property string fullText
     required property string durationText
     required property bool autoCaption
+    required property bool audioDetached
+    required property bool canExtractAudio
 
     /// Janela visível da timeline, em coordenadas do conteúdo.
     property real visibleLeft: 0
@@ -42,7 +44,7 @@ Item {
     /// Faixa alta: a duração no nome e o texto em várias linhas.
     readonly property bool tall: rowHeight >= 64
     /// O som do vídeo numa faixa embaixo das miniaturas.
-    readonly property bool videoWave: kind === "video" && hasAudio && rowHeight >= 80
+    readonly property bool videoWave: kind === "video" && hasAudio && !audioDetached && rowHeight >= 80 && videoPeaks.hasPeaks
     readonly property real videoWaveHeight: Math.max(20, Math.round(height * 0.28))
 
     x: start * Editor.zoom
@@ -84,8 +86,10 @@ Item {
              : root.kind === "audio" ? Theme.clipAudio
              : root.kind === "missing" ? Theme.raised : Theme.clipVideo
 
+        // Os itens pintados só aparecem com ao menos 1 px: menos que isso (a ponta de um clipe saindo da
+        // janela visível ao rolar) dá uma imagem vazia e o aviso do QPainter.
         ThumbnailStrip {
-            visible: root.kind === "video" || root.kind === "photo"
+            visible: (root.kind === "video" || root.kind === "photo") && width >= 1
             x: Math.max(2, root.visL)
             y: 2
             width: Math.max(0, Math.min(root.width - 2, root.visR) - x)
@@ -107,13 +111,15 @@ Item {
             height: root.videoWaveHeight
             color: Theme.clipAudio
             WaveformView {
+                id: videoPeaks
+                visible: width >= 1
                 x: Math.max(6, root.visL)
                 y: 3
                 width: Math.max(0, Math.min(root.width - 6, root.visR) - x)
                 height: parent.height - 6
                 offset: x - 6
                 fullWidth: root.width - 12
-                materialId: root.videoWave ? root.materialId : ""
+                materialId: root.kind === "video" && root.hasAudio ? root.materialId : ""
                 from: root.sourceStart
                 to: root.sourceStart + root.sourceDuration
                 bar: 1.5
@@ -125,7 +131,7 @@ Item {
         // Áudio: a metade de baixo na altura padrão, o clipe inteiro numa faixa baixa
         // e, numa alta, tudo abaixo do nome.
         WaveformView {
-            visible: root.kind === "audio"
+            visible: root.kind === "audio" && width >= 1
             x: Math.max(6, root.visL)
             width: Math.max(0, Math.min(root.width - 6, root.visR) - x)
             height: root.compact ? root.height - 4 : root.tall ? root.height - 28 - 5 : root.height * 0.5
@@ -180,7 +186,16 @@ Item {
                     weight: Theme.medium
                     width: Math.min(implicitWidth, Math.max(0, root.width - 12 - 14 - 15
                                                              - (badge.visible ? badge.implicitWidth + 5 : 0)
+                                                             - (root.audioDetached ? 15 : 0)
                                                              - (durationLabel.visible ? durationLabel.implicitWidth + 5 : 0)))
+                }
+                // O som foi extraído para a faixa de áudio.
+                Icon {
+                    visible: root.audioDetached
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: "volume-off"
+                    size: root.compact ? 9 : 10
+                    color: Theme.textSecondary
                 }
                 OfText {
                     id: badge
@@ -292,6 +307,12 @@ Item {
         onClosed: Editor.modalCount -= 1
         OfMenuItem { text: "Dividir no cursor"; onTriggered: { Editor.selection = root.uid; Editor.splitAtPlayhead() } }
         OfMenuItem { text: "Duplicar"; onTriggered: { Editor.selection = root.uid; Editor.duplicateSelection() } }
+        OfMenuItem {
+            text: "Extrair áudio"
+            visible: root.canExtractAudio
+            height: visible ? implicitHeight : 0
+            onTriggered: { Editor.selection = root.uid; Editor.extractAudio() }
+        }
         OfMenuSeparator {}
         OfMenuItem { text: "Apagar"; destructive: true; onTriggered: { Editor.selection = root.uid; Editor.deleteSelection() } }
     }

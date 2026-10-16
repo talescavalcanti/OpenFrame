@@ -11,7 +11,7 @@ Item {
     component HeightItem: OfMenuItem {
         property var preset
         text: preset.title
-        marked: Editor.commonRowHeight === preset.height
+        marked: Editor.commonRowHeight === preset.value
         onTriggered: Editor.setAllRowHeights(preset.height)
     }
 
@@ -36,6 +36,19 @@ Item {
             iconName: "type"
             help: "Adicionar texto (Ctrl+T)"
             onClicked: Editor.addText()
+        }
+        CircleButton {
+            id: micButton
+            objectName: "recordButton"
+            size: 28
+            iconName: "mic"
+            on: Editor.recording.showPanel
+            help: "Gravar áudio"
+            onClicked: Editor.presentRecorder()
+            RecorderPanel {
+                x: 0
+                y: micButton.height + 8
+            }
         }
     }
 
